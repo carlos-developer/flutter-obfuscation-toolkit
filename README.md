@@ -7,77 +7,57 @@
 
 ---
 
-## 📦 ¿Qué es esto?
-
-Un toolkit **standalone** que contiene todo lo necesario para implementar:
-- ✅ **Ofuscación de código Dart** (100% símbolos)
-- ✅ **Minificación R8** para Android (~65% reducción)
-- ✅ **Symbol Stripping** para iOS
-- ✅ **Scripts de automatización**
-- ✅ **Documentación completa**
-
-## ⚡ Instalación Rápida
+## ⚡ Instalación Rápida (2 minutos)
 
 ```bash
 # En tu proyecto Flutter, ejecuta:
-curl -sSL https://raw.githubusercontent.com/TU_USUARIO/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOUR_USER/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
 ```
 
-**Eso es todo.** En 2 minutos tienes ofuscación funcionando.
+**Resultado**: APK reducido ~65%, símbolos 100% ofuscados, seguridad 8/10
 
 ---
 
-## 📊 Resultados Esperados
-
-| Métrica | Antes | Después |
-|---------|-------|---------|
-| Tamaño APK | ~40 MB | ~15 MB (-63%) |
-| Símbolos Dart | 100% visible | 0% visible |
-| Seguridad | 3/10 | 8/10 |
-
----
-
-## 📂 Contenido del Toolkit
+## 📦 ¿Qué Incluye?
 
 ### Scripts de Automatización
-- `setup_obfuscation.sh` - Setup interactivo automático
+- `setup_obfuscation.sh` - Configura todo automáticamente
 - `build_release_obfuscated.sh` - Build con validaciones
-- `deobfuscate.sh` - Des-ofuscar crashes
-- `download_obfuscation_package.sh` - Descarga automática
+- `deobfuscate.sh` - Des-ofuscar crashes de producción
 
 ### Templates
-- `proguard-rules.template.pro` - Reglas ProGuard listas
-- `README_OBFUSCATION.md` - Referencia rápida
+- `proguard-rules.template.pro` - Reglas ProGuard listas para usar
+- `README_OBFUSCATION.md` - Referencia rápida de comandos
 
-### Documentación Base (Desarrollo Guiado por Especificaciones)
-- `01_SRS_MINIFICACION_OFUSCACION.md` - Especificación de requisitos
-- `02_DDD_DOCUMENTO_DISENO_DETALLADO.md` - Diseño detallado
-- `03_TIG_GUIA_IMPLEMENTACION_TECNICA.md` - Guía técnica
-- `04_ASG_GUIA_AUDITORIA_SEGURIDAD.md` - Auditoría de seguridad
-- `05_OPM_PROCEDIMIENTOS_OPERACIONALES.md` - Procedimientos
-- `06_OTP_GUIA_OPTIMIZACION_PERFORMANCE.md` - Optimización
+### Documentación
+- **[MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md)** - Guía paso a paso (EMPIEZA AQUÍ)
+- **[CHECKLIST_OBFUSCATION.md](docs/CHECKLIST_OBFUSCATION.md)** - Checklist de validación
+- **[TROUBLESHOOTING_ADVANCED.md](docs/TROUBLESHOOTING_ADVANCED.md)** - Solución de problemas
+- **[AI_AGENT_PROMPT.md](docs/AI_AGENT_PROMPT.md)** - Para Claude Code / Gemini
 
-### Guías de Uso
-- `MIGRATION_GUIDE.md` - Guía paso a paso
-- `CHECKLIST_OBFUSCATION.md` - Checklist de validación
-- `TROUBLESHOOTING_ADVANCED.md` - Solución de problemas
-- `AI_AGENT_PROMPT.md` - Prompts para agentes CLI
+### Documentación Técnica (SDD)
+- `01_SRS` - Especificación de requisitos
+- `02_SAD` - Arquitectura y seguridad
+- `03_TIG` - Implementación técnica
+- `04_TVP` - Plan de pruebas
+- `05_OPM` - Procedimientos operacionales
+- `06_RTM` - Matriz de trazabilidad
 
 ---
 
 ## 🚀 Uso
 
-### Opción 1: Descarga Automática
+### Opción 1: Script Automático
 ```bash
-curl -sSL https://raw.githubusercontent.com/TU_USUARIO/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOUR_USER/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
 ```
 
-### Opción 2: Agente CLI (Claude Code, Gemini)
-Ver `docs/AI_AGENT_PROMPT.md` para prompts listos.
+### Opción 2: Con Agente CLI (Claude Code, Gemini)
+Ver [docs/AI_AGENT_PROMPT.md](docs/AI_AGENT_PROMPT.md)
 
 ### Opción 3: Manual
 ```bash
-git clone https://github.com/TU_USUARIO/flutter-obfuscation-toolkit.git
+git clone https://github.com/YOUR_USER/flutter-obfuscation-toolkit.git
 cd tu-proyecto-flutter
 cp -r ../flutter-obfuscation-toolkit/scripts ./
 cp -r ../flutter-obfuscation-toolkit/templates ./
@@ -88,14 +68,22 @@ cp -r ../flutter-obfuscation-toolkit/templates ./
 
 ## 📚 Documentación
 
-- **[docs/MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md)** - Empieza aquí
-- **[docs/CHECKLIST_OBFUSCATION.md](docs/CHECKLIST_OBFUSCATION.md)** - Validación
-- **[docs/TROUBLESHOOTING_ADVANCED.md](docs/TROUBLESHOOTING_ADVANCED.md)** - Problemas comunes
+**Para implementar**: Lee [docs/MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md) - Tiene todo el proceso paso a paso.
 
-### Documentación Técnica Base
-- **[docs/01_SRS_MINIFICACION_OFUSCACION.md](docs/01_SRS_MINIFICACION_OFUSCACION.md)** - SRS
-- **[docs/02_DDD_DOCUMENTO_DISENO_DETALLADO.md](docs/02_DDD_DOCUMENTO_DISENO_DETALLADO.md)** - DDD
-- **[docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md](docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md)** - TIG
+**Si hay problemas**: [docs/TROUBLESHOOTING_ADVANCED.md](docs/TROUBLESHOOTING_ADVANCED.md) - 30+ problemas comunes resueltos.
+
+**Documentación técnica completa**: Carpeta `docs/` con 6 documentos SDD.
+
+---
+
+## 📊 Resultados Esperados
+
+| Métrica | Antes | Después |
+|---------|-------|---------|
+| Tamaño APK | ~40 MB | ~15 MB (-63%) |
+| Símbolos Dart | 100% visible | 0% visible |
+| Seguridad | 3/10 | 8/10 |
+| Tiempo setup | 2-3 horas | 5 minutos |
 
 ---
 
@@ -107,8 +95,8 @@ MIT License - Ver [LICENSE](LICENSE)
 
 ## 🤝 Contribución
 
-Ver [CONTRIBUTING.md](CONTRIBUTING.md)
+Pull requests bienvenidos. Para cambios grandes, abre un issue primero.
 
 ---
 
-**⭐ Si te ayudó, dale una estrella!**
+**⭐ Si te ayudó, dale una estrella en GitHub!**
