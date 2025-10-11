@@ -29,16 +29,17 @@ curl -sSL https://raw.githubusercontent.com/YOUR_USER/flutter-obfuscation-toolki
 - `proguard-rules.template.pro` - Reglas ProGuard listas para usar
 - `README_OBFUSCATION.md` - Referencia rápida de comandos
 
-### Documentación
-- **[MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md)** - Guía paso a paso (EMPIEZA AQUÍ)
-- **[CHECKLIST_OBFUSCATION.md](docs/CHECKLIST_OBFUSCATION.md)** - Checklist de validación
-- **[TROUBLESHOOTING_ADVANCED.md](docs/TROUBLESHOOTING_ADVANCED.md)** - Solución de problemas
-- **[AI_AGENT_PROMPT.md](docs/AI_AGENT_PROMPT.md)** - Para Claude Code / Gemini
+### Guías de Uso
+- **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** - Guía paso a paso (EMPIEZA AQUÍ)
+- **[CHECKLIST_OBFUSCATION.md](CHECKLIST_OBFUSCATION.md)** - Checklist de validación
+- **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** - Solución de problemas comunes
+- **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** - Prompts para agentes CLI (Claude/Gemini)
 
-### Documentación Técnica (SDD)
-- `01_SRS` - Especificación de requisitos
-- `02_SAD` - Arquitectura y seguridad
-- `03_TIG` - Implementación técnica
+### Especificación Técnica (SDD)
+Documentación detallada del proceso de desarrollo guiado por especificaciones en `docs/`:
+- `01_SRS` - Requisitos del sistema
+- `02_SAD` - Diseño de arquitectura
+- `03_TIG` - Guía de implementación
 - `04_TVP` - Plan de pruebas
 - `05_OPM` - Procedimientos operacionales
 - `06_RTM` - Matriz de trazabilidad
@@ -68,11 +69,13 @@ cp -r ../flutter-obfuscation-toolkit/templates ./
 
 ## 📚 Documentación
 
-**Para implementar**: Lee [docs/MIGRATION_GUIDE.md](docs/MIGRATION_GUIDE.md) - Tiene todo el proceso paso a paso.
+**Para implementar**: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Proceso paso a paso
 
-**Si hay problemas**: [docs/TROUBLESHOOTING_ADVANCED.md](docs/TROUBLESHOOTING_ADVANCED.md) - 30+ problemas comunes resueltos.
+**Si hay problemas**: [TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md) - 30+ casos resueltos
 
-**Documentación técnica completa**: Carpeta `docs/` con 6 documentos SDD.
+**Con agente CLI**: [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md) - Prompts listos para copiar
+
+**Especificación técnica**: Carpeta `docs/` con documentación SDD completa
 
 ---
 
