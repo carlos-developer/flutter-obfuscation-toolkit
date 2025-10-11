@@ -3,10 +3,13 @@
 
 > **Plan de Pruebas y Validación**
 >
-> Proyecto: Note Keeper - Seguridad de Código
+> Proyecto: Flutter Obfuscation Toolkit
 > Fecha: 2025-10-11
 > Versión: 1.0.0
 > Basado en: SRS v1.0.0, TIG v1.0.0
+>
+> **Nota**: Los ejemplos de código usan un proyecto de notas como referencia.
+> Adapta los test cases a tu proyecto específico.
 
 ---
 

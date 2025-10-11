@@ -11,7 +11,7 @@
 
 ```bash
 # En tu proyecto Flutter, ejecuta:
-curl -sSL https://raw.githubusercontent.com/YOUR_USER/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
 ```
 
 **Resultado**: APK reducido ~65%, símbolos 100% ofuscados, seguridad 8/10
@@ -50,15 +50,15 @@ Documentación detallada del proceso de desarrollo guiado por especificaciones e
 
 ### Opción 1: Script Automático
 ```bash
-curl -sSL https://raw.githubusercontent.com/YOUR_USER/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
 ```
 
 ### Opción 2: Con Agente CLI (Claude Code, Gemini)
-Ver [docs/AI_AGENT_PROMPT.md](docs/AI_AGENT_PROMPT.md)
+Ver [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)
 
 ### Opción 3: Manual
 ```bash
-git clone https://github.com/YOUR_USER/flutter-obfuscation-toolkit.git
+git clone https://github.com/YOUR_USERNAME/flutter-obfuscation-toolkit.git
 cd tu-proyecto-flutter
 cp -r ../flutter-obfuscation-toolkit/scripts ./
 cp -r ../flutter-obfuscation-toolkit/templates ./

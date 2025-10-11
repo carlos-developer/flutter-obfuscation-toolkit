@@ -4,7 +4,7 @@
 # Script: download_obfuscation_package.sh
 # Descripción: Descarga el paquete completo de ofuscación Flutter desde GitHub
 # Versión: 1.0.0
-# Uso: curl -sSL https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/download_obfuscation_package.sh | bash
+# Uso: curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
 # ============================================
 
 set -e  # Exit on error
@@ -18,7 +18,7 @@ CYAN='\033[0;36m'
 NC='\033[0m' # No Color
 
 # URL base del repositorio
-REPO_URL="https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main"
+REPO_URL="https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main"
 
 # Función para logging
 log_info() {

@@ -3,10 +3,12 @@
 
 > **Documento de Arquitectura de Seguridad**
 >
-> Proyecto: Note Keeper - Seguridad de Código
+> Proyecto: Flutter Obfuscation Toolkit
 > Fecha: 2025-10-11
 > Versión: 1.0.0
 > Basado en: SRS_MINIFICACION_OFUSCACION v1.0.0
+>
+> **Nota**: Los ejemplos de código son referenciales. Adapta a tu arquitectura específica.
 
 ---
 

@@ -14,7 +14,7 @@ Implementa ofuscación y minificación en mi proyecto Flutter.
 PASO 1 - DESCARGA AUTOMÁTICA:
 Ejecuta este comando para descargar todo el paquete necesario:
 
-curl -sSL https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/download_obfuscation_package.sh | bash
+curl -sSL https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
 
 PASO 2 - PERSONALIZACIÓN AUTOMÁTICA:
 1. Detecta mi applicationId desde android/app/build.gradle.kts
@@ -45,8 +45,8 @@ CONTEXTO:
 - Necesito reducir el tamaño del APK/IPA y proteger mi código contra ingeniería reversa
 
 REQUISITOS:
-1. Descarga e implementa el paquete de ofuscación desde este repositorio de referencia:
-   https://github.com/carlos-developer/notes-gemini-flutter-extension
+1. Descarga e implementa el paquete de ofuscación desde este repositorio:
+   https://github.com/YOUR_USERNAME/flutter-obfuscation-toolkit
 
 2. Sigue esta guía de implementación paso a paso:
 
@@ -137,7 +137,7 @@ Implementa ofuscación y minificación en mi proyecto Flutter usando este paquet
 
 PASO 1 - DESCARGA AUTOMÁTICA:
 Descarga los archivos necesarios desde el repositorio:
-https://github.com/carlos-developer/notes-gemini-flutter-extension
+https://github.com/YOUR_USERNAME/flutter-obfuscation-toolkit
 
 Archivos requeridos:
 - scripts/setup_obfuscation.sh
@@ -183,7 +183,7 @@ Para usuarios que quieren el mínimo de configuración:
 Implementa ofuscación Flutter en este proyecto.
 
 Requisitos:
-1. Descarga el setup desde: https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/setup_obfuscation.sh
+1. Descarga el setup desde: https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
 2. Ejecuta el script de setup
 3. Personaliza android/app/proguard-rules.pro con mi applicationId
 4. Valida con un build de prueba
@@ -204,17 +204,17 @@ Si el agente no puede descargar automáticamente, proporciona estos comandos:
 mkdir -p scripts templates
 
 # Descargar scripts
-curl -o scripts/setup_obfuscation.sh https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/setup_obfuscation.sh
-curl -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/build_release_obfuscated.sh
-curl -o scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/deobfuscate.sh
+curl -o scripts/setup_obfuscation.sh https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
+curl -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+curl -o scripts/deobfuscate.sh https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
 
 # Descargar templates
-curl -o templates/proguard-rules.template.pro https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/templates/proguard-rules.template.pro
-curl -o templates/README_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/templates/README_OBFUSCATION.md
+curl -o templates/proguard-rules.template.pro https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/templates/proguard-rules.template.pro
+curl -o templates/README_OBFUSCATION.md https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/templates/README_OBFUSCATION.md
 
 # Descargar documentación
-curl -o MIGRATION_GUIDE.md https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/MIGRATION_GUIDE.md
-curl -o CHECKLIST_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/CHECKLIST_OBFUSCATION.md
+curl -o MIGRATION_GUIDE.md https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+curl -o CHECKLIST_OBFUSCATION.md https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
 
 # Hacer ejecutables
 chmod +x scripts/*.sh
@@ -229,17 +229,17 @@ echo "✅ Paquete descargado. Ejecuta: ./scripts/setup_obfuscation.sh"
 mkdir -p scripts templates
 
 # Descargar scripts
-wget -O scripts/setup_obfuscation.sh https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/setup_obfuscation.sh
-wget -O scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/build_release_obfuscated.sh
-wget -O scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/scripts/deobfuscate.sh
+wget -O scripts/setup_obfuscation.sh https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
+wget -O scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+wget -O scripts/deobfuscate.sh https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
 
 # Descargar templates
-wget -O templates/proguard-rules.template.pro https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/templates/proguard-rules.template.pro
-wget -O templates/README_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/templates/README_OBFUSCATION.md
+wget -O templates/proguard-rules.template.pro https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/templates/proguard-rules.template.pro
+wget -O templates/README_OBFUSCATION.md https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/templates/README_OBFUSCATION.md
 
 # Descargar documentación
-wget -O MIGRATION_GUIDE.md https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/MIGRATION_GUIDE.md
-wget -O CHECKLIST_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/notes-gemini-flutter-extension/main/CHECKLIST_OBFUSCATION.md
+wget -O MIGRATION_GUIDE.md https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+wget -O CHECKLIST_OBFUSCATION.md https://raw.githubusercontent.com/YOUR_USERNAME/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
 
 # Hacer ejecutables
 chmod +x scripts/*.sh
@@ -252,7 +252,7 @@ echo "✅ Paquete descargado. Ejecuta: ./scripts/setup_obfuscation.sh"
 ```bash
 # Clonar solo los archivos necesarios
 git clone --depth 1 --filter=blob:none --sparse \
-  https://github.com/carlos-developer/notes-gemini-flutter-extension.git temp_obfuscation
+  https://github.com/YOUR_USERNAME/flutter-obfuscation-toolkit.git temp_obfuscation
 
 cd temp_obfuscation
 git sparse-checkout set scripts templates *.md
@@ -420,7 +420,7 @@ Consulta TROUBLESHOOTING_ADVANCED.md y dame la solución
 
 ## 📚 Recursos Adicionales
 
-- **Repositorio de referencia**: https://github.com/carlos-developer/notes-gemini-flutter-extension
+- **Repositorio**: https://github.com/YOUR_USERNAME/flutter-obfuscation-toolkit
 - **Documentación completa**: Ver MIGRATION_GUIDE.md en el repositorio
 - **Troubleshooting**: Ver TROUBLESHOOTING_ADVANCED.md en el repositorio
 
