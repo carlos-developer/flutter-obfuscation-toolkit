@@ -5,6 +5,8 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-%E2%89%A53.9.2-blue)](https://flutter.dev)
 
+📖 **[Ver Visión General del Toolkit](TOOLKIT_OVERVIEW.md)** - Guía completa de estructura y uso de documentos
+
 ---
 
 ## ⚡ Instalación Rápida (2 minutos)
