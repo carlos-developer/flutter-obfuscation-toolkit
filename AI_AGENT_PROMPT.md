@@ -1,32 +1,72 @@
 # 🤖 Prompts para Agentes IA - Flutter Obfuscation Toolkit
 
-> Prompts optimizados para que agentes IA lean directamente desde este repositorio e implementen ofuscación automáticamente
+> Prompts ultra-cortos que referencian este repositorio para que los agentes lean toda la información necesaria
 
 **Repositorio oficial**: `https://github.com/carlos-developer/flutter-obfuscation-toolkit`
 
 ---
 
-## 📋 Índice de Prompts
+## ⚡ Prompts Cortos (Recomendado)
 
-1. [Android + iOS (Completo)](#1-prompt-android--ios-completo) - Implementación completa
-2. [Solo Android](#2-prompt-solo-android) - R8 + ProGuard únicamente
-3. [Solo iOS](#3-prompt-solo-ios) - Symbol Stripping únicamente
-4. [Verificación](#4-prompt-verificación) - Validar implementación
+**Copia solo UNA línea según tu necesidad:**
+
+### Android + iOS
+```
+Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+```
+
+### Solo Android
+```
+Implementa ofuscación R8 para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android)
+```
+
+### Solo iOS
+```
+Implementa symbol stripping para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS)
+```
+
+### Verificar Implementación
+```
+Verifica mi implementación de ofuscación usando el checklist: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+```
+
+### Solucionar Errores
+```
+Tengo este error: [pega el error]. Busca la solución en: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
+```
+
+---
+
+## 📋 Índice de Prompts Detallados
+
+Si necesitas más control, usa estos prompts más específicos:
+
+1. [Prompt Detallado: Android + iOS](#1-prompt-detallado-android--ios) - Con instrucciones paso a paso
+2. [Prompt Detallado: Solo Android](#2-prompt-detallado-solo-android) - R8 + ProGuard
+3. [Prompt Detallado: Solo iOS](#3-prompt-detallado-solo-ios) - Symbol Stripping
+4. [Prompt Detallado: Verificación](#4-prompt-detallado-verificación) - Validación
 
 ---
 
 ## 🎯 Instrucciones de Uso
 
-1. **Selecciona el prompt** según tu necesidad (Android+iOS, Solo Android, o Solo iOS)
-2. **Copia y pega** el prompt completo en tu agente IA (Claude Code, Gemini, Copilot, Cursor, Windsurf)
-3. El agente **leerá directamente** los archivos desde el repositorio oficial
-4. **No necesitas descargar nada** manualmente
+### Opción 1: Prompts Ultra-Cortos (⚡ Más Rápido)
+1. Copia **UNA línea** de los prompts cortos arriba
+2. Pégala en tu agente IA
+3. El agente lee toda la información del archivo referenciado
+4. Listo! ✅
+
+### Opción 2: Prompts Detallados (📋 Más Control)
+1. Selecciona el prompt detallado según tu necesidad
+2. Copia el prompt completo
+3. Pégalo en tu agente IA
+4. El agente sigue las instrucciones paso a paso
 
 ---
 
-## 1. Prompt: Android + iOS (Completo)
+## 1. Prompt Detallado: Android + iOS
 
-**Cuándo usar**: Implementar ofuscación completa para ambas plataformas
+**Cuándo usar**: Cuando necesitas instrucciones paso a paso para implementar ofuscación completa
 
 ```
 Implementa ofuscación y minificación completa en mi proyecto Flutter para Android e iOS.
@@ -189,7 +229,7 @@ Procede paso a paso, mostrando el progreso de cada fase.
 
 ---
 
-## 2. Prompt: Solo Android
+## 2. Prompt Detallado: Solo Android
 
 **Cuándo usar**: Proyecto sin iOS o build separado de Android
 
@@ -373,7 +413,7 @@ Procede paso a paso y muestra el progreso.
 
 ---
 
-## 3. Prompt: Solo iOS
+## 3. Prompt Detallado: Solo iOS
 
 **Cuándo usar**: Proyecto sin Android o build separado de iOS
 
@@ -499,7 +539,7 @@ Procede paso a paso y muestra el progreso.
 
 ---
 
-## 4. Prompt: Verificación
+## 4. Prompt Detallado: Verificación
 
 **Cuándo usar**: Después de implementar, para validar que todo esté correcto
 
