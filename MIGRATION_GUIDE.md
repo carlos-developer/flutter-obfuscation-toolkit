@@ -298,43 +298,139 @@ temp/
 
 ## ✅ Validación
 
-### 1. Verificar Configuración
+### Phase 1: Verificar Configuración
+
+Verifica solo las plataformas que configuraste:
 
 ```bash
-# Android: Verificar que R8 está habilitado
+# Si configuraste Android: Verificar que R8 está habilitado
 grep "minifyEnabled" android/app/build.gradle*
 
-# iOS: Verificar symbol stripping
+# Si configuraste iOS: Verificar symbol stripping
 grep "STRIP_INSTALLED_PRODUCT" ios/Runner.xcodeproj/project.pbxproj
 ```
 
-### 2. Build de Prueba
+---
+
+### Phase 2: Build de Plataformas Configuradas
+
+**⚠️ IMPORTANTE**: Construye y valida **cada plataforma que configuraste**. Puedes configurar:
+- Solo Android
+- Solo iOS
+- Ambas plataformas
+
+#### 2.1 Build Android (Si configuraste Android)
+
+**Solo ejecuta esto si configuraste la ofuscación para Android.**
 
 ```bash
-# Ejecutar build con ofuscación
-./scripts/build_release_obfuscated.sh
+# Limpiar builds previos
+flutter clean
+
+# Build Android con ofuscación
+flutter build apk \
+  --release \
+  --obfuscate \
+  --split-debug-info=build/symbols/android \
+  --split-per-abi
 ```
 
-**Resultados esperados**:
+**Resultados esperados Android**:
 - ✅ Build exitoso en ~30 segundos
 - ✅ APKs generados (13-17 MB cada uno)
 - ✅ `mapping.txt` generado (2-5 MB)
-- ✅ Símbolos Flutter generados (3 archivos)
+- ✅ Símbolos Flutter Android generados (3 archivos .symbols)
 
-### 3. Verificar Ofuscación
+**Verificar archivos Android**:
+```bash
+# Verificar APKs generados
+ls -lh build/app/outputs/flutter-apk/
+
+# Verificar mapping.txt
+ls -lh build/app/outputs/mapping/release/mapping.txt
+
+# Verificar símbolos Android
+ls -lh build/symbols/android/
+```
+
+#### 2.2 Build iOS (Si configuraste iOS)
+
+**Solo ejecuta esto si configuraste la ofuscación para iOS. Requiere macOS.**
+
+```bash
+# Build iOS con ofuscación
+flutter build ios \
+  --release \
+  --obfuscate \
+  --split-debug-info=build/symbols/ios
+```
+
+**Resultados esperados iOS**:
+- ✅ Build exitoso en ~3-5 minutos
+- ✅ Runner.app generado
+- ✅ Símbolos Flutter iOS generados
+- ✅ dSYM generado (en archive)
+
+**Verificar archivos iOS**:
+```bash
+# Verificar Runner.app
+ls -lh build/ios/Release-iphoneos/Runner.app/
+
+# Verificar símbolos iOS
+ls -lh build/symbols/ios/
+
+# Verificar binario stripped
+file build/ios/Release-iphoneos/Runner.app/Runner
+# Expected: "stripped" en output
+```
+
+---
+
+### Phase 3: Verificar Ofuscación
+
+#### 3.1 Verificar Ofuscación Android (Si construiste Android)
+
+**Solo ejecuta esto si construiste Android en el paso anterior.**
 
 ```bash
 # Descomprimir APK
-unzip -q build/app/outputs/apk/release/app-arm64-v8a-release.apk -d /tmp/apk_check
+unzip -q build/app/outputs/flutter-apk/app-arm64-v8a-release.apk -d /tmp/apk_check
 
-# Buscar nombres de clases (no deberían aparecer)
+# Buscar nombres de clases (NO deberían aparecer)
 strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep "TuClasePrincipal"
+# Expected: Sin resultados
+
+# Verificar símbolos ofuscados (SÍ deberían aparecer)
+strings /tmp/apk_check/lib/arm64-v8a/libapp.so | head -50
+# Expected: Nombres cortos como "a", "b", "aa", "ab"
 
 # Limpiar
 rm -rf /tmp/apk_check
 ```
 
-**Resultado esperado**: No debería encontrar nombres de tus clases.
+**Resultado esperado Android**: No debería encontrar nombres de tus clases originales.
+
+#### 3.2 Verificar Ofuscación iOS (Si construiste iOS)
+
+**Solo ejecuta esto si construiste iOS en el paso anterior.**
+
+```bash
+# Verificar que símbolos están stripped
+file build/ios/Release-iphoneos/Runner.app/Runner
+
+# Expected output:
+# build/ios/Release-iphoneos/Runner.app/Runner: Mach-O 64-bit arm64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|PIE>, stripped
+
+# Verificar símbolos iOS generados
+ls -lh build/symbols/ios/
+# Expected: app.ios-arm64.symbols
+
+# Verificar tamaño del binario (debe ser menor)
+du -h build/ios/Release-iphoneos/Runner.app/Runner
+# Expected: ~8-15 MB (varía según app)
+```
+
+**Resultado esperado iOS**: El binario debe tener "stripped" en el output de `file`.
 
 ---
 
