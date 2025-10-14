@@ -1,441 +1,816 @@
-# 🤖 Prompt para Agentes CLI - Implementar Ofuscación Flutter
+# 🤖 Prompts para Agentes IA - Flutter Obfuscation Toolkit
 
-> Copia y pega este prompt completo en tu agente CLI (Claude Code, Gemini, etc.) para implementar ofuscación y minificación automáticamente
+> Prompts optimizados para que agentes IA lean directamente desde este repositorio e implementen ofuscación automáticamente
 
----
-
-## 🚀 Método Recomendado: Descarga Automática
-
-### Prompt Simplificado (Recomendado)
-
-```
-Implementa ofuscación y minificación en mi proyecto Flutter.
-
-PASO 1 - DESCARGA AUTOMÁTICA:
-Ejecuta este comando para descargar todo el paquete necesario:
-
-curl -sSL https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
-
-PASO 2 - PERSONALIZACIÓN AUTOMÁTICA:
-1. Detecta mi applicationId desde android/app/build.gradle.kts
-2. Reemplázalo en android/app/proguard-rules.pro donde dice com.example.app
-3. Detecta los plugins en mi pubspec.yaml y agrega reglas ProGuard correspondientes
-
-PASO 3 - VALIDACIÓN:
-Ejecuta ./scripts/build_release_obfuscated.sh y verifica que:
-- Los APKs sean ≤17 MB cada uno
-- mapping.txt se genere correctamente
-- Los símbolos Flutter se generen
-
-Procede paso a paso mostrándome el progreso.
-```
+**Repositorio oficial**: `https://github.com/carlos-developer/flutter-obfuscation-toolkit`
 
 ---
 
-## 📋 Prompt Completo (Copiar y Pegar)
+## 📋 Índice de Prompts
 
-Para mayor control sobre cada paso:
-
-```
-Necesito que implementes ofuscación de código y minificación en mi proyecto Flutter actual.
-
-CONTEXTO:
-- Este es un proyecto Flutter existente en el directorio actual
-- Quiero implementar ofuscación de símbolos Dart, minificación R8 para Android, y symbol stripping para iOS
-- Necesito reducir el tamaño del APK/IPA y proteger mi código contra ingeniería reversa
-
-REQUISITOS:
-1. Descarga e implementa el paquete de ofuscación desde este repositorio:
-   https://github.com/carlos-developer/flutter-obfuscation-toolkit
-
-2. Sigue esta guía de implementación paso a paso:
-
-FASE 1 - DESCARGA DE RECURSOS:
-- Descarga los siguientes archivos del repositorio de referencia:
-  * scripts/setup_obfuscation.sh
-  * scripts/build_release_obfuscated.sh
-  * scripts/deobfuscate.sh
-  * templates/proguard-rules.template.pro
-  * templates/README_OBFUSCATION.md
-  * MIGRATION_GUIDE.md
-  * CHECKLIST_OBFUSCATION.md
-
-FASE 2 - CONFIGURACIÓN ANDROID:
-- Modifica android/app/build.gradle.kts (o .gradle) para habilitar R8:
-  * Agrega multiDexEnabled = true en defaultConfig
-  * Agrega isMinifyEnabled = true en release buildType
-  * Agrega isShrinkResources = true en release buildType
-  * Configura proguardFiles con "proguard-android-optimize.txt" y "proguard-rules.pro"
-
-- Crea android/app/proguard-rules.pro con reglas para:
-  * Flutter core (io.flutter.**)
-  * MainActivity (reemplazar com.example.app con el applicationId real del proyecto)
-  * AndroidX components
-  * JNI y reflection
-  * Google Play Core
-  * Plugins específicos que detectes en pubspec.yaml (sqflite, firebase, shared_preferences, etc.)
-
-FASE 3 - CONFIGURACIÓN iOS:
-- Modifica ios/Runner.xcodeproj/project.pbxproj para agregar en Release y Profile:
-  * DEAD_CODE_STRIPPING = YES
-  * DEPLOYMENT_POSTPROCESSING = YES
-  * STRIP_INSTALLED_PRODUCT = YES
-  * STRIP_STYLE = "non-global"
-  * STRIP_SWIFT_SYMBOLS = YES
-  * SYMBOLS_HIDDEN_BY_DEFAULT = YES
-  * DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym"
-
-FASE 4 - SCRIPTS Y AUTOMATIZACIÓN:
-- Copia los scripts descargados a scripts/
-- Hazlos ejecutables (chmod +x)
-- Actualiza .gitignore con exclusiones de ofuscación
-
-FASE 5 - VALIDACIÓN:
-- Ejecuta flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
-- Verifica que se generen:
-  * APKs en build/app/outputs/apk/release/ (~13-17 MB cada uno)
-  * mapping.txt en build/app/outputs/mapping/release/ (~2-5 MB)
-  * Símbolos Flutter en build/symbols/android/ (3 archivos .symbols)
-- Instala en dispositivo físico y prueba funcionalidades críticas
-
-PERSONALIZACIÓN REQUERIDA:
-- En android/app/proguard-rules.pro:
-  * Reemplaza com.example.app con el applicationId real del proyecto
-  * Agrega reglas específicas para modelos de datos (si usa JSON serialization)
-  * Agrega reglas para plugins detectados en pubspec.yaml
-
-RESULTADO ESPERADO:
-- Reducción de tamaño APK: ≥60%
-- Símbolos Dart: 100% ofuscados
-- Build time: +30-50% (aceptable)
-- Security score: ≥8/10
-
-INSTRUCCIONES ADICIONALES:
-- Lee y sigue la documentación en MIGRATION_GUIDE.md descargado
-- Usa CHECKLIST_OBFUSCATION.md para validar cada paso
-- Si encuentras errores, consulta TROUBLESHOOTING_ADVANCED.md
-- NO commitees archivos .backup ni mapping.txt al git
-- Crea un commit final con mensaje descriptivo cuando todo funcione
-
-IMPORTANTE:
-- Detecta automáticamente el applicationId del proyecto desde android/app/build.gradle.kts
-- Detecta plugins en pubspec.yaml y agrega reglas ProGuard correspondientes
-- Valida que todos los archivos críticos se generen correctamente
-- Prueba que la app funcione después de ofuscar
-
-¿Puedes implementar esto paso a paso, mostrándome el progreso y validando cada fase?
-```
+1. [Android + iOS (Completo)](#1-prompt-android--ios-completo) - Implementación completa
+2. [Solo Android](#2-prompt-solo-android) - R8 + ProGuard únicamente
+3. [Solo iOS](#3-prompt-solo-ios) - Symbol Stripping únicamente
+4. [Verificación](#4-prompt-verificación) - Validar implementación
 
 ---
 
-## 🚀 Prompt Alternativo (Con Descarga Automática)
+## 🎯 Instrucciones de Uso
 
-Si prefieres que el agente descargue automáticamente los archivos:
+1. **Selecciona el prompt** según tu necesidad (Android+iOS, Solo Android, o Solo iOS)
+2. **Copia y pega** el prompt completo en tu agente IA (Claude Code, Gemini, Copilot, Cursor, Windsurf)
+3. El agente **leerá directamente** los archivos desde el repositorio oficial
+4. **No necesitas descargar nada** manualmente
+
+---
+
+## 1. Prompt: Android + iOS (Completo)
+
+**Cuándo usar**: Implementar ofuscación completa para ambas plataformas
 
 ```
-Implementa ofuscación y minificación en mi proyecto Flutter usando este paquete de referencia.
+Implementa ofuscación y minificación completa en mi proyecto Flutter para Android e iOS.
 
-PASO 1 - DESCARGA AUTOMÁTICA:
-Descarga los archivos necesarios desde el repositorio:
+REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
-Archivos requeridos:
-- scripts/setup_obfuscation.sh
-- scripts/build_release_obfuscated.sh
-- scripts/deobfuscate.sh
-- templates/proguard-rules.template.pro
-- MIGRATION_GUIDE.md
+CONTEXTO:
+Estoy en la raíz de mi proyecto Flutter. Necesito:
+- Ofuscación de código Dart (--obfuscate)
+- Minificación R8 + ProGuard para Android
+- Symbol stripping para iOS
 
-Usa comandos curl o wget para descargar desde la rama principal.
+INSTRUCCIONES:
+Lee directamente los archivos del repositorio usando las URLs raw de GitHub.
+NO descargues archivos con curl/wget, lee el contenido y aplícalo.
 
-PASO 2 - EJECUTAR SETUP AUTOMÁTICO:
-Ejecuta: ./scripts/setup_obfuscation.sh
+═══════════════════════════════════════════════════════════
 
-PASO 3 - PERSONALIZACIÓN:
-1. Detecta el applicationId real desde android/app/build.gradle.kts
-2. Reemplaza com.example.app en android/app/proguard-rules.pro con el applicationId detectado
-3. Detecta plugins en pubspec.yaml y agrega reglas ProGuard correspondientes:
-   - Si usa sqflite: -keep class com.tekartik.sqflite.** { *; }
-   - Si usa firebase: -keep class io.flutter.plugins.firebase.** { *; }
-   - Si usa shared_preferences: -keep class io.flutter.plugins.sharedpreferences.** { *; }
-   - Etc.
+FASE 1 - ANÁLISIS DEL PROYECTO
 
-PASO 4 - VALIDACIÓN:
-Ejecuta: ./scripts/build_release_obfuscated.sh
-Verifica que los APKs generados sean ≤17 MB
+1.1. Detecta mi applicationId:
+Archivo: android/app/build.gradle.kts
+Busca: applicationId = "..."
+Ejemplo: com.miempresa.miapp
 
-PASO 5 - DOCUMENTACIÓN:
-Muestra un resumen de:
-- Archivos modificados
-- Reducción de tamaño lograda
-- Próximos pasos recomendados
+1.2. Detecta plugins en uso:
+Archivo: pubspec.yaml
+Busca en dependencies: sqflite, firebase_core, shared_preferences, path_provider, etc.
 
-Procede paso a paso, validando cada fase antes de continuar.
-```
+1.3. Identifica modelos con JSON:
+Busca en el código: @JsonSerializable, fromJson, toJson
 
----
+═══════════════════════════════════════════════════════════
 
-## 📦 Prompt Simplificado (Mínimo)
+FASE 2 - CONFIGURACIÓN ANDROID (R8 + ProGuard)
 
-Para usuarios que quieren el mínimo de configuración:
+2.1. Lee la guía de Android:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Busca: Sección "Paso 1: Configuración Android"
 
-```
-Implementa ofuscación Flutter en este proyecto.
+2.2. Modifica android/app/build.gradle.kts:
 
-Requisitos:
-1. Descarga el setup desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
-2. Ejecuta el script de setup
-3. Personaliza android/app/proguard-rules.pro con mi applicationId
-4. Valida con un build de prueba
+En defaultConfig:
+    multiDexEnabled = true  // AGREGAR
 
-Muestra el progreso y valida que funcione.
-```
+En buildTypes → release:
+    isMinifyEnabled = true           // AGREGAR
+    isShrinkResources = true         // AGREGAR
+    proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro"
+    )
 
----
+2.3. Crea android/app/proguard-rules.pro:
 
-## 🛠️ Comandos de Descarga Manual
+Lee el contenido completo desde:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Líneas 161-188 (código proguard mínimo)
 
-Si el agente no puede descargar automáticamente, proporciona estos comandos:
+Personaliza:
+- Reemplaza "com.example.app" con mi applicationId detectado
+- Agrega reglas para cada plugin detectado:
+  * sqflite → -keep class com.tekartik.sqflite.** { *; }
+  * firebase → -keep class io.flutter.plugins.firebase.** { *; }
+  * shared_preferences → -keep class io.flutter.plugins.sharedpreferences.** { *; }
 
-### Opción A: Usando curl
+═══════════════════════════════════════════════════════════
 
-```bash
-# Crear directorios
-mkdir -p scripts templates
+FASE 3 - CONFIGURACIÓN iOS (Symbol Stripping)
 
-# Descargar scripts
-curl -o scripts/setup_obfuscation.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
-curl -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
-curl -o scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+3.1. Lee el template iOS:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template
 
-# Descargar templates
-curl -o templates/proguard-rules.template.pro https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/proguard-rules.template.pro
-curl -o templates/README_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/README_OBFUSCATION.md
+3.2. Aplica en ios/Flutter/Release.xcconfig:
 
-# Descargar documentación
-curl -o MIGRATION_GUIDE.md https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
-curl -o CHECKLIST_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+#include "Generated.xcconfig"
 
-# Hacer ejecutables
-chmod +x scripts/*.sh
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+STRIP_STYLE = all
+COPY_PHASE_STRIP = YES
+SEPARATE_STRIP = YES
 
-echo "✅ Paquete descargado. Ejecuta: ./scripts/setup_obfuscation.sh"
-```
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = fast
+SWIFT_COMPILATION_MODE = wholemodule
 
-### Opción B: Usando wget
+DEAD_CODE_STRIPPING = YES
 
-```bash
-# Crear directorios
-mkdir -p scripts templates
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+ONLY_ACTIVE_ARCH = NO
 
-# Descargar scripts
-wget -O scripts/setup_obfuscation.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
-wget -O scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
-wget -O scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+⚠️ CRÍTICO: NO agregues comentarios con # (excepto #include)
+Los archivos .xcconfig NO soportan comentarios decorativos.
 
-# Descargar templates
-wget -O templates/proguard-rules.template.pro https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/proguard-rules.template.pro
-wget -O templates/README_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/README_OBFUSCATION.md
+═══════════════════════════════════════════════════════════
 
-# Descargar documentación
-wget -O MIGRATION_GUIDE.md https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
-wget -O CHECKLIST_OBFUSCATION.md https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+FASE 4 - SCRIPTS DE AUTOMATIZACIÓN
 
-# Hacer ejecutables
-chmod +x scripts/*.sh
+4.1. Crea scripts/build_release_obfuscated.sh:
+Lee contenido desde:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+Crea el archivo en mi proyecto y hazlo ejecutable: chmod +x
 
-echo "✅ Paquete descargado. Ejecuta: ./scripts/setup_obfuscation.sh"
-```
+4.2. Crea scripts/deobfuscate.sh:
+Lee contenido desde:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+Crea el archivo y hazlo ejecutable: chmod +x
 
-### Opción C: Clonar solo el paquete (sparse checkout)
+4.3. Crea scripts/fix_xcode_modulecache.sh:
+Lee contenido desde:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh
+Crea el archivo y hazlo ejecutable: chmod +x
 
-```bash
-# Clonar solo los archivos necesarios
-git clone --depth 1 --filter=blob:none --sparse \
-  https://github.com/carlos-developer/flutter-obfuscation-toolkit.git temp_obfuscation
-
-cd temp_obfuscation
-git sparse-checkout set scripts templates *.md
-
-# Copiar al proyecto actual
-cp -r scripts ../
-cp -r templates ../
-cp MIGRATION_GUIDE.md CHECKLIST_OBFUSCATION.md TROUBLESHOOTING_ADVANCED.md ../
-
-cd ..
-rm -rf temp_obfuscation
-
-chmod +x scripts/*.sh
-
-echo "✅ Paquete copiado. Ejecuta: ./scripts/setup_obfuscation.sh"
-```
-
----
-
-## 🎯 Uso Recomendado por Agente
-
-### Para Claude Code
-
-```
-Copiar y pegar el "Prompt Completo" al inicio de la conversación.
-Claude Code puede:
-- Descargar archivos con WebFetch (si está habilitado)
-- Modificar archivos automáticamente
-- Ejecutar scripts con Bash
-- Validar resultados
-```
-
-### Para Gemini CLI
-
-```
-Copiar y pegar el "Prompt Alternativo" con descarga automática.
-Gemini puede:
-- Ejecutar comandos curl/wget
-- Modificar archivos
-- Ejecutar scripts
-- Proporcionar feedback del progreso
-```
-
-### Para GitHub Copilot / Cursor
-
-```
-Usar el "Prompt Simplificado" y luego seguir manualmente los pasos
-con la ayuda del agente para cada modificación de archivo.
-```
-
----
-
-## 📝 Ejemplo de Conversación Esperada
-
-**Usuario**:
-```
-[Pega el prompt completo]
-```
-
-**Agente**:
-```
-Entendido. Voy a implementar ofuscación y minificación en tu proyecto Flutter.
-
-FASE 1 - DESCARGA DE RECURSOS
-Descargando archivos necesarios...
-✅ scripts/setup_obfuscation.sh descargado
-✅ scripts/build_release_obfuscated.sh descargado
-✅ scripts/deobfuscate.sh descargado
-✅ templates/proguard-rules.template.pro descargado
-✅ MIGRATION_GUIDE.md descargado
-
-FASE 2 - DETECCIÓN DE PROYECTO
-Analizando tu proyecto...
-- Project name: mi_app
-- Application ID detectado: com.miempresa.miapp
-- Plugins detectados: sqflite, shared_preferences, firebase_core
-
-FASE 2 - CONFIGURACIÓN ANDROID
-Modificando android/app/build.gradle.kts...
-✅ multiDexEnabled agregado
-✅ R8 minification habilitado
-✅ ProGuard configurado
-
-Creando android/app/proguard-rules.pro...
-✅ Reglas Flutter core agregadas
-✅ MainActivity: com.miempresa.miapp.MainActivity
-✅ Reglas para sqflite agregadas
-✅ Reglas para shared_preferences agregadas
-✅ Reglas para firebase_core agregadas
-
-FASE 3 - CONFIGURACIÓN iOS
-Modificando ios/Runner.xcodeproj/project.pbxproj...
-✅ Symbol stripping configurado (Release)
-✅ Symbol stripping configurado (Profile)
-
-FASE 4 - SCRIPTS
-✅ Scripts copiados a scripts/
-✅ Permisos de ejecución configurados
-✅ .gitignore actualizado
+═══════════════════════════════════════════════════════════
 
 FASE 5 - VALIDACIÓN
-Ejecutando build de prueba...
+
+5.1. Actualiza .gitignore:
+Agrega estas líneas si no existen:
+build/app/outputs/mapping/
+build/symbols/
+*.backup
+temp/
+
+5.2. Build de prueba Android:
 flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
 
-✅ Build exitoso!
-✅ APK arm64: 14.2 MB (reducción: 67%)
-✅ APK armv7: 12.8 MB (reducción: 69%)
-✅ mapping.txt generado: 3.4 MB
-✅ Símbolos Flutter generados (3 archivos)
+5.3. Verifica archivos generados Android:
+✓ build/app/outputs/apk/release/app-armeabi-v7a-release.apk (~11 MB)
+✓ build/app/outputs/apk/release/app-arm64-v8a-release.apk (~14 MB)
+✓ build/app/outputs/apk/release/app-x86_64-release.apk (~15 MB)
+✓ build/app/outputs/mapping/release/mapping.txt (~3-5 MB)
+✓ build/symbols/android/*.symbols (3 archivos)
 
-RESUMEN:
-- Reducción de tamaño: 67% promedio
+5.4. Build de prueba iOS (si aplica):
+- Verifica versión Xcode: xcodebuild -version
+- Si es Xcode 16.2, sugiere ejecutar: ./scripts/fix_xcode_modulecache.sh
+- Ejecuta: flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios --no-codesign
+
+5.5. Verifica archivos generados iOS:
+✓ build/ios/iphoneos/Runner.app (~12-14 MB)
+✓ build/symbols/ios/app.ios-arm64.symbols (~1.3 MB)
+
+═══════════════════════════════════════════════════════════
+
+RESULTADOS ESPERADOS:
+- Android: Reducción ≥60% en tamaño de APK
+- iOS: Reducción ≥20-30% en tamaño de IPA
 - Símbolos Dart: 100% ofuscados
-- Build time: +35% (aceptable)
+- mapping.txt generado para deobfuscación
 
-PRÓXIMOS PASOS:
-1. Prueba la app en un dispositivo físico
-2. Verifica todas las funcionalidades críticas
-3. Si hay crashes, usa: ./scripts/deobfuscate.sh -p android -s crash.txt
-4. Archiva mapping.txt en releases/ para esta versión
+DOCUMENTACIÓN ADICIONAL:
+Si encuentras errores, consulta:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
 
-¿Deseas que proceda con algún paso adicional?
+Procede paso a paso, mostrando el progreso de cada fase.
 ```
 
 ---
 
-## ✅ Checklist de Validación Post-Implementación
+## 2. Prompt: Solo Android
 
-Después de que el agente implemente la ofuscación, verifica:
+**Cuándo usar**: Proyecto sin iOS o build separado de Android
 
-- [ ] Archivos descargados en scripts/ y templates/
-- [ ] android/app/build.gradle.kts modificado correctamente
-- [ ] android/app/proguard-rules.pro creado con applicationId correcto
-- [ ] ios/Runner.xcodeproj/project.pbxproj modificado (si aplica)
-- [ ] Build exitoso con APKs generados
-- [ ] mapping.txt y símbolos generados
-- [ ] .gitignore actualizado
-- [ ] App probada en dispositivo físico
+```
+Implementa ofuscación R8 y minificación solo para Android en mi proyecto Flutter.
+
+REPOSITORIO DE REFERENCIA:
+https://github.com/carlos-developer/flutter-obfuscation-toolkit
+
+CONTEXTO:
+Solo necesito configurar Android con R8 + ProGuard.
+NO modifiques nada relacionado con iOS.
+
+INSTRUCCIONES:
+Lee directamente los archivos del repositorio.
+NO descargues con curl/wget.
+
+═══════════════════════════════════════════════════════════
+
+FASE 1 - ANÁLISIS
+
+1.1. Detecta applicationId:
+Archivo: android/app/build.gradle.kts
+Busca: applicationId = "com.ejemplo.app"
+
+1.2. Detecta plugins:
+Archivo: pubspec.yaml
+Busca en dependencies: sqflite, firebase, shared_preferences, path_provider, etc.
+
+1.3. Verifica JSON serialization:
+Busca en el código: @JsonSerializable, fromJson(), toJson()
+
+═══════════════════════════════════════════════════════════
+
+FASE 2 - CONFIGURACIÓN GRADLE
+
+2.1. Lee la guía:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Sección: "1.1 Modificar build.gradle.kts"
+
+2.2. Modifica android/app/build.gradle.kts:
+
+En defaultConfig:
+    multiDexEnabled = true  // AGREGAR si no existe
+
+En buildTypes → release:
+    isMinifyEnabled = true           // AGREGAR
+    isShrinkResources = true         // AGREGAR
+    proguardFiles(
+        getDefaultProguardFile("proguard-android-optimize.txt"),
+        "proguard-rules.pro"
+    )
+    // Mantener signingConfig existente sin cambios
+
+═══════════════════════════════════════════════════════════
+
+FASE 3 - PROGUARD RULES
+
+3.1. Lee el ejemplo completo:
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Líneas 161-188
+
+3.2. Crea android/app/proguard-rules.pro:
+
+Estructura base:
+# Flutter Core
+-keep class io.flutter.app.** { *; }
+-keep class io.flutter.plugin.** { *; }
+-keep class io.flutter.** { *; }
+-keep class io.flutter.plugins.** { *; }
+
+# MainActivity (REEMPLAZAR con applicationId detectado)
+-keep class MI_APPLICATION_ID_AQUI.MainActivity { *; }
+
+# Plugins (AGREGAR según lo detectado en pubspec.yaml)
+# Si usa sqflite:
+-keep class com.tekartik.sqflite.** { *; }
+
+# Si usa firebase:
+-keep class io.flutter.plugins.firebase.** { *; }
+-dontwarn com.google.android.play.core.**
+-keep class com.google.android.play.core.** { *; }
+
+# Si usa shared_preferences:
+-keep class io.flutter.plugins.sharedpreferences.** { *; }
+
+# Si usa path_provider:
+-keep class io.flutter.plugins.pathprovider.** { *; }
+
+# JNI (OBLIGATORIO)
+-keepclasseswithmembernames class * {
+    native <methods>;
+}
+
+# Reflection (OBLIGATORIO)
+-keepattributes *Annotation*
+-keepattributes Signature
+-keepattributes SourceFile,LineNumberTable
+-keepattributes InnerClasses,EnclosingMethod
+
+# Enums (OBLIGATORIO)
+-keepclassmembers enum * {
+    public static **[] values();
+    public static ** valueOf(java.lang.String);
+}
+
+# Parcelable (OBLIGATORIO)
+-keep interface android.os.Parcelable
+-keepclassmembers class * implements android.os.Parcelable {
+    public static final android.os.Parcelable$Creator CREATOR;
+}
+
+# Serializable (OBLIGATORIO)
+-keepclassmembers class * implements java.io.Serializable {
+    static final long serialVersionUID;
+    private static final java.io.ObjectStreamField[] serialPersistentFields;
+    private void writeObject(java.io.ObjectOutputStream);
+    private void readObject(java.io.ObjectInputStream);
+    java.lang.Object writeReplace();
+    java.lang.Object readResolve();
+}
+
+# AndroidX (OBLIGATORIO)
+-keep class ** extends androidx.lifecycle.ViewModel { *; }
+-keep class ** extends androidx.lifecycle.AndroidViewModel { *; }
+
+# Optimization
+-optimizationpasses 5
+-allowaccessmodification
+-repackageclasses ''
+
+# Warnings
+-dontwarn javax.annotation.**
+-dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+═══════════════════════════════════════════════════════════
+
+FASE 4 - SCRIPTS
+
+4.1. Crea scripts/build_release_obfuscated.sh:
+Lee desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+Crea el archivo y hazlo ejecutable: chmod +x scripts/build_release_obfuscated.sh
+
+4.2. Crea scripts/deobfuscate.sh:
+Lee desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+Crea el archivo y hazlo ejecutable: chmod +x scripts/deobfuscate.sh
+
+═══════════════════════════════════════════════════════════
+
+FASE 5 - VALIDACIÓN
+
+5.1. Actualiza .gitignore:
+build/app/outputs/mapping/
+build/symbols/
+*.backup
+
+5.2. Build de prueba:
+flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
+
+5.3. Verifica archivos generados:
+✓ build/app/outputs/apk/release/app-armeabi-v7a-release.apk (~11 MB)
+✓ build/app/outputs/apk/release/app-arm64-v8a-release.apk (~14 MB)
+✓ build/app/outputs/apk/release/app-x86_64-release.apk (~15 MB)
+✓ build/app/outputs/mapping/release/mapping.txt (~3-5 MB)
+✓ build/symbols/android/app.android-arm.symbols
+✓ build/symbols/android/app.android-arm64.symbols
+✓ build/symbols/android/app.android-x64.symbols
+
+5.4. Verifica ofuscación:
+Ejecuta: strings build/app/outputs/apk/release/app-arm64-v8a-release.apk | grep "NombreDeClaseOriginal"
+Esperado: No debe encontrar nombres de clases originales
+
+═══════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+Si encuentras ClassNotFoundException o NoSuchMethodException:
+Lee: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
+
+Procede paso a paso y muestra el progreso.
+```
 
 ---
 
-## 🆘 Troubleshooting del Prompt
+## 3. Prompt: Solo iOS
 
-### Si el agente no puede descargar archivos
+**Cuándo usar**: Proyecto sin Android o build separado de iOS
 
-**Solución**: Ejecuta manualmente los comandos curl/wget de la sección "Comandos de Descarga Manual" y luego pide al agente que continúe desde FASE 2.
+```
+Implementa symbol stripping y ofuscación solo para iOS en mi proyecto Flutter.
 
-### Si el agente no detecta el applicationId
+REPOSITORIO DE REFERENCIA:
+https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
-**Solución**: Proporciona manualmente:
+CONTEXTO:
+Solo necesito configurar iOS con symbol stripping.
+NO modifiques nada relacionado con Android.
+
+INSTRUCCIONES:
+Lee directamente los archivos del repositorio.
+NO descargues con curl/wget.
+
+═══════════════════════════════════════════════════════════
+
+FASE 1 - ANÁLISIS
+
+1.1. Verifica versión de Xcode:
+Ejecuta: xcodebuild -version
+Si es Xcode 16.2, necesitarás aplicar un fix (lo haré después)
+
+═══════════════════════════════════════════════════════════
+
+FASE 2 - CONFIGURACIÓN XCCONFIG
+
+2.1. Lee el template correcto (sin comentarios):
+URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template
+
+2.2. Edita ios/Flutter/Release.xcconfig:
+
+Reemplaza TODO el contenido con:
+
+#include "Generated.xcconfig"
+
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+STRIP_STYLE = all
+COPY_PHASE_STRIP = YES
+SEPARATE_STRIP = YES
+
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = fast
+SWIFT_COMPILATION_MODE = wholemodule
+
+DEAD_CODE_STRIPPING = YES
+
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+ONLY_ACTIVE_ARCH = NO
+
+⚠️ ADVERTENCIA CRÍTICA:
+Los archivos .xcconfig NO soportan comentarios con # (excepto #include).
+Si agregas comentarios como "# Symbol Stripping", el build FALLARÁ con:
+Error (Xcode): unsupported preprocessor directive
+
+Solo configura con formato: KEY = VALUE
+
+═══════════════════════════════════════════════════════════
+
+FASE 3 - FIX XCODE 16.2 (Si detectaste versión 16.2)
+
+3.1. Crea scripts/fix_xcode_modulecache.sh:
+Lee desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh
+Crea el archivo y hazlo ejecutable: chmod +x scripts/fix_xcode_modulecache.sh
+
+3.2. Informa al usuario:
+"Detecté Xcode 16.2. Antes de hacer el build, ejecuta:
+./scripts/fix_xcode_modulecache.sh
+
+Este script soluciona el bug conocido de ModuleCache corrupto.
+Referencia: Flutter Issue #157461"
+
+═══════════════════════════════════════════════════════════
+
+FASE 4 - SCRIPTS
+
+4.1. Crea scripts/build_release_obfuscated.sh:
+Lee desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+Crea y hazlo ejecutable: chmod +x
+
+4.2. Crea scripts/deobfuscate.sh:
+Lee desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+Crea y hazlo ejecutable: chmod +x
+
+═══════════════════════════════════════════════════════════
+
+FASE 5 - VALIDACIÓN
+
+5.1. Actualiza .gitignore:
+build/ios/
+build/symbols/
+*.backup
+
+5.2. Build de prueba:
+flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios --no-codesign
+
+5.3. Verifica archivos generados:
+✓ build/ios/iphoneos/Runner.app (~12-14 MB)
+✓ build/symbols/ios/app.ios-arm64.symbols (~1.3 MB)
+
+5.4. Verifica symbol stripping:
+Ejecuta: nm build/ios/iphoneos/Runner.app/Frameworks/App.framework/App | grep "NombreDeClaseOriginal"
+Esperado: No debe encontrar símbolos originales
+
+═══════════════════════════════════════════════════════════
+
+TROUBLESHOOTING:
+
+Error: "unsupported preprocessor directive"
+Causa: Agregaste comentarios con # en Release.xcconfig
+Solución: Elimina todos los comentarios excepto #include "Generated.xcconfig"
+Documentación: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md (busca "unsupported preprocessor")
+
+Error: ModuleCache en Xcode 16.2
+Solución: Ejecuta ./scripts/fix_xcode_modulecache.sh
+Documentación: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md (busca "Xcode 16.2")
+
+Procede paso a paso y muestra el progreso.
+```
+
+---
+
+## 4. Prompt: Verificación
+
+**Cuándo usar**: Después de implementar, para validar que todo esté correcto
+
+```
+Verifica que la implementación de ofuscación esté completa y correcta.
+
+REPOSITORIO DE REFERENCIA:
+https://github.com/carlos-developer/flutter-obfuscation-toolkit
+
+CHECKLIST COMPLETO:
+Lee desde: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+
+═══════════════════════════════════════════════════════════
+
+VALIDACIONES AUTOMÁTICAS
+
+1. ARCHIVOS DE CONFIGURACIÓN
+
+Android (si aplica):
+✓ Verificar: grep "isMinifyEnabled = true" android/app/build.gradle.kts
+✓ Verificar: grep "isShrinkResources = true" android/app/build.gradle.kts
+✓ Verificar: grep "multiDexEnabled = true" android/app/build.gradle.kts
+✓ Verificar: test -f android/app/proguard-rules.pro
+✓ Verificar applicationId correcto en proguard-rules.pro (no "com.example.app")
+
+iOS (si aplica):
+✓ Verificar: grep "STRIP_INSTALLED_PRODUCT = YES" ios/Flutter/Release.xcconfig
+✓ Verificar: grep "DEAD_CODE_STRIPPING = YES" ios/Flutter/Release.xcconfig
+✓ Verificar que NO hay comentarios # (excepto #include)
+
+2. SCRIPTS
+
+✓ test -x scripts/build_release_obfuscated.sh
+✓ test -x scripts/deobfuscate.sh
+✓ test -x scripts/fix_xcode_modulecache.sh (si iOS con Xcode 16.2)
+
+3. GITIGNORE
+
+✓ grep "build/app/outputs/mapping/" .gitignore
+✓ grep "build/symbols/" .gitignore
+✓ grep "*.backup" .gitignore
+
+4. BUILD ARTIFACTS (después de ejecutar build)
+
+Android:
+✓ ls -lh build/app/outputs/apk/release/*.apk (verificar ≤17 MB cada uno)
+✓ ls -lh build/app/outputs/mapping/release/mapping.txt (verificar ≥2 MB)
+✓ ls build/symbols/android/*.symbols (contar 3 archivos)
+
+iOS:
+✓ ls -lh build/ios/iphoneos/Runner.app (verificar ≤15 MB)
+✓ ls build/symbols/ios/app.ios-arm64.symbols
+
+5. OFUSCACIÓN VERIFICADA
+
+Android:
+Ejecuta: strings build/app/outputs/apk/release/app-arm64-v8a-release.apk | grep -i "MainActivity"
+Análisis: Solo debe aparecer ofuscado o en el package correcto
+
+iOS:
+Ejecuta: nm build/ios/iphoneos/Runner.app/Frameworks/App.framework/App | wc -l
+Análisis: Número de símbolos debe ser muy reducido
+
+═══════════════════════════════════════════════════════════
+
+REPORTE FINAL
+
+Genera un reporte con este formato:
+
+✅ CONFIGURACIÓN COMPLETADA:
+- android/app/build.gradle.kts: [modificado/sin cambios]
+- android/app/proguard-rules.pro: [creado/existente]
+- ios/Flutter/Release.xcconfig: [modificado/sin cambios]
+- scripts/*.sh: [creados X archivos]
+- .gitignore: [actualizado/sin cambios]
+
+📊 MÉTRICAS DE BUILD:
+Android:
+- APK arm64: XX MB (reducción: XX%)
+- APK armv7: XX MB (reducción: XX%)
+- APK x86_64: XX MB (reducción: XX%)
+- mapping.txt: XX MB
+- Símbolos: X archivos
+
+iOS:
+- Runner.app: XX MB (reducción: XX%)
+- Símbolos: X archivos
+
+✅ VALIDACIONES EXITOSAS:
+- [Lista de validaciones que pasaron]
+
+⚠️ ADVERTENCIAS:
+- [Lista de warnings si los hay]
+
+❌ ERRORES ENCONTRADOS:
+- [Lista de validaciones fallidas]
+- [Sugerencias de corrección]
+
+DOCUMENTACIÓN PARA SOLUCIONES:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
+
+Presenta el reporte en markdown con formato claro.
+```
+
+---
+
+## 📚 URLs de Documentación Completa
+
+### Guías Principales
+```
+Guía de Migración:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+
+Troubleshooting Avanzado:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
+
+Checklist de Validación:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+
+Guía Técnica Detallada:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md
+
+Descripción del Toolkit:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TOOLKIT_OVERVIEW.md
+```
+
+### Templates
+```
+Release.xcconfig (iOS - SIN comentarios):
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template
+```
+
+### Scripts
+```
+Build Automatizado:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+
+Deobfuscación:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+
+Fix Xcode 16.2:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh
+
+Setup Automático:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
+```
+
+---
+
+## 💡 Ventajas de este Enfoque
+
+### ✅ Sin Descarga de Archivos
+
+1. **El agente LEE directamente** desde GitHub usando URLs raw
+2. **Siempre usa la versión actualizada** del repositorio
+3. **No contamina** el proyecto con archivos temporales
+4. **El agente personaliza** automáticamente según el proyecto
+
+### 🔄 Flujo de Trabajo
+
+```
+Usuario copia prompt → Agente IA recibe instrucciones
+                              ↓
+                Agente lee URL raw de GitHub
+                              ↓
+                Obtiene contenido del archivo
+                              ↓
+                Personaliza según proyecto actual
+                              ↓
+                Crea archivo local personalizado
+                              ↓
+                Valida y ejecuta build
+```
+
+---
+
+## 🎯 Compatibilidad con Agentes IA
+
+| Agente | Lee URLs | Crea Archivos | Ejecuta Comandos | Estado |
+|--------|----------|---------------|------------------|--------|
+| **Claude Code** | ✅ WebFetch | ✅ Write | ✅ Bash | ✅ Compatible |
+| **Gemini** | ✅ Fetch | ✅ Write | ✅ Shell | ✅ Compatible |
+| **GitHub Copilot** | ⚠️ Limitado | ✅ Edit | ❌ No | ⚠️ Parcial |
+| **Cursor AI** | ✅ Fetch | ✅ Write | ✅ Terminal | ✅ Compatible |
+| **Windsurf** | ✅ Fetch | ✅ Write | ✅ Shell | ✅ Compatible |
+
+---
+
+## 🔧 Troubleshooting de Prompts
+
+### El agente no puede leer URLs
+
+**Síntoma**: Error de red o permisos al intentar leer desde GitHub
+
+**Solución 1**: Algunos agentes tienen restricciones. Pide al agente:
+```
+Si no puedes leer directamente las URLs, indica qué archivos necesitas
+y los leeré manualmente para proporcionártelos.
+```
+
+**Solución 2**: Clona el repositorio localmente y usa rutas locales:
+```bash
+git clone https://github.com/carlos-developer/flutter-obfuscation-toolkit.git
+# Luego indica al agente: "Lee desde ../flutter-obfuscation-toolkit/[archivo]"
+```
+
+### El agente no detecta applicationId correctamente
+
+**Solución**: Especifica manualmente en el prompt:
 ```
 Mi applicationId es: com.miempresa.miapp
-Úsalo para reemplazar com.example.app en proguard-rules.pro
+Úsalo para reemplazar "com.example.app" en todas las configuraciones.
 ```
 
-### Si el build falla
+### El agente no detecta todos los plugins
+
+**Solución**: Lista manualmente:
+```
+Uso estos plugins (agrega reglas ProGuard para cada uno):
+- sqflite: ^2.3.0
+- firebase_core: ^2.24.0
+- shared_preferences: ^2.2.2
+- path_provider: ^2.1.0
+```
+
+### Build falla después de implementar
 
 **Solución**: Pide al agente:
 ```
-El build falló con este error: [pegar error]
-Consulta TROUBLESHOOTING_ADVANCED.md y dame la solución
+El build falló con este error:
+[pegar error completo]
+
+Lee el troubleshooting desde:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
+
+Y dame la solución específica para este error.
 ```
 
 ---
 
-## 📚 Recursos Adicionales
+## 📊 Resultados Esperados
 
-- **Repositorio**: https://github.com/carlos-developer/flutter-obfuscation-toolkit
-- **Documentación completa**: Ver MIGRATION_GUIDE.md en el repositorio
-- **Troubleshooting**: Ver TROUBLESHOOTING_ADVANCED.md en el repositorio
+| Plataforma | Antes | Después | Reducción |
+|------------|-------|---------|-----------|
+| **Android arm64** | ~40 MB | ~14 MB | **65%** |
+| **Android armv7** | ~35 MB | ~11 MB | **69%** |
+| **Android x86_64** | ~42 MB | ~15 MB | **64%** |
+| **iOS arm64** | ~25 MB | ~13 MB | **48%** |
+
+### Archivos Generados
+
+**Android**:
+- 3 APKs optimizados (uno por ABI)
+- mapping.txt (~3-5 MB) para deobfuscación
+- 3 archivos .symbols para Flutter
+
+**iOS**:
+- Runner.app optimizado
+- 1 archivo .symbols para Flutter
+- dSYM para análisis de crashes
 
 ---
 
-## 💡 Consejos para Mejores Resultados
+## ✅ Personalización Automática
 
-1. **Inicia la conversación con el prompt completo** en un mensaje único
-2. **Proporciona contexto adicional** si tu proyecto usa frameworks específicos (Riverpod, Bloc, GetX)
-3. **Revisa cada fase** antes de que el agente continúe
-4. **Valida el build final** en un dispositivo físico
-5. **Guarda el mapping.txt** de cada release
+Los agentes DEBEN personalizar automáticamente:
+
+### 1. applicationId en ProGuard
+```proguard
+# ANTES (template genérico):
+-keep class com.example.app.MainActivity { *; }
+
+# DESPUÉS (personalizado):
+-keep class com.miempresa.miapp.MainActivity { *; }
+```
+
+### 2. Reglas de Plugins
+```proguard
+# Detecta en pubspec.yaml:
+dependencies:
+  sqflite: ^2.3.0
+  firebase_core: ^2.24.0
+
+# Agrega automáticamente:
+-keep class com.tekartik.sqflite.** { *; }
+-keep class io.flutter.plugins.firebase.** { *; }
+```
+
+### 3. Modelos JSON (si aplica)
+```proguard
+# Si detecta @JsonSerializable en el código:
+-keepclassmembers class com.miempresa.miapp.models.** {
+    @com.google.gson.annotations.SerializedName <fields>;
+    <init>(...);
+}
+```
 
 ---
 
-**Última actualización**: 2025-10-11
-**Versión**: 1.0.0
-**Compatible con**: Claude Code, Gemini CLI, GitHub Copilot, Cursor AI
+## 🆘 Soporte
+
+Si tienes problemas con los prompts:
+
+1. **Revisa la documentación completa**: MIGRATION_GUIDE.md
+2. **Consulta troubleshooting**: TROUBLESHOOTING_ADVANCED.md
+3. **Verifica con checklist**: CHECKLIST_OBFUSCATION.md
+4. **Issues en GitHub**: https://github.com/carlos-developer/flutter-obfuscation-toolkit/issues
+
+---
+
+**Última actualización**: 2025-10-14
+**Versión**: 2.0.0
+**Cambios**: Reescritura completa - Lectura directa desde GitHub, sin descargas, prompts separados por plataforma
+**Compatible con**: Claude Code, Gemini, Cursor AI, Windsurf
