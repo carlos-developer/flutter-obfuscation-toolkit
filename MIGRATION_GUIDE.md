@@ -6,12 +6,165 @@
 
 ## 📋 Índice
 
-1. [Requisitos Previos](#requisitos-previos)
-2. [Método Automático (Recomendado)](#método-automático-recomendado)
-3. [Método Manual](#método-manual)
-4. [Validación](#validación)
-5. [Troubleshooting](#troubleshooting)
-6. [FAQ](#faq)
+1. [Reglas de Trazabilidad para Agentes IA](#-reglas-de-trazabilidad-para-agentes-ia)
+2. [Requisitos Previos](#requisitos-previos)
+3. [Método Automático (Recomendado)](#método-automático-recomendado)
+4. [Método Manual](#método-manual)
+5. [Validación](#validación)
+6. [Troubleshooting](#troubleshooting)
+7. [FAQ](#faq)
+
+---
+
+## 🤖 REGLAS DE TRAZABILIDAD PARA AGENTES IA
+
+### ⚠️ INSTRUCCIONES OBLIGATORIAS SI ERES UN AGENTE IA
+
+Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guía, **DEBES cumplir estas 6 reglas obligatorias** para garantizar trazabilidad completa y validación de cada paso:
+
+---
+
+### 📋 REGLA 1: Declarar Fuente ANTES de Cada Cambio
+
+**ANTES** de realizar cualquier modificación, declara:
+
+```
+📖 EJECUTANDO DESDE MIGRATION_GUIDE.md
+
+Sección: [nombre de la sección]
+Líneas: [número de líneas]
+Acción: [descripción breve]
+Estado: INICIANDO
+```
+
+**Ejemplo**:
+```
+📖 EJECUTANDO DESDE MIGRATION_GUIDE.md
+
+Sección: "Paso 1.1 - Modificar build.gradle.kts"
+Líneas: 112-137
+Acción: Agregar configuraciones R8 (multiDexEnabled, isMinifyEnabled, isShrinkResources)
+Estado: INICIANDO
+```
+
+---
+
+### ✅ REGLA 2: Checkpoint DESPUÉS de Cada Cambio
+
+**DESPUÉS** de cada modificación, ejecuta validación con comandos bash (grep, test, etc.):
+
+```
+✅ CHECKPOINT - [nombre del paso]
+
+Archivo modificado: [ruta del archivo]
+Validaciones ejecutadas:
+  grep "isMinifyEnabled" android/app/build.gradle.kts → ✅ ENCONTRADO
+  grep "isShrinkResources" android/app/build.gradle.kts → ✅ ENCONTRADO
+  test -f android/app/proguard-rules.pro → ✅ EXISTE
+
+Estado: ✅ VALIDADO
+```
+
+**Si falla**: Reporta el error, revierte cambios y solicita intervención.
+
+---
+
+### 🔍 REGLA 3: Verificar Personalización (NO Templates Genéricos)
+
+**DESPUÉS** de crear archivos desde templates, verifica que NO quedan valores genéricos:
+
+```
+🔍 VERIFICACIÓN DE PERSONALIZACIÓN
+
+Archivo: android/app/proguard-rules.pro
+Validación anti-genéricos:
+  grep "com.example.app" android/app/proguard-rules.pro → ❌ NO ENCONTRADO ✅
+
+applicationId real detectado: com.miapp.real
+Personalización: ✅ COMPLETA
+```
+
+**CRÍTICO**: Si encuentras "com.example.app" u otros valores genéricos, DETENTE y personaliza correctamente.
+
+---
+
+### 📊 REGLA 4: Reporte de Conformidad por Fase
+
+**AL FINALIZAR** cada fase completa (Android, iOS, Scripts, Validación), genera reporte:
+
+```
+📊 REPORTE - FASE 2 COMPLETADA (Configuración Android)
+
+Pasos ejecutados: 3/3 ✅
+├─ 1.1 Modificar build.gradle.kts → ✅ (checkpoint pasó)
+├─ 1.2 Crear proguard-rules.pro → ✅ (personalizado)
+└─ Validación de configuración → ✅
+
+Conformidad: 100%
+Próxima fase: Configuración iOS
+```
+
+---
+
+### 🚨 REGLA 5: Alertar Desviaciones Inmediatamente
+
+**SI** detectas que estás por hacer algo NO documentado en MIGRATION_GUIDE.md:
+
+```
+🚨 ALERTA: ACCIÓN NO DOCUMENTADA
+
+Acción intentada: [descripción]
+Búsqueda en MIGRATION_GUIDE.md: NO ENCONTRADO
+
+🛑 DETENIENDO - Solicitando confirmación del usuario
+```
+
+**NO** realices acciones no documentadas sin confirmación explícita del usuario.
+
+---
+
+### 📝 REGLA 6: Registro de Auditoría Final
+
+**AL COMPLETAR** toda la implementación, genera registro completo:
+
+```
+📝 AUDITORÍA FINAL - IMPLEMENTACIÓN COMPLETADA
+
+═══════════════════════════════════════════
+
+RESUMEN DE FASES:
+✅ Fase 1 - Android: 3/3 pasos (100%)
+✅ Fase 2 - iOS: 3/3 pasos (100%)
+✅ Fase 3 - Scripts: 3/3 pasos (100%)
+✅ Fase 4 - Validación: 5/5 pasos (100%)
+
+CONFORMIDAD TOTAL: 100% ✅
+
+ARCHIVOS MODIFICADOS (con trazabilidad):
+1. android/app/build.gradle.kts → Líneas 112-137 MIGRATION_GUIDE.md
+2. android/app/proguard-rules.pro → Líneas 161-192 MIGRATION_GUIDE.md (personalizado ✅)
+3. ios/Flutter/Release.xcconfig → Líneas 200-222 MIGRATION_GUIDE.md
+[... resto de archivos ...]
+
+VALIDACIÓN REQUERIDA:
+flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
+
+CERTIFICACIÓN: ✅ Implementación conforme a MIGRATION_GUIDE.md
+═══════════════════════════════════════════
+```
+
+---
+
+### 📌 RESUMEN PARA AGENTES IA
+
+**Antes de cada cambio** → Declara fuente (REGLA 1)
+**Después de cada cambio** → Ejecuta checkpoint (REGLA 2)
+**Después de crear templates** → Verifica personalización (REGLA 3)
+**Al finalizar cada fase** → Genera reporte (REGLA 4)
+**Si algo no está documentado** → Alerta y detente (REGLA 5)
+**Al completar todo** → Genera auditoría final (REGLA 6)
+
+**Estas reglas son OBLIGATORIAS para garantizar que sigues correctamente esta guía.**
 
 ---
 

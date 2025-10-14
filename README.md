@@ -15,7 +15,7 @@
 ```
 Abre Claude Code / Gemini / Cursor y pega:
 
-Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
 ```
 
 ### Manual
