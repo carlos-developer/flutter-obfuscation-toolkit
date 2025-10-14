@@ -12,22 +12,22 @@
 
 ### Android + iOS
 ```
-Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
 ```
 
 ### Solo Android
 ```
-Implementa ofuscación R8 para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android)
+Implementa ofuscación y optimización de tamaño para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android)
 ```
 
 ### Solo iOS
 ```
-Implementa symbol stripping para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS)
+Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS)
 ```
 
 ### Verificar Implementación
 ```
-Verifica mi implementación de ofuscación usando el checklist: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+Verifica mi implementación de ofuscación y optimización usando el checklist: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
 ```
 m
 ### Solucionar Errores
@@ -77,8 +77,8 @@ https://github.com/carlos-developer/flutter-obfuscation-toolkit
 CONTEXTO:
 Estoy en la raíz de mi proyecto Flutter. Necesito:
 - Ofuscación de código Dart (--obfuscate)
-- Minificación R8 + ProGuard para Android
-- Symbol stripping para iOS
+- Optimización de tamaño y ofuscación para Android (R8 + ProGuard)
+- Optimización de tamaño y ofuscación para iOS (Symbol Stripping)
 
 INSTRUCCIONES:
 Lee directamente los archivos del repositorio usando las URLs raw de GitHub.
@@ -239,13 +239,13 @@ Procede paso a paso, mostrando el progreso de cada fase.
 **Cuándo usar**: Proyecto sin iOS o build separado de Android
 
 ```
-Implementa ofuscación R8 y minificación solo para Android en mi proyecto Flutter.
+Implementa ofuscación y optimización de tamaño solo para Android en mi proyecto Flutter.
 
 REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
 CONTEXTO:
-Solo necesito configurar Android con R8 + ProGuard.
+Solo necesito configurar Android con optimización y ofuscación (R8 + ProGuard).
 NO modifiques nada relacionado con iOS.
 
 INSTRUCCIONES:
@@ -423,13 +423,13 @@ Procede paso a paso y muestra el progreso.
 **Cuándo usar**: Proyecto sin Android o build separado de iOS
 
 ```
-Implementa symbol stripping y ofuscación solo para iOS en mi proyecto Flutter.
+Implementa ofuscación y optimización de tamaño solo para iOS en mi proyecto Flutter.
 
 REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
 CONTEXTO:
-Solo necesito configurar iOS con symbol stripping.
+Solo necesito configurar iOS con optimización y ofuscación (Symbol Stripping).
 NO modifiques nada relacionado con Android.
 
 INSTRUCCIONES:
@@ -549,7 +549,7 @@ Procede paso a paso y muestra el progreso.
 **Cuándo usar**: Después de implementar, para validar que todo esté correcto
 
 ```
-Verifica que la implementación de ofuscación esté completa y correcta.
+Verifica que la implementación de ofuscación y optimización esté completa y correcta.
 
 REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
