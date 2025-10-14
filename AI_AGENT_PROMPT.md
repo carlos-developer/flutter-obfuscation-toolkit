@@ -13,16 +13,30 @@
 ### Android + iOS
 ```
 Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+
+IMPORTANTE: Debes seguir las 6 REGLAS DE TRAZABILIDAD documentadas en AI_AGENT_PROMPT.md:
+1. Declarar fuente ANTES de cada cambio
+2. Checkpoint DESPUÉS de cada cambio
+3. Verificar personalización (NO templates genéricos)
+4. Reporte de conformidad por fase
+5. Alertar si hay desviación del toolkit
+6. Registro de auditoría final
+
+Lee las reglas completas en: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/AI_AGENT_PROMPT.md#-sistema-de-trazabilidad-y-validación
 ```
 
 ### Solo Android
 ```
 Implementa ofuscación R8 para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android)
+
+IMPORTANTE: Sigue las 6 REGLAS DE TRAZABILIDAD: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/AI_AGENT_PROMPT.md#-sistema-de-trazabilidad-y-validación
 ```
 
 ### Solo iOS
 ```
 Implementa symbol stripping para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS)
+
+IMPORTANTE: Sigue las 6 REGLAS DE TRAZABILIDAD: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/AI_AGENT_PROMPT.md#-sistema-de-trazabilidad-y-validación
 ```
 
 ### Verificar Implementación
@@ -54,13 +68,371 @@ Si necesitas más control, usa estos prompts más específicos:
 1. Copia **UNA línea** de los prompts cortos arriba
 2. Pégala en tu agente IA
 3. El agente lee toda la información del archivo referenciado
-4. Listo! ✅
+4. **El agente DEBE reportar cada checkpoint** (ver reglas abajo)
+5. Listo! ✅
 
 ### Opción 2: Prompts Detallados (📋 Más Control)
 1. Selecciona el prompt detallado según tu necesidad
 2. Copia el prompt completo
 3. Pégalo en tu agente IA
-4. El agente sigue las instrucciones paso a paso
+4. **El agente sigue las instrucciones paso a paso**
+5. **Validación estricta en cada fase** (ver reglas abajo)
+
+---
+
+## 🔒 SISTEMA DE TRAZABILIDAD Y VALIDACIÓN
+
+### ⚠️ REGLAS OBLIGATORIAS PARA AGENTES IA
+
+Si eres un agente IA ejecutando estos prompts, DEBES cumplir estas reglas:
+
+---
+
+### 📋 REGLA 1: Declarar Fuente de Cada Paso
+
+**ANTES de realizar CUALQUIER cambio**, declara explícitamente:
+
+```
+📖 EJECUTANDO PASO DESDE TOOLKIT:
+
+Fuente: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Sección: "Paso 1.1 - Modificar build.gradle.kts"
+Líneas: 110-133
+
+Acción a realizar:
+- Agregar multiDexEnabled = true en defaultConfig
+- Agregar isMinifyEnabled = true en buildTypes.release
+- Agregar isShrinkResources = true en buildTypes.release
+
+Estado: INICIANDO
+```
+
+**❌ Si NO puedes leer la fuente**:
+```
+❌ ADVERTENCIA: NO PUEDO LEER FUENTE
+
+URL intentada: https://raw.githubusercontent.com/.../MIGRATION_GUIDE.md
+Error: [describir error]
+
+🛑 DETENIENDO IMPLEMENTACIÓN
+Razón: Sin acceso al toolkit, no puedo garantizar que sigo las instrucciones correctas.
+
+Solución sugerida:
+1. Verifica tu conexión a GitHub
+2. O proporciona el contenido manualmente
+3. O clona el repositorio localmente
+```
+
+---
+
+### ✅ REGLA 2: Checkpoint Obligatorio Después de Cada Cambio
+
+**DESPUÉS de cada modificación**, ejecuta validación:
+
+```
+✅ CHECKPOINT EJECUTADO - [Nombre del paso]
+
+Cambio realizado:
+- Archivo: android/app/build.gradle.kts
+- Líneas modificadas: 45-52
+
+Validación automática:
+[✅] Archivo existe: android/app/build.gradle.kts
+[✅] Contiene "multiDexEnabled = true": grep encontró coincidencia
+[✅] Contiene "isMinifyEnabled = true": grep encontró coincidencia
+[✅] Contiene "isShrinkResources = true": grep encontró coincidencia
+[✅] Sintaxis Kotlin válida: Sin errores de compilación
+
+Comando de validación ejecutado:
+grep "isMinifyEnabled\|isShrinkResources\|multiDexEnabled" android/app/build.gradle.kts
+
+Resultado:
+  45: multiDexEnabled = true
+  52: isMinifyEnabled = true
+  53: isShrinkResources = true
+
+Estado: ✅ PASO COMPLETADO CORRECTAMENTE
+```
+
+**❌ Si la validación falla**:
+```
+❌ CHECKPOINT FALLIDO - [Nombre del paso]
+
+Cambio intentado:
+- Archivo: android/app/build.gradle.kts
+
+Validación:
+[✅] Archivo existe
+[❌] NO contiene "isMinifyEnabled = true"
+[❌] NO contiene "isShrinkResources = true"
+
+🛑 PROBLEMA DETECTADO
+El archivo fue modificado pero las validaciones no pasan.
+
+Posibles causas:
+1. El archivo tiene sintaxis diferente (Groovy vs Kotlin DSL)
+2. Las configuraciones ya existían con otros valores
+3. El archivo tiene un formato inesperado
+
+Acción tomada: REVERTIR cambios y solicitar intervención manual
+
+¿Deseas que:
+1. Muestre el contenido actual del archivo para revisión?
+2. Intente nuevamente con sintaxis alternativa?
+3. Continúe sin esta configuración (NO RECOMENDADO)?
+```
+
+---
+
+### 🔍 REGLA 3: Verificación de Personalización
+
+**Después de crear archivos con templates**, verifica personalización:
+
+```
+🔍 VERIFICACIÓN DE PERSONALIZACIÓN
+
+Archivo: android/app/proguard-rules.pro
+Template origen: https://raw.githubusercontent.com/.../MIGRATION_GUIDE.md
+
+Personalizaciones requeridas:
+[✅] applicationId detectado: com.tuapp.real
+[✅] applicationId reemplazado en MainActivity:
+     ANTES: -keep class com.example.app.MainActivity
+     DESPUÉS: -keep class com.tuapp.real.MainActivity
+[✅] Plugins detectados: 3 (sqflite, firebase_core, shared_preferences)
+[✅] Reglas ProGuard agregadas para cada plugin
+
+Validación anti-template-genérico:
+grep "com.example.app" android/app/proguard-rules.pro
+Resultado: ❌ NO encontrado (CORRECTO - significa que personalizaste)
+
+Estado: ✅ ARCHIVO PERSONALIZADO CORRECTAMENTE
+```
+
+**❌ Si detecta template genérico**:
+```
+❌ ADVERTENCIA: TEMPLATE NO PERSONALIZADO
+
+Archivo: android/app/proguard-rules.pro
+
+Problema detectado:
+grep "com.example.app" android/app/proguard-rules.pro
+Resultado: ✅ ENCONTRADO en línea 23 (INCORRECTO)
+
+🛑 ARCHIVO CONTIENE VALORES GENÉRICOS
+Esto indica que el template NO fue personalizado con el applicationId real.
+
+Acción requerida:
+1. Detectar applicationId real del proyecto
+2. Reemplazar TODOS los "com.example.app" con el applicationId correcto
+3. Validar nuevamente
+
+Estado: 🔄 RE-PERSONALIZANDO ARCHIVO...
+```
+
+---
+
+### 📊 REGLA 4: Reporte de Conformidad por Fase
+
+**Al finalizar cada FASE completa**, genera reporte:
+
+```
+📊 REPORTE DE CONFORMIDAD - FASE 2 (Configuración Android)
+
+═══════════════════════════════════════════
+
+✅ PASOS COMPLETADOS (según toolkit):
+
+[✅] Paso 2.1: Leer guía desde repositorio
+     Fuente: MIGRATION_GUIDE.md líneas 107-109
+     Verificado: Contenido leído correctamente
+
+[✅] Paso 2.2: Modificar build.gradle.kts
+     Fuente: MIGRATION_GUIDE.md líneas 110-133
+     Verificado: 3 configuraciones agregadas
+     Checkpoint: PASÓ
+
+[✅] Paso 2.3: Crear proguard-rules.pro
+     Fuente: MIGRATION_GUIDE.md líneas 161-188
+     Verificado: Archivo creado (150 líneas)
+     Personalizado: SÍ (applicationId: com.tuapp.real)
+     Checkpoint: PASÓ
+
+═══════════════════════════════════════════
+
+📋 CONFORMIDAD CON TOOLKIT:
+
+Total de pasos en FASE 2 según toolkit: 3
+Pasos completados exitosamente: 3
+Pasos con advertencias: 0
+Pasos fallidos: 0
+
+Porcentaje de conformidad: 100% ✅
+
+═══════════════════════════════════════════
+
+🔗 TRAZABILIDAD:
+
+Todos los cambios están documentados en:
+- Repositorio: https://github.com/carlos-developer/flutter-obfuscation-toolkit
+- Archivo principal: MIGRATION_GUIDE.md
+- Secciones consultadas: Paso 1, Paso 2
+
+Comandos de validación ejecutados:
+1. grep "isMinifyEnabled" android/app/build.gradle.kts ✅
+2. test -f android/app/proguard-rules.pro ✅
+3. grep -v "com.example.app" android/app/proguard-rules.pro ✅
+
+═══════════════════════════════════════════
+
+➡️ PRÓXIMA FASE: FASE 3 (Configuración iOS)
+```
+
+---
+
+### 🚨 REGLA 5: Alertas de Desviación Inmediatas
+
+**Si el agente detecta que está haciendo algo NO documentado en el toolkit**:
+
+```
+🚨 ALERTA DE DESVIACIÓN DEL TOOLKIT
+
+Acción que estaba por realizar:
+- [Descripción de la acción]
+
+Problema:
+❌ Esta acción NO está documentada en:
+   - MIGRATION_GUIDE.md
+   - TROUBLESHOOTING_ADVANCED.md
+   - Ningún documento del toolkit
+
+Busqué en:
+- https://raw.githubusercontent.com/.../MIGRATION_GUIDE.md
+- https://raw.githubusercontent.com/.../docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md
+- Resultado: NO encontrado
+
+🛑 DETENIENDO ACCIÓN NO AUTORIZADA
+
+Opciones:
+1. Omitir esta acción y continuar con pasos documentados
+2. Consultar al usuario si esta acción es necesaria
+3. Buscar en troubleshooting si hay una excepción documentada
+
+Por seguridad, NO realizaré esta acción hasta recibir confirmación.
+```
+
+---
+
+### 📝 REGLA 6: Registro de Auditoría Final
+
+**Al completar la implementación completa**:
+
+```
+📝 REGISTRO DE AUDITORÍA - IMPLEMENTACIÓN COMPLETADA
+
+═══════════════════════════════════════════
+
+🔒 TRAZABILIDAD COMPLETA:
+
+Fecha: [fecha y hora]
+Toolkit versión: 1.0.0
+Repositorio: https://github.com/carlos-developer/flutter-obfuscation-toolkit
+
+═══════════════════════════════════════════
+
+📊 RESUMEN DE FASES:
+
+FASE 1 - Análisis del Proyecto
+├─ Pasos completados: 3/3 ✅
+├─ Conformidad: 100%
+└─ Checkpoints pasados: 3/3
+
+FASE 2 - Configuración Android
+├─ Pasos completados: 3/3 ✅
+├─ Conformidad: 100%
+└─ Checkpoints pasados: 3/3
+
+FASE 3 - Configuración iOS
+├─ Pasos completados: 3/3 ✅
+├─ Conformidad: 100%
+└─ Checkpoints pasados: 3/3
+
+FASE 4 - Scripts de Automatización
+├─ Pasos completados: 3/3 ✅
+├─ Conformidad: 100%
+└─ Checkpoints pasados: 3/3
+
+FASE 5 - Validación
+├─ Pasos completados: 5/5 ✅
+├─ Conformidad: 100%
+└─ Checkpoints pasados: 5/5
+
+═══════════════════════════════════════════
+
+✅ CONFORMIDAD TOTAL: 100%
+
+Total pasos según toolkit: 17
+Pasos ejecutados correctamente: 17
+Desviaciones del toolkit: 0
+Advertencias generadas: 0
+Errores encontrados: 0
+
+═══════════════════════════════════════════
+
+🔗 ARCHIVOS MODIFICADOS (con trazabilidad):
+
+1. android/app/build.gradle.kts
+   Fuente: MIGRATION_GUIDE.md líneas 110-133
+   Checksum antes: [hash]
+   Checksum después: [hash]
+   Validado: ✅
+
+2. android/app/proguard-rules.pro
+   Fuente: MIGRATION_GUIDE.md líneas 161-188
+   Personalizado: SÍ (com.tuapp.real)
+   Validado: ✅
+
+3. ios/Flutter/Release.xcconfig
+   Fuente: templates/Release.xcconfig.template
+   Validado: ✅
+
+4. scripts/build_release_obfuscated.sh
+   Fuente: scripts/build_release_obfuscated.sh del repositorio
+   Ejecutable: ✅
+   Validado: ✅
+
+[... resto de archivos ...]
+
+═══════════════════════════════════════════
+
+🧪 VALIDACIÓN FINAL REQUERIDA:
+
+Para confirmar que TODO funciona correctamente, ejecuta:
+
+flutter build apk --release --obfuscate \\
+  --split-debug-info=build/symbols/android \\
+  --split-per-abi
+
+Archivos esperados:
+✓ build/app/outputs/apk/release/*.apk (3 archivos, ~11-15 MB cada uno)
+✓ build/app/outputs/mapping/release/mapping.txt (~3-5 MB)
+✓ build/symbols/android/*.symbols (3 archivos)
+
+═══════════════════════════════════════════
+
+📋 CERTIFICACIÓN:
+
+Certifico que:
+✅ Todos los pasos siguieron el toolkit oficial
+✅ Todas las personalizaciones fueron aplicadas
+✅ Todos los checkpoints pasaron
+✅ No hubo desviaciones del proceso documentado
+✅ Todos los archivos fueron validados
+
+Implementación conforme al toolkit: ✅ CERTIFICADA
+
+═══════════════════════════════════════════
+```
 
 ---
 
@@ -83,6 +455,15 @@ Estoy en la raíz de mi proyecto Flutter. Necesito:
 INSTRUCCIONES:
 Lee directamente los archivos del repositorio usando las URLs raw de GitHub.
 NO descargues archivos con curl/wget, lee el contenido y aplícalo.
+
+⚠️ VALIDACIÓN OBLIGATORIA:
+Debes seguir las 6 REGLAS DE TRAZABILIDAD documentadas arriba:
+1. Declarar fuente ANTES de cada cambio
+2. Checkpoint DESPUÉS de cada cambio
+3. Verificar personalización (NO templates genéricos)
+4. Reporte de conformidad por fase
+5. Alertar si hay desviación del toolkit
+6. Registro de auditoría final
 
 ═══════════════════════════════════════════════════════════
 
@@ -224,7 +605,37 @@ DOCUMENTACIÓN ADICIONAL:
 Si encuentras errores, consulta:
 https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
 
-Procede paso a paso, mostrando el progreso de cada fase.
+═══════════════════════════════════════════════════════════
+
+⚠️ RECORDATORIO CRÍTICO PARA AGENTE IA:
+
+DEBES cumplir las 6 REGLAS DE TRAZABILIDAD en cada paso:
+
+✅ ANTES de cada cambio:
+   → Declarar fuente (URL + sección + líneas)
+
+✅ DESPUÉS de cada cambio:
+   → Ejecutar checkpoint con grep/test
+   → Mostrar resultado de validación
+
+✅ Al crear archivos desde templates:
+   → Verificar personalización (buscar "com.example.app")
+   → Confirmar que NO quedaron valores genéricos
+
+✅ Al finalizar cada fase:
+   → Generar reporte de conformidad
+   → Mostrar porcentaje de pasos completados
+
+✅ Si algo no está en el toolkit:
+   → ALERTAR inmediatamente
+   → DETENER la acción
+   → SOLICITAR confirmación del usuario
+
+✅ Al finalizar TODO:
+   → Generar registro de auditoría completo
+   → Certificar conformidad 100%
+
+Procede paso a paso, mostrando el progreso Y LA VALIDACIÓN de cada fase.
 ```
 
 ---
@@ -851,6 +1262,9 @@ Si tienes problemas con los prompts:
 ---
 
 **Última actualización**: 2025-10-14
-**Versión**: 2.0.0
-**Cambios**: Reescritura completa - Lectura directa desde GitHub, sin descargas, prompts separados por plataforma
+**Versión**: 2.1.0
+**Cambios**:
+- v2.1.0: Sistema de trazabilidad y validación con 6 reglas obligatorias
+- v2.0.0: Reescritura completa - Lectura directa desde GitHub, sin descargas, prompts separados por plataforma
 **Compatible con**: Claude Code, Gemini, Cursor AI, Windsurf
+**Trazabilidad**: 100% verificable - Agentes deben reportar fuente, checkpoints y conformidad en cada paso
