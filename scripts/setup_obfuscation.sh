@@ -367,56 +367,66 @@ if [ "$SETUP_IOS" = true ]; then
         exit 1
     fi
 
-    # Buscar archivo project.pbxproj
-    PBXPROJ=$(find ios -name "project.pbxproj" -type f | head -1)
+    # Verificar si existe Release.xcconfig
+    RELEASE_XCCONFIG="ios/Flutter/Release.xcconfig"
 
-    if [ -z "$PBXPROJ" ]; then
-        log_error "project.pbxproj no encontrado"
+    if [ ! -f "$RELEASE_XCCONFIG" ]; then
+        log_error "Release.xcconfig no encontrado en: $RELEASE_XCCONFIG"
         exit 1
     fi
 
-    log_info "Encontrado: $PBXPROJ"
+    log_info "Encontrado: $RELEASE_XCCONFIG"
 
     # Backup
-    cp "$PBXPROJ" "${PBXPROJ}.backup"
-    log_success "Backup creado: ${PBXPROJ}.backup"
+    cp "$RELEASE_XCCONFIG" "${RELEASE_XCCONFIG}.backup"
+    log_success "Backup creado: ${RELEASE_XCCONFIG}.backup"
 
     # Verificar si ya está configurado
-    if grep -q "STRIP_INSTALLED_PRODUCT = YES" "$PBXPROJ"; then
-        log_warning "Symbol stripping parece estar ya configurado"
-        read -p "¿Continuar de todos modos? (y/n) " -n 1 -r
+    if grep -q "STRIP_INSTALLED_PRODUCT = YES" "$RELEASE_XCCONFIG"; then
+        log_warning "Symbol stripping parece estar ya configurado en Release.xcconfig"
+        read -p "¿Deseas sobrescribir la configuración? (y/n) " -n 1 -r
         echo
         if [[ ! $REPLY =~ ^[Yy]$ ]]; then
-            log_info "Saltando configuración de iOS"
+            log_info "Manteniendo Release.xcconfig existente"
             SETUP_IOS=false
         fi
     fi
 
     if [ "$SETUP_IOS" = true ]; then
-        log_warning "Configuración manual requerida para iOS:"
-        echo ""
-        echo "Abre tu proyecto en Xcode y configura:"
-        echo ""
-        echo "1. En Build Settings → Release:"
-        echo "   • Dead Code Stripping = YES"
-        echo "   • Strip Debug Symbols During Copy = YES"
-        echo "   • Strip Style = Non-Global Symbols"
-        echo "   • Strip Swift Symbols = YES"
-        echo "   • Symbols Hidden by Default = YES"
-        echo "   • Deployment Postprocessing = YES"
-        echo ""
-        echo "2. Repite para la configuración 'Profile'"
-        echo ""
-        log_info "O edita manualmente: $PBXPROJ"
-        log_info "Busca las secciones 'Release' y 'Profile' y agrega:"
-        echo ""
-        echo "DEAD_CODE_STRIPPING = YES;"
-        echo "DEPLOYMENT_POSTPROCESSING = YES;"
-        echo "STRIP_INSTALLED_PRODUCT = YES;"
-        echo "STRIP_STYLE = \"non-global\";"
-        echo "STRIP_SWIFT_SYMBOLS = YES;"
-        echo "SYMBOLS_HIDDEN_BY_DEFAULT = YES;"
-        echo ""
+        # Determinar ruta del script actual
+        SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+        TEMPLATE_DIR="$(dirname "$SCRIPT_DIR")/templates"
+        XCCONFIG_TEMPLATE="$TEMPLATE_DIR/Release.xcconfig.template"
+
+        # Verificar si existe el template
+        if [ -f "$XCCONFIG_TEMPLATE" ]; then
+            log_info "Copiando Release.xcconfig.template..."
+            cp "$XCCONFIG_TEMPLATE" "$RELEASE_XCCONFIG"
+            log_success "Release.xcconfig actualizado con configuraciones de symbol stripping"
+            log_warning "IMPORTANTE: Los archivos .xcconfig NO soportan comentarios con #"
+            log_warning "Si agregas comentarios, el build fallará"
+        else
+            log_warning "Template Release.xcconfig.template no encontrado"
+            log_info "Debes configurar manualmente Release.xcconfig con:"
+            echo ""
+            echo "#include \"Generated.xcconfig\""
+            echo ""
+            echo "DEPLOYMENT_POSTPROCESSING = YES"
+            echo "STRIP_INSTALLED_PRODUCT = YES"
+            echo "STRIP_STYLE = all"
+            echo "COPY_PHASE_STRIP = YES"
+            echo "SEPARATE_STRIP = YES"
+            echo ""
+            echo "SWIFT_OPTIMIZATION_LEVEL = -O"
+            echo "GCC_OPTIMIZATION_LEVEL = fast"
+            echo "SWIFT_COMPILATION_MODE = wholemodule"
+            echo ""
+            echo "DEAD_CODE_STRIPPING = YES"
+            echo ""
+            echo "DEBUG_INFORMATION_FORMAT = dwarf-with-dsym"
+            echo "ONLY_ACTIVE_ARCH = NO"
+            echo ""
+        fi
     fi
 fi
 
@@ -499,16 +509,17 @@ fi
 
 if [ "$SETUP_IOS" = true ]; then
     echo "🍎 iOS:"
-    echo "  1. Abre el proyecto en Xcode"
-    echo "  2. Configura los Build Settings según las instrucciones arriba"
-    echo "  3. Aplica a configuraciones Release y Profile"
+    echo "  1. Release.xcconfig ya está configurado"
+    echo "  2. Si usas Xcode 16.2, ejecuta: ./scripts/fix_xcode_modulecache.sh"
+    echo "  3. NO agregues comentarios con # en Release.xcconfig"
     echo ""
 fi
 
 echo "🔧 TESTING:"
 echo "  1. Ejecuta: ./scripts/build_release_obfuscated.sh"
-echo "  2. Verifica los tamaños de los binarios"
-echo "  3. Prueba la app en dispositivos físicos"
+echo "  2. Si encuentras errores de Xcode 16.2: ./scripts/fix_xcode_modulecache.sh"
+echo "  3. Verifica los tamaños de los binarios"
+echo "  4. Prueba la app en dispositivos físicos"
 echo ""
 
 echo "💾 IMPORTANTE:"

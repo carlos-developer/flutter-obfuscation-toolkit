@@ -193,7 +193,33 @@ Copia el contenido desde `android/app/proguard-rules.pro` de este proyecto o usa
 
 ### Paso 2: Configuración iOS (Symbol Stripping)
 
-#### 2.1 Opción A: Usando Xcode (Más fácil)
+#### 2.1 Opción A: Usando Release.xcconfig (Recomendado)
+
+1. Abre `ios/Flutter/Release.xcconfig`
+2. Copia el template desde `templates/Release.xcconfig.template` o agrega:
+
+```xcconfig
+#include "Generated.xcconfig"
+
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+STRIP_STYLE = all
+COPY_PHASE_STRIP = YES
+SEPARATE_STRIP = YES
+
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = fast
+SWIFT_COMPILATION_MODE = wholemodule
+
+DEAD_CODE_STRIPPING = YES
+
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+ONLY_ACTIVE_ARCH = NO
+```
+
+**⚠️ IMPORTANTE**: Los archivos `.xcconfig` **NO soportan comentarios** con `#` (excepto `#include`). Si agregas comentarios, el build fallará con error "unsupported preprocessor directive".
+
+#### 2.2 Opción B: Usando Xcode
 
 1. Abre `ios/Runner.xcworkspace` en Xcode
 2. Selecciona el target "Runner"
@@ -204,12 +230,12 @@ Copia el contenido desde `android/app/proguard-rules.pro` de este proyecto o usa
    |---------|-------|
    | Dead Code Stripping | **YES** |
    | Strip Debug Symbols During Copy | **YES** |
-   | Strip Style | **Non-Global Symbols** |
+   | Strip Style | **All Symbols** |
    | Strip Swift Symbols | **YES** |
    | Symbols Hidden by Default | **YES** |
    | Deployment Postprocessing | **YES** |
 
-#### 2.2 Opción B: Editar project.pbxproj manualmente
+#### 2.3 Opción C: Editar project.pbxproj manualmente
 
 1. Abre `ios/Runner.xcodeproj/project.pbxproj`
 2. Busca las secciones que contienen `/* Release */` y `/* Profile */`
@@ -219,7 +245,7 @@ Copia el contenido desde `android/app/proguard-rules.pro` de este proyecto o usa
 DEAD_CODE_STRIPPING = YES;
 DEPLOYMENT_POSTPROCESSING = YES;
 STRIP_INSTALLED_PRODUCT = YES;
-STRIP_STYLE = "non-global";
+STRIP_STYLE = "all";
 STRIP_SWIFT_SYMBOLS = YES;
 SYMBOLS_HIDDEN_BY_DEFAULT = YES;
 ```
@@ -345,16 +371,40 @@ rm -rf /tmp/apk_check
 - Usa `flutter build apk --split-per-abi`
 - Revisa y comprime assets
 
-### Problema 4: Xcode build falla (iOS)
+### Problema 4: Xcode 16.2 ModuleCache Error (iOS)
 
-**Error**: ModuleCache compilation error
+**Error**: ModuleCache compilation error, Session.modulevalidation
 
-**Causa**: Xcode 16.2 tiene un bug conocido
+**Causa**: Xcode 16.2 tiene un bug conocido de ModuleCache corrupto
+
+**Solución oficial validada**:
+```bash
+# Ejecuta el script de fix incluido
+./scripts/fix_xcode_modulecache.sh
+```
+
+O manualmente:
+1. `flutter clean`
+2. `rm -rf ~/Library/Developer/Xcode/DerivedData`
+3. `rm -rf ~/Library/Developer/Xcode/ModuleCache.noindex`
+4. `flutter pub get`
+5. `cd ios && rm -rf Pods && rm Podfile.lock && pod install && cd ..`
+6. En Xcode: File → Workspace Settings → Derived Data → "Workspace-relative Location"
+
+**Referencias**: [Flutter Issue #157461](https://github.com/flutter/flutter/issues/157461)
+
+### Problema 5: "unsupported preprocessor directive" en Release.xcconfig
+
+**Error**: `Error (Xcode): unsupported preprocessor directive '============'`
+
+**Causa**: Los archivos `.xcconfig` NO soportan comentarios con `#` (excepto `#include`)
 
 **Solución**:
-1. Downgrade a Xcode 15.4
-2. O ejecuta en CI/CD con Xcode 15.x
-3. O espera Xcode 16.3
+1. Abre `ios/Flutter/Release.xcconfig`
+2. Elimina TODOS los comentarios que empiecen con `#`
+3. Solo deja configuraciones key=value y el `#include "Generated.xcconfig"`
+
+Ver ejemplo correcto en `templates/Release.xcconfig.template`
 
 ---
 

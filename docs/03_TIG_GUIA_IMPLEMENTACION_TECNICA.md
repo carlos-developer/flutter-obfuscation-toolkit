@@ -703,31 +703,34 @@ DEAD_CODE_STRIPPING = YES
 DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 ```
 
-**Alternativa (via xcconfig)**:
+**Alternativa (via xcconfig - RECOMENDADO)**:
 
 Editar `ios/Flutter/Release.xcconfig`:
 ```xcconfig
 #include "Generated.xcconfig"
 
-# Symbol Stripping
 DEPLOYMENT_POSTPROCESSING = YES
 STRIP_INSTALLED_PRODUCT = YES
 STRIP_STYLE = all
 COPY_PHASE_STRIP = YES
 SEPARATE_STRIP = YES
 
-# Optimization
 SWIFT_OPTIMIZATION_LEVEL = -O
 GCC_OPTIMIZATION_LEVEL = fast
 SWIFT_COMPILATION_MODE = wholemodule
 
-# Dead Code Elimination
 DEAD_CODE_STRIPPING = YES
 
-# Debug Symbols
 DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 ONLY_ACTIVE_ARCH = NO
 ```
+
+**⚠️ IMPORTANTE**: Los archivos `.xcconfig` **NO soportan comentarios** con `#` (excepto para `#include`). Si agregas comentarios decorativos como `# Symbol Stripping`, el build fallará con error:
+```
+Error (Xcode): unsupported preprocessor directive
+```
+
+**Solución**: Solo usar configuraciones en formato `KEY = VALUE` sin comentarios.
 
 **✅ Checkpoint 3.2**: Build settings configurados
 
@@ -1218,5 +1221,92 @@ NoSuchMethodError: The method 'fromJson' was called on null
 
 ---
 
+### 7.4. Error: Xcode 16.2 ModuleCache Corrupto
+
+**Síntoma**:
+```
+Error: ModuleCache.noindex/Session.modulevalidation
+Compilation errors with Xcode 16.2
+```
+
+**Causa**: Bug conocido en Xcode 16.2 con ModuleCache corrupto
+
+**Solución**:
+```bash
+# Ejecutar el script de fix incluido en el toolkit
+./scripts/fix_xcode_modulecache.sh
+```
+
+O manualmente:
+```bash
+# 1. Limpiar proyecto Flutter
+flutter clean
+
+# 2. Eliminar DerivedData
+rm -rf ~/Library/Developer/Xcode/DerivedData
+
+# 3. Eliminar ModuleCache
+rm -rf ~/Library/Developer/Xcode/ModuleCache.noindex
+
+# 4. Reinstalar dependencias
+flutter pub get
+
+# 5. Limpiar y reinstalar Pods
+cd ios
+rm -rf Pods Podfile.lock
+pod install
+cd ..
+
+# 6. Cambiar Xcode Workspace Settings:
+# File → Workspace Settings → Derived Data → "Workspace-relative Location"
+```
+
+**Referencias**: [Flutter Issue #157461](https://github.com/flutter/flutter/issues/157461)
+
+---
+
+### 7.5. Error: "unsupported preprocessor directive" en Release.xcconfig
+
+**Síntoma**:
+```
+Error (Xcode): unsupported preprocessor directive '============'
+Error (Xcode): unsupported preprocessor directive 'SYMBOL'
+```
+
+**Causa**: Los archivos `.xcconfig` NO soportan comentarios con `#` (excepto `#include`)
+
+**Solución**:
+```bash
+# 1. Abrir Release.xcconfig
+nano ios/Flutter/Release.xcconfig
+
+# 2. Eliminar TODOS los comentarios que empiecen con #
+# 3. Solo dejar #include "Generated.xcconfig" y configuraciones KEY=VALUE
+```
+
+**Ejemplo correcto**:
+```xcconfig
+#include "Generated.xcconfig"
+
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+STRIP_STYLE = all
+```
+
+**Ejemplo INCORRECTO** (fallará):
+```xcconfig
+#include "Generated.xcconfig"
+
+# ============================================
+# SYMBOL STRIPPING
+# ============================================
+DEPLOYMENT_POSTPROCESSING = YES
+```
+
+Ver template correcto en `templates/Release.xcconfig.template`
+
+---
+
 **Documento creado**: 2025-10-11
+**Última actualización**: 2025-10-14 (validación Xcode 16.2)
 **Próxima actualización**: Según feedback de implementación

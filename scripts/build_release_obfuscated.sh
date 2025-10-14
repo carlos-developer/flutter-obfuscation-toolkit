@@ -122,16 +122,46 @@ log_info "=========================================="
 log_info "  Iniciando Build iOS"
 log_info "=========================================="
 
-log_warning "Build iOS omitido (Xcode 16.2 issue - ver METRICAS_IMPLEMENTACION.md)"
-log_info "Configuraciones de symbol stripping ya aplicadas en project.pbxproj"
+# Verificar si existe directorio ios/
+if [ ! -d "ios" ]; then
+    log_warning "Directorio ios/ no encontrado - Saltando build iOS"
+else
+    log_info "Generando build iOS con ofuscación..."
+    log_warning "Si encuentras errores de Xcode 16.2, ejecuta: ./scripts/fix_xcode_modulecache.sh"
 
-# Comentado hasta resolver issue de Xcode 16.2
-# flutter build ios \
-#     --release \
-#     --obfuscate \
-#     --split-debug-info="$IOS_SYMBOLS_DIR" \
-#     --no-codesign \
-#     --build-number="$BUILD_NUMBER"
+    flutter build ios \
+        --release \
+        --obfuscate \
+        --split-debug-info="$IOS_SYMBOLS_DIR" \
+        --no-codesign \
+        --build-number="$BUILD_NUMBER"
+
+    if [ $? -eq 0 ]; then
+        log_success "Build iOS completado exitosamente"
+
+        # Verificar símbolos Flutter
+        echo ""
+        log_info "Verificando símbolos Flutter iOS..."
+        symbol_count=$(find "$IOS_SYMBOLS_DIR" -name "*.symbols" | wc -l)
+        if [ $symbol_count -gt 0 ]; then
+            log_success "Símbolos Flutter iOS encontrados: $symbol_count archivos"
+            find "$IOS_SYMBOLS_DIR" -name "*.symbols" -exec du -h {} \;
+        else
+            log_warning "Símbolos Flutter iOS NO encontrados"
+        fi
+
+        # Verificar Runner.app
+        if [ -d "build/ios/iphoneos/Runner.app" ]; then
+            runner_size=$(du -sh "build/ios/iphoneos/Runner.app" | cut -f1)
+            log_success "Runner.app generado ($runner_size)"
+        fi
+    else
+        log_error "Build iOS FALLÓ"
+        log_info "Si es un error de Xcode 16.2 ModuleCache, ejecuta:"
+        log_info "  ./scripts/fix_xcode_modulecache.sh"
+        exit 1
+    fi
+fi
 
 # Resumen final
 echo ""
@@ -144,9 +174,11 @@ log_info "Build Number: $BUILD_NUMBER"
 log_info "Timestamp: $TIMESTAMP"
 echo ""
 log_info "Artefactos generados:"
-echo "  📱 APKs: build/app/outputs/apk/release/"
+echo "  📱 APKs Android: build/app/outputs/apk/release/"
+echo "  🍎 Runner.app iOS: build/ios/iphoneos/Runner.app"
 echo "  🗺️  R8 Mapping: build/app/outputs/mapping/release/mapping.txt"
-echo "  🔣 Flutter Symbols: $ANDROID_SYMBOLS_DIR"
+echo "  🔣 Flutter Symbols Android: $ANDROID_SYMBOLS_DIR"
+echo "  🔣 Flutter Symbols iOS: $IOS_SYMBOLS_DIR"
 echo ""
 log_warning "IMPORTANTE: Respalda los archivos de mapping y símbolos"
 log_warning "Son necesarios para des-ofuscar stack traces de producción"
@@ -158,7 +190,9 @@ echo
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     RELEASE_DIR="releases/v${VERSION_NAME}_${TIMESTAMP}"
     mkdir -p "$RELEASE_DIR/apks"
+    mkdir -p "$RELEASE_DIR/ios"
     mkdir -p "$RELEASE_DIR/symbols/android"
+    mkdir -p "$RELEASE_DIR/symbols/ios"
     mkdir -p "$RELEASE_DIR/mapping"
 
     log_info "Copiando artefactos a $RELEASE_DIR..."
@@ -166,12 +200,18 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     # Copiar APKs
     cp build/app/outputs/apk/release/*.apk "$RELEASE_DIR/apks/" 2>/dev/null || true
 
+    # Copiar Runner.app iOS
+    if [ -d "build/ios/iphoneos/Runner.app" ]; then
+        cp -r build/ios/iphoneos/Runner.app "$RELEASE_DIR/ios/" 2>/dev/null || true
+    fi
+
     # Copiar mapping
     cp build/app/outputs/mapping/release/mapping.txt "$RELEASE_DIR/mapping/" 2>/dev/null || true
     cp build/app/outputs/mapping/release/*.txt "$RELEASE_DIR/mapping/" 2>/dev/null || true
 
     # Copiar símbolos
     cp -r "$ANDROID_SYMBOLS_DIR"/* "$RELEASE_DIR/symbols/android/" 2>/dev/null || true
+    cp -r "$IOS_SYMBOLS_DIR"/* "$RELEASE_DIR/symbols/ios/" 2>/dev/null || true
 
     log_success "Artefactos archivados en $RELEASE_DIR"
 fi

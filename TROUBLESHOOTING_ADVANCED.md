@@ -476,6 +476,56 @@ flutter run --release --profile
 
 ---
 
+### Error: "unsupported preprocessor directive" en Release.xcconfig
+
+**Síntoma**: Build de iOS falla con errores como:
+```
+Error (Xcode): unsupported preprocessor directive '============================================'
+Error (Xcode): unsupported preprocessor directive 'SYMBOL'
+Error (Xcode): unsupported preprocessor directive 'OPTIMIZATION'
+```
+
+**Causa**: Los archivos `.xcconfig` **NO soportan comentarios** con `#` (excepto para includes).
+
+**Solución**: Remover TODOS los comentarios del archivo `Release.xcconfig`.
+
+**❌ INCORRECTO** (con comentarios):
+```xcconfig
+#include "Generated.xcconfig"
+
+# ============================================
+# SYMBOL STRIPPING
+# ============================================
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+```
+
+**✅ CORRECTO** (sin comentarios):
+```xcconfig
+#include "Generated.xcconfig"
+
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+STRIP_STYLE = all
+COPY_PHASE_STRIP = YES
+SEPARATE_STRIP = YES
+
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = fast
+SWIFT_COMPILATION_MODE = wholemodule
+
+DEAD_CODE_STRIPPING = YES
+
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+ONLY_ACTIVE_ARCH = NO
+```
+
+**Referencia**: Usa el template correcto en `templates/Release.xcconfig.template`
+
+**Estado**: ✅ Problema documentado y resuelto
+
+---
+
 ### Error: "No such module 'Flutter'"
 
 **Síntoma**: Build de iOS falla diciendo que no encuentra el módulo Flutter.
