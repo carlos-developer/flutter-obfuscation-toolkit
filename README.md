@@ -11,9 +11,18 @@
 
 ## ⚡ Instalación Rápida (2 minutos)
 
+### Con Agente IA (Recomendado)
+```
+Abre Claude Code / Gemini / Cursor y pega:
+
+Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+```
+
+### Manual
 ```bash
-# En tu proyecto Flutter, ejecuta:
-curl -sSL https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
+# Ver guía completa en MIGRATION_GUIDE.md
+# El agente lee templates del repositorio y crea archivos en TU proyecto
+# NO se copian archivos del toolkit
 ```
 
 **Resultado**: APK reducido ~65%, símbolos 100% ofuscados, seguridad 8/10
@@ -50,22 +59,27 @@ Documentación detallada del proceso de desarrollo guiado por especificaciones e
 
 ## 🚀 Uso
 
-### Opción 1: Script Automático
-```bash
-curl -sSL https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/download_obfuscation_package.sh | bash
+### Opción 1: Con Agente IA (⚡ Más Rápido)
 ```
+Copia el prompt de AI_AGENT_PROMPT.md y pégalo en:
+- Claude Code
+- Gemini
+- Cursor AI
+- Windsurf
 
-### Opción 2: Con Agente CLI (Claude Code, Gemini)
+El agente lee este repositorio y configura TU proyecto automáticamente.
+```
 Ver [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)
 
-### Opción 3: Manual
+### Opción 2: Manual
 ```bash
-git clone https://github.com/carlos-developer/flutter-obfuscation-toolkit.git
-cd tu-proyecto-flutter
-cp -r ../flutter-obfuscation-toolkit/scripts ./
-cp -r ../flutter-obfuscation-toolkit/templates ./
-./scripts/setup_obfuscation.sh
+# Sigue la guía paso a paso
+# Lee templates desde el repositorio
+# Crea archivos personalizados en tu proyecto
 ```
+Ver [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
+
+**Filosofía**: Este toolkit es una **guía de referencia**. No copies archivos del toolkit a tu proyecto. Los agentes IA o tú deben **leer** desde aquí y **crear** archivos personalizados en tu proyecto.
 
 ---
 

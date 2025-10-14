@@ -36,29 +36,55 @@
 
 ## 🚀 Método Automático (Recomendado)
 
-### Opción A: Usando el Script de Setup
+### Opción A: Usando Agentes IA (Claude Code, Gemini, Cursor)
 
-1. **Copia los archivos necesarios** al proyecto destino:
+**El método más rápido y recomendado**
 
+1. **Abre tu proyecto Flutter en tu IDE**
+
+2. **Copia el prompt desde** [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md):
+   ```
+   Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+   ```
+
+3. **Pégalo en tu agente IA** (Claude Code, Gemini, Cursor, etc.)
+
+4. **El agente automáticamente**:
+   - Lee las configuraciones desde este repositorio
+   - Detecta tu applicationId y plugins
+   - Crea archivos personalizados en tu proyecto
+   - Configura Android (R8 + ProGuard)
+   - Configura iOS (Symbol Stripping)
+   - Valida la implementación
+
+5. **Valida el resultado**:
    ```bash
-   # Desde este proyecto (template)
-   cp -r scripts/ /path/to/tu-proyecto/
+   flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
+   ```
 
+**Tiempo estimado**: 5-10 minutos
+**Ventaja**: No necesitas descargar ni copiar nada, todo se crea directamente en tu proyecto
+
+---
+
+### Opción B: Script de Setup Manual
+
+Si no usas agentes IA:
+
+1. **Descarga solo el script de setup**:
+   ```bash
+   curl -o /tmp/setup_obfuscation.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/setup_obfuscation.sh
+   chmod +x /tmp/setup_obfuscation.sh
+   ```
+
+2. **Ejecuta el script** (lee templates del repositorio y crea archivos locales):
+   ```bash
    cd /path/to/tu-proyecto
+   /tmp/setup_obfuscation.sh
+   rm /tmp/setup_obfuscation.sh
    ```
 
-2. **Ejecuta el script de setup**:
-
-   ```bash
-   ./scripts/setup_obfuscation.sh
-   ```
-
-3. **Sigue las instrucciones interactivas**:
-   - Selecciona plataformas (Android/iOS/Ambas)
-   - El script configurará automáticamente tu proyecto
-   - Revisa los archivos generados
-
-4. **Personaliza la configuración**:
+3. **Personaliza la configuración generada**:
    ```bash
    # Edita proguard-rules.pro
    nano android/app/proguard-rules.pro
@@ -67,35 +93,13 @@
    # Agrega reglas para tus modelos específicos
    ```
 
-5. **Valida la configuración**:
+4. **Valida la configuración**:
    ```bash
-   ./scripts/build_release_obfuscated.sh
+   flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
    ```
 
-**Tiempo estimado**: 5 minutos
-
----
-
-### Opción B: Clonar como Template
-
-Si quieres usar este proyecto como base para nuevos proyectos:
-
-1. **Crea un nuevo repositorio desde el template**:
-   ```bash
-   # En GitHub: "Use this template"
-   # O clona y elimina el historial git:
-   git clone <este-repo> mi-nuevo-proyecto
-   cd mi-nuevo-proyecto
-   rm -rf .git
-   git init
-   ```
-
-2. **Adapta a tu proyecto**:
-   - Renombra paquetes en `android/` e `ios/`
-   - Actualiza `pubspec.yaml`
-   - Modifica `proguard-rules.pro` con tu applicationId
-
-**Tiempo estimado**: 15 minutos
+**Tiempo estimado**: 10 minutos
+**Nota**: El script NO copia archivos del toolkit, solo crea archivos personalizados en tu proyecto
 
 ---
 
@@ -156,7 +160,7 @@ android {
 
 #### 1.2 Crear `android/app/proguard-rules.pro`
 
-Copia el contenido desde `android/app/proguard-rules.pro` de este proyecto o usa el template mínimo:
+Crea el archivo `android/app/proguard-rules.pro` con el siguiente contenido mínimo (o consulta el template completo en: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/android/app/proguard-rules.pro):
 
 ```proguard
 # Flutter Core
@@ -196,7 +200,7 @@ Copia el contenido desde `android/app/proguard-rules.pro` de este proyecto o usa
 #### 2.1 Opción A: Usando Release.xcconfig (Recomendado)
 
 1. Abre `ios/Flutter/Release.xcconfig`
-2. Copia el template desde `templates/Release.xcconfig.template` o agrega:
+2. Lee el template desde el repositorio (https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template) o agrega directamente:
 
 ```xcconfig
 #include "Generated.xcconfig"
@@ -252,16 +256,28 @@ SYMBOLS_HIDDEN_BY_DEFAULT = YES;
 
 ---
 
-### Paso 3: Copiar Scripts de Automatización
+### Paso 3: Crear Scripts de Automatización
+
+Crea los scripts en tu proyecto leyendo el contenido desde el repositorio:
 
 ```bash
-# Copiar scripts desde este proyecto
-cp scripts/build_release_obfuscated.sh tu-proyecto/scripts/
-cp scripts/deobfuscate.sh tu-proyecto/scripts/
+# Crear directorio scripts
+mkdir -p scripts
 
-# Hacerlos ejecutables
-chmod +x tu-proyecto/scripts/*.sh
+# Descargar y crear build_release_obfuscated.sh
+curl -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+chmod +x scripts/build_release_obfuscated.sh
+
+# Descargar y crear deobfuscate.sh
+curl -o scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
+chmod +x scripts/deobfuscate.sh
+
+# Descargar y crear fix_xcode_modulecache.sh
+curl -o scripts/fix_xcode_modulecache.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh
+chmod +x scripts/fix_xcode_modulecache.sh
 ```
+
+**Nota**: Estos scripts son independientes y no contaminan tu proyecto con archivos del toolkit. Solo agregan funcionalidad de build y troubleshooting.
 
 ---
 
@@ -508,5 +524,6 @@ Después de migrar:
 
 ---
 
-**Última actualización**: 2025-10-11
+**Última actualización**: 2025-10-14
 **Versión**: 1.0.0
+**Filosofía**: Agentes IA leen desde repositorio y crean archivos en TU proyecto - NO copiar

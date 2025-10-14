@@ -6,13 +6,20 @@
 
 ## 🎯 Propósito del Toolkit
 
-Este toolkit proporciona **todo lo necesario** para implementar ofuscación y minificación en proyectos Flutter de manera profesional, siguiendo metodología de **Desarrollo Guiado por Especificaciones (SDD)**.
+Este toolkit es una **guía de referencia centralizada** para implementar ofuscación y minificación en proyectos Flutter de manera profesional, siguiendo metodología de **Desarrollo Guiado por Especificaciones (SDD)**.
+
+**Filosofía clave**:
+- 📚 Este repositorio es la **fuente de verdad** (single source of truth)
+- 🤖 Agentes IA **leen** desde aquí y **crean** archivos en tu proyecto
+- ✅ NO se copian archivos del toolkit a tu proyecto
+- ✅ NO se contamina tu proyecto con archivos del toolkit
+- ✅ Todo se personaliza según TU proyecto (applicationId, plugins, modelos)
 
 **Resultado esperado**:
 - Reducción de tamaño del APK: **~65%**
 - Símbolos ofuscados: **100%**
 - Nivel de seguridad: **8/10**
-- Tiempo de implementación: **5-10 minutos** (vs 2-3 horas manual)
+- Tiempo de implementación: **5-10 minutos** (con agentes IA) vs 2-3 horas manual
 
 ---
 
@@ -130,25 +137,27 @@ flutter-obfuscation-toolkit/
 ---
 
 #### 5. `AI_AGENT_PROMPT.md`
-**Qué es**: Prompts listos para copiar/pegar en agentes CLI
+**Qué es**: Prompts ultra-cortos listos para copiar/pegar en agentes IA
 
 **Propósito**:
-- Instrucciones completas para Claude Code, Gemini, etc.
-- Flujo automatizado de implementación
-- Comandos curl/wget para descarga
-- Ejemplos de conversación esperada
+- Prompts de una línea que referencian este repositorio
+- El agente lee templates desde aquí (URLs raw de GitHub)
+- El agente crea archivos personalizados en TU proyecto
+- NO descarga ni copia archivos del toolkit
+- Flujo completamente automatizado
 
 **Cuándo usarlo**:
-- ✅ **EMPIEZA AQUÍ** si usas un agente CLI (Claude Code, Gemini)
-- ✅ Para implementación automatizada
-- ✅ Para copiar el prompt completo al agente
+- ✅ **EMPIEZA AQUÍ** si usas un agente IA (Claude Code, Gemini, Cursor)
+- ✅ Para implementación automatizada más rápida
+- ✅ Para copiar solo UNA línea al agente
 
 **Audiencia**:
 - Usuarios de Claude Code
 - Usuarios de Gemini CLI
 - Usuarios de GitHub Copilot/Cursor
+- Usuarios de Windsurf
 
-**Tiempo de lectura**: 15 minutos
+**Tiempo de lectura**: 5 minutos
 **Tiempo de implementación con agente**: 5-10 minutos
 
 ---
@@ -651,6 +660,74 @@ Después de usar el toolkit correctamente:
 
 ---
 
+## 💡 Filosofía "Leer y Crear" vs "Copiar y Pegar"
+
+### ❌ Método INCORRECTO (Copiar archivos del toolkit)
+
+```bash
+# NO HACER ESTO:
+git clone https://github.com/carlos-developer/flutter-obfuscation-toolkit.git
+cp -r flutter-obfuscation-toolkit/scripts tu-proyecto/
+cp -r flutter-obfuscation-toolkit/templates tu-proyecto/
+# Resultado: Proyecto contaminado con archivos del toolkit
+```
+
+**Problemas**:
+- ❌ Tu proyecto tiene archivos que pertenecen al toolkit
+- ❌ Configuraciones genéricas (no personalizadas para tu proyecto)
+- ❌ Difícil mantener actualizado
+- ❌ Mezclas archivos de diferentes propósitos
+
+### ✅ Método CORRECTO (Leer desde repositorio y crear)
+
+**Opción 1: Con Agente IA**
+```
+1. Copias UN prompt de una línea de AI_AGENT_PROMPT.md
+2. El agente LEE templates desde este repositorio (URLs raw)
+3. El agente DETECTA tu applicationId y plugins
+4. El agente CREA archivos personalizados en TU proyecto
+5. Resultado: Proyecto limpio, configuración personalizada
+```
+
+**Opción 2: Manual**
+```bash
+# 1. Leer template desde el repositorio
+curl https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template
+
+# 2. Crear archivo personalizado en TU proyecto
+nano ios/Flutter/Release.xcconfig
+# Pegar contenido y personalizar
+
+# 3. Scripts: Descargarlos directamente a tu proyecto
+curl -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/.../build_release_obfuscated.sh
+chmod +x scripts/build_release_obfuscated.sh
+```
+
+**Ventajas**:
+- ✅ Proyecto limpio, sin archivos del toolkit
+- ✅ Configuración personalizada para TU proyecto
+- ✅ Siempre usas la última versión del repositorio
+- ✅ Separación clara: toolkit = referencia, tu proyecto = implementación
+
+### 📋 ¿Qué archivos DEBEN estar en tu proyecto?
+
+**SÍ deben estar** (creados y personalizados):
+- ✅ `android/app/build.gradle.kts` (modificado)
+- ✅ `android/app/proguard-rules.pro` (creado, personalizado con tu applicationId)
+- ✅ `ios/Flutter/Release.xcconfig` (modificado)
+- ✅ `scripts/build_release_obfuscated.sh` (funcionalidad útil)
+- ✅ `scripts/deobfuscate.sh` (funcionalidad útil)
+- ✅ `scripts/fix_xcode_modulecache.sh` (funcionalidad útil)
+
+**NO deben estar** (solo en el toolkit):
+- ❌ `docs/01_SRS*.md` (solo documentación)
+- ❌ `templates/*.template` (solo templates de referencia)
+- ❌ `MIGRATION_GUIDE.md` (solo guía)
+- ❌ `TOOLKIT_OVERVIEW.md` (solo documentación)
+- ❌ Cualquier archivo `.md` del toolkit
+
+---
+
 ## ✅ Checklist de Comprensión
 
 Después de leer este documento, deberías poder responder:
@@ -694,8 +771,9 @@ Si respondiste **NO** a alguna pregunta, vuelve a leer la sección correspondien
 
 ---
 
-**Documento actualizado**: 2025-10-11
+**Documento actualizado**: 2025-10-14
 **Versión del toolkit**: 1.0.0
+**Filosofía**: "Leer desde repositorio, crear en proyecto" - NO copiar archivos del toolkit
 **Mantenedores**: Ver [README.md](README.md)
 
 ---
