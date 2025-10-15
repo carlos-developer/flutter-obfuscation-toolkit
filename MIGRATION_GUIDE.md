@@ -700,13 +700,18 @@ du -h build/ios/Release-iphoneos/Runner.app/Runner
 ./scripts/fix_xcode_modulecache.sh
 ```
 
-O manualmente:
-1. `flutter clean`
-2. `rm -rf ~/Library/Developer/Xcode/DerivedData`
-3. `rm -rf ~/Library/Developer/Xcode/ModuleCache.noindex`
-4. `flutter pub get`
-5. `cd ios && rm -rf Pods && rm Podfile.lock && pod install && cd ..`
-6. En Xcode: File → Workspace Settings → Derived Data → "Workspace-relative Location"
+**⚠️ ACCIÓN MANUAL REQUERIDA DESPUÉS DEL SCRIPT**:
+
+Si el build de iOS sigue fallando después de ejecutar el script, necesitas configurar manualmente el Xcode Workspace Settings:
+
+1. Abre `ios/Runner.xcworkspace` en Xcode
+2. Ve a `File` → `Workspace Settings`
+3. Cambia `Derived Data` de "Default" a "Workspace-relative Location"
+4. En el campo escribe: `DerivedData`
+5. Haz clic en "Done" y cierra Xcode
+6. Ejecuta nuevamente: `flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios`
+
+**Guía completa para Agentes IA y usuarios**: Ver [IOS_MANUAL_STEPS.md](IOS_MANUAL_STEPS.md) para instrucciones detalladas paso a paso.
 
 **Referencias**: [Flutter Issue #157461](https://github.com/flutter/flutter/issues/157461)
 

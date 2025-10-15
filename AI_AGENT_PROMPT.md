@@ -12,7 +12,15 @@
 
 ### Android + iOS
 ```
-Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md. Usa la especificación estructurada en https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones paso a paso. Al finalizar ejecuta el script de validación automática.
+Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md. Usa la especificación estructurada en https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones paso a paso.
+
+IMPORTANTE para iOS:
+- Si el build de iOS falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
+- Consulta: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md
+- PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
+- Espera confirmación del usuario antes de continuar con el build
+
+Al finalizar todas las configuraciones ejecuta el script de validación automática.
 ```
 
 ### Solo Android
@@ -22,7 +30,15 @@ Implementa ofuscación y optimización de tamaño para Android siguiendo: https:
 
 ### Solo iOS
 ```
-Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS). Usa https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones estructuradas. Al finalizar ejecuta el script de validación.
+Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS). Usa https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones estructuradas.
+
+IMPORTANTE:
+- Si el build falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
+- Consulta: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md
+- PAUSA y solicita al usuario configurar manualmente Xcode Workspace Settings
+- Espera confirmación antes de continuar
+
+Al finalizar ejecuta el script de validación.
 ```
 
 ### Verificar Implementación

@@ -184,6 +184,14 @@
         "condition": "ios_configured == true",
         "command": "flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios",
         "timeout_seconds": 300,
+        "manual_intervention_required": {
+          "trigger": "ModuleCache errors after fix_xcode_modulecache.sh execution",
+          "action": "PAUSE and request user to configure Xcode Workspace Settings",
+          "documentation_url": "https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md",
+          "user_message": "⚠️ ACCIÓN MANUAL REQUERIDA - Xcode Workspace Settings\n\nEl build de iOS requiere configuración manual del Xcode Workspace Settings.\n\nPasos:\n1. Abre ios/Runner.xcworkspace en Xcode\n2. Ve a File → Workspace Settings\n3. Cambia 'Derived Data' a 'Workspace-relative Location'\n4. En el campo escribe: DerivedData\n5. Haz clic en Done y cierra Xcode\n\nDocumentación completa: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md\n\nCuando hayas completado estos pasos, confirma escribiendo: 'Ya hice el ajuste de workspace settings'",
+          "wait_for_confirmation": true,
+          "retry_after_confirmation": true
+        },
         "validations": [
           {
             "check": "test -d build/symbols/ios",
