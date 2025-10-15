@@ -1,6 +1,6 @@
-# 🔒 Guía de Migración - Ofuscación y Minificación Flutter
+# 🔒 Guía de Migración - Ofuscación y Optimización de Tamaño Flutter
 
-> **Aplica ofuscación y minificación a cualquier proyecto Flutter en menos de 10 minutos**
+> **Aplica ofuscación y optimización de tamaño a cualquier proyecto Flutter en menos de 10 minutos**
 
 ---
 
@@ -249,7 +249,7 @@ Estado: ✅ TODAS LAS PLATAFORMAS VALIDADAS
 
 2. **Copia el prompt desde** [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md):
    ```
-   Implementa ofuscación Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+   Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
    ```
 
 3. **Pégalo en tu agente IA** (Claude Code, Gemini, Cursor, etc.)

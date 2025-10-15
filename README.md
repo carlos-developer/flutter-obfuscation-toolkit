@@ -1,6 +1,6 @@
 # 🔒 Flutter Obfuscation Toolkit
 
-> Toolkit completo para implementar ofuscación y minificación en proyectos Flutter
+> Toolkit completo para implementar ofuscación y optimización de tamaño en proyectos Flutter
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-%E2%89%A53.9.2-blue)](https://flutter.dev)

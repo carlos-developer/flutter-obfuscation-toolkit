@@ -263,9 +263,9 @@ Si la app crashea después de ofuscar:
 - [ ] **Commit creado** con mensaje descriptivo:
   ```bash
   git add .
-  git commit -m "feat(security): Implementar ofuscación y minificación
+  git commit -m "feat(security): Implementar ofuscación y optimización de tamaño
 
-  - Habilitar R8 minification (Android)
+  - Habilitar R8/ProGuard (Android)
   - Configurar symbol stripping (iOS)
   - Agregar scripts de automatización
   - Reducción de tamaño: 65%

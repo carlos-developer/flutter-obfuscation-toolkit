@@ -6,7 +6,7 @@
 
 ## 🎯 Propósito del Toolkit
 
-Este toolkit es una **guía de referencia centralizada** para implementar ofuscación y minificación en proyectos Flutter de manera profesional, siguiendo metodología de **Desarrollo Guiado por Especificaciones (SDD)**.
+Este toolkit es una **guía de referencia centralizada** para implementar ofuscación y optimización de tamaño en proyectos Flutter de manera profesional, siguiendo metodología de **Desarrollo Guiado por Especificaciones (SDD)**.
 
 **Filosofía clave**:
 - 📚 Este repositorio es la **fuente de verdad** (single source of truth)

@@ -91,7 +91,7 @@ curl -sSL https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation
 Copia y pega en Claude Code este prompt:
 
 ```
-Implementa ofuscación y minificación en mi proyecto Flutter.
+Implementa ofuscación y optimización de tamaño en mi proyecto Flutter.
 
 PASO 1 - DESCARGA AUTOMÁTICA:
 Ejecuta este comando para descargar todo el paquete necesario:
@@ -170,7 +170,7 @@ Luego en GitHub:
 ```markdown
 ## 🔒 Flutter Obfuscation Toolkit v1.0.0
 
-Toolkit completo para implementar ofuscación y minificación en proyectos Flutter.
+Toolkit completo para implementar ofuscación y optimización de tamaño en proyectos Flutter.
 
 ### ✨ Features
 - Scripts de automatización completos
