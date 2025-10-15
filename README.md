@@ -16,6 +16,9 @@
 Abre Claude Code / Gemini / Cursor y pega:
 
 Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+
+Usa la especificación estructurada en agent-instructions.json para validaciones paso a paso.
+Al finalizar ejecuta validate-implementation.sh.
 ```
 
 ### Manual
@@ -39,6 +42,10 @@ Implementa ofuscación y optimización de tamaño Flutter para Android e iOS sig
 ### Templates
 - `proguard-rules.template.pro` - Reglas ProGuard listas para usar
 - `README_OBFUSCATION.md` - Referencia rápida de comandos
+
+### Especificación para Agentes IA
+- `agent-instructions.json` - Especificación procesable (JSON) para validaciones automáticas y protocolo de trazabilidad
+- `validate-implementation.sh` - Script de validación automática de plataformas configuradas
 
 ### Guías de Uso
 - **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** - Guía paso a paso (EMPIEZA AQUÍ)

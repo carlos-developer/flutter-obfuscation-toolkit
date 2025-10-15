@@ -30,6 +30,7 @@ flutter-obfuscation-toolkit/
 ├── 📄 README.md                          # Entrada principal
 ├── 📄 LICENSE                            # Licencia MIT
 ├── 📄 TOOLKIT_OVERVIEW.md               # Este documento
+├── 📄 agent-instructions.json           # Especificación procesable para agentes IA
 │
 ├── 📘 GUÍAS PRÁCTICAS (4 documentos)
 │   ├── MIGRATION_GUIDE.md               # Guía paso a paso
@@ -42,6 +43,7 @@ flutter-obfuscation-toolkit/
 │   │   ├── setup_obfuscation.sh
 │   │   ├── build_release_obfuscated.sh
 │   │   ├── deobfuscate.sh
+│   │   ├── validate-implementation.sh   # Validación automática
 │   │   └── download_obfuscation_package.sh
 │   │
 │   └── templates/                       # Plantillas de configuración
@@ -113,9 +115,46 @@ flutter-obfuscation-toolkit/
 
 ---
 
+#### 4. `agent-instructions.json`
+**Qué es**: Especificación procesable por máquina (JSON) del toolkit completo
+
+**Propósito**:
+- Protocolo de trazabilidad formal para agentes IA (7 reglas obligatorias)
+- Pasos atómicos con validaciones programáticas
+- Comandos de validación con exit codes esperados
+- Detección automática de personalizaciones obligatorias
+- Prevención de errores comunes en implementaciones automatizadas
+
+**Contiene**:
+- `traceability_protocol`: Reglas formales para agentes IA
+- `implementation_phases`: Pasos ejecutables con validaciones
+- `validation_phases`: Builds obligatorios por plataforma
+- `agent_rules`: Las 7 reglas de trazabilidad
+- `error_prevention`: Checklist de prevención de errores comunes
+
+**Cuándo usarlo**:
+- ✅ Agentes IA avanzados que parsean JSON (Claude, GPT-4, Gemini)
+- ✅ Para validaciones automáticas paso a paso
+- ✅ Cuando necesitas máxima precisión en la implementación
+- ✅ Para auditorías y certificación de conformidad
+
+**Audiencia**:
+- Agentes IA (consumidor principal)
+- Desarrolladores de herramientas de automatización
+- Auditores de implementaciones
+
+**Relación con otros archivos**:
+- **MIGRATION_GUIDE.md**: Versión en lenguaje natural
+- **AI_AGENT_PROMPT.md**: Referencia este archivo en prompts
+- **validate-implementation.sh**: Implementa las validaciones definidas aquí
+
+**Tiempo de procesamiento (agentes IA)**: Automático
+
+---
+
 ### 📘 Guías Prácticas (Nivel Raíz)
 
-#### 4. `MIGRATION_GUIDE.md`
+#### 5. `MIGRATION_GUIDE.md`
 **Qué es**: Guía paso a paso completa de implementación
 
 **Propósito**:
@@ -136,7 +175,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 5. `AI_AGENT_PROMPT.md`
+#### 6. `AI_AGENT_PROMPT.md`
 **Qué es**: Prompts ultra-cortos listos para copiar/pegar en agentes IA
 
 **Propósito**:
@@ -162,7 +201,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 6. `CHECKLIST_OBFUSCATION.md`
+#### 7. `CHECKLIST_OBFUSCATION.md`
 **Qué es**: Lista de verificación exhaustiva
 
 **Propósito**:
@@ -186,7 +225,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 7. `TROUBLESHOOTING_ADVANCED.md`
+#### 8. `TROUBLESHOOTING_ADVANCED.md`
 **Qué es**: Guía de resolución de problemas
 
 **Propósito**:
@@ -211,7 +250,7 @@ flutter-obfuscation-toolkit/
 
 ### 🔧 Herramientas
 
-#### 8. `scripts/`
+#### 9. `scripts/`
 **Qué son**: Scripts de automatización Bash
 
 **Archivos**:
@@ -240,7 +279,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 9. `templates/`
+#### 10. `templates/`
 **Qué son**: Plantillas de configuración
 
 **Archivos**:
@@ -265,7 +304,7 @@ flutter-obfuscation-toolkit/
 > **Nota**: Estos documentos siguen la metodología de **Desarrollo Guiado por Especificaciones**.
 > Proporcionan el **contexto completo** para entender el QUÉ, POR QUÉ y CÓMO.
 
-#### 10. `docs/01_SRS_MINIFICACION_OFUSCACION.md`
+#### 11. `docs/01_SRS_MINIFICACION_OFUSCACION.md`
 **Qué es**: Software Requirements Specification (Especificación de Requisitos)
 
 **Propósito**:
@@ -295,7 +334,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 11. `docs/02_SAD_ARQUITECTURA_SEGURIDAD.md`
+#### 12. `docs/02_SAD_ARQUITECTURA_SEGURIDAD.md`
 **Qué es**: Security Architecture Document (Arquitectura de Seguridad)
 
 **Propósito**:
@@ -325,7 +364,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 12. `docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md`
+#### 13. `docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md`
 **Qué es**: Technical Implementation Guide (Guía de Implementación Técnica)
 
 **Propósito**:
@@ -352,7 +391,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 13. `docs/04_TVP_PLAN_PRUEBAS_VALIDACION.md`
+#### 14. `docs/04_TVP_PLAN_PRUEBAS_VALIDACION.md`
 **Qué es**: Test & Validation Plan (Plan de Pruebas y Validación)
 
 **Propósito**:
@@ -382,7 +421,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 14. `docs/05_OPM_PROCEDIMIENTOS_OPERACIONALES.md`
+#### 15. `docs/05_OPM_PROCEDIMIENTOS_OPERACIONALES.md`
 **Qué es**: Operations Manual (Manual de Operaciones)
 
 **Propósito**:
@@ -413,7 +452,7 @@ flutter-obfuscation-toolkit/
 
 ---
 
-#### 15. `docs/06_RTM_MATRIZ_TRAZABILIDAD.md`
+#### 16. `docs/06_RTM_MATRIZ_TRAZABILIDAD.md`
 **Qué es**: Requirements Traceability Matrix (Matriz de Trazabilidad)
 
 **Propósito**:
