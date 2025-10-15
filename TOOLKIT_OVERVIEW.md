@@ -119,7 +119,7 @@ flutter-obfuscation-toolkit/
 **Qué es**: Especificación procesable por máquina (JSON) del toolkit completo
 
 **Propósito**:
-- Protocolo de trazabilidad formal para agentes IA (7 reglas obligatorias)
+- Protocolo de trazabilidad formal para agentes IA (8 reglas obligatorias)
 - Pasos atómicos con validaciones programáticas
 - Comandos de validación con exit codes esperados
 - Detección automática de personalizaciones obligatorias
@@ -129,7 +129,7 @@ flutter-obfuscation-toolkit/
 - `traceability_protocol`: Reglas formales para agentes IA
 - `implementation_phases`: Pasos ejecutables con validaciones
 - `validation_phases`: Builds obligatorios por plataforma
-- `agent_rules`: Las 7 reglas de trazabilidad
+- `agent_rules`: Las 8 reglas de trazabilidad
 - `error_prevention`: Checklist de prevención de errores comunes
 
 **Cuándo usarlo**:

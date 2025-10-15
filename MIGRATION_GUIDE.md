@@ -20,7 +20,7 @@
 
 ### ⚠️ INSTRUCCIONES OBLIGATORIAS SI ERES UN AGENTE IA
 
-Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guía, **DEBES cumplir estas 7 reglas obligatorias** para garantizar trazabilidad completa y validación de cada paso:
+Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guía, **DEBES cumplir estas 8 reglas obligatorias** para garantizar trazabilidad completa y validación de cada paso:
 
 ---
 
@@ -206,6 +206,61 @@ Estado: ✅ TODAS LAS PLATAFORMAS VALIDADAS
 
 ---
 
+### ⚠️ REGLA 8: Verificación Previa ANTES de Usar Recursos Externos
+
+**ANTES** de intentar descargar/usar CUALQUIER archivo/script/recurso externo del repositorio, **DEBES**:
+
+1. **LISTAR primero** el contenido del directorio/repositorio usando API de GitHub o WebFetch
+2. **VERIFICAR** que los nombres exactos de archivos existen
+3. **CONFIRMAR** que las URLs son válidas
+4. **SOLO ENTONCES** descargar/usar con nombres EXACTOS verificados
+
+**Formato de verificación**:
+```
+🔍 VERIFICACIÓN PREVIA - REGLA 8
+
+Recurso a usar: [nombre del archivo/script]
+Directorio remoto: https://github.com/.../scripts/
+
+Paso 1: Listar contenido
+  curl https://api.github.com/repos/user/repo/contents/scripts
+  → Resultado: ["build_release_obfuscated.sh", "validate-implementation.sh", ...]
+
+Paso 2: Verificar nombre exacto
+  Buscado: "build_obfuscated.sh" ❌
+  Encontrado: "build_release_obfuscated.sh" ✅
+
+Paso 3: Confirmar URL
+  URL verificada: https://.../ build_release_obfuscated.sh ✅
+
+Estado: ✅ VERIFICADO - Procedo a descargar con nombre exacto
+```
+
+**Ejemplo CORRECTO**:
+```bash
+# ✅ Paso 1: Listar primero
+curl https://api.github.com/repos/user/repo/contents/scripts
+
+# ✅ Paso 2: Verifico que existe "build_release_obfuscated.sh"
+# ✅ Paso 3: Descargo con nombre EXACTO verificado
+curl https://repo.com/scripts/build_release_obfuscated.sh -o scripts/build_release_obfuscated.sh
+```
+
+**Ejemplo INCORRECTO** ❌:
+```bash
+# ❌ Asumir nombre sin verificar primero
+curl https://repo.com/scripts/build_obfuscated.sh -o scripts/build_obfuscated.sh
+# Resultado: Error 404 - archivo no existe
+```
+
+**Por qué es crítico**:
+- Evita errores 404 por nombres asumidos incorrectamente
+- Garantiza que usas los nombres reales del repositorio
+- Reduce tiempo de debugging por recursos inexistentes
+- Mantiene trazabilidad de qué archivos realmente existen
+
+---
+
 ### 📌 RESUMEN PARA AGENTES IA
 
 **Antes de cada cambio** → Declara fuente (REGLA 1)
@@ -215,8 +270,9 @@ Estado: ✅ TODAS LAS PLATAFORMAS VALIDADAS
 **Si algo no está documentado** → Alerta y detente (REGLA 5)
 **Antes de auditoría final** → Ejecuta validación automática (REGLA 7)
 **Al completar TODO y validar** → Genera auditoría final (REGLA 6)
+**Antes de usar recursos externos** → Verifica que existen primero (REGLA 8)
 
-**Estas 7 reglas son OBLIGATORIAS para garantizar que sigues correctamente esta guía.**
+**Estas 8 reglas son OBLIGATORIAS para garantizar que sigues correctamente esta guía.**
 
 ---
 

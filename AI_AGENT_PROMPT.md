@@ -10,9 +10,9 @@
 
 **Copia solo UNA línea según tu necesidad:**
 
-### Android + iOS
+### Android + iOS (Flutter completo)
 ```
-ERES UN AGENTE IA implementando ofuscación y optimización de tamaño Flutter. RESPONDE SIEMPRE EN ESPAÑOL.
+ERES UN AGENTE IA implementando ofuscación y optimización de tamaño para proyectos FLUTTER con plataformas ANDROID e iOS. RESPONDE SIEMPRE EN ESPAÑOL.
 
 PASO 0 - LEER PRIMERO (OBLIGATORIO):
 Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
@@ -40,9 +40,9 @@ IMPORTANTE para iOS:
 Al finalizar ejecuta el script de validación automática.
 ```
 
-### Solo Android
+### Solo Android (Flutter - Solo plataforma Android)
 ```
-ERES UN AGENTE IA implementando ofuscación y optimización de tamaño Flutter para Android. RESPONDE SIEMPRE EN ESPAÑOL.
+ERES UN AGENTE IA implementando ofuscación y optimización de tamaño para proyectos FLUTTER únicamente en la plataforma ANDROID. RESPONDE SIEMPRE EN ESPAÑOL.
 
 PASO 0 - LEER PRIMERO (OBLIGATORIO):
 Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
@@ -64,9 +64,9 @@ REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
 Al finalizar ejecuta el script de validación automática.
 ```
 
-### Solo iOS
+### Solo iOS (Flutter - Solo plataforma iOS)
 ```
-ERES UN AGENTE IA implementando ofuscación y optimización de tamaño Flutter para iOS. RESPONDE SIEMPRE EN ESPAÑOL.
+ERES UN AGENTE IA implementando ofuscación y optimización de tamaño para proyectos FLUTTER únicamente en la plataforma iOS. RESPONDE SIEMPRE EN ESPAÑOL.
 
 PASO 0 - LEER PRIMERO (OBLIGATORIO):
 Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
@@ -145,7 +145,7 @@ Este toolkit incluye archivos específicos para que los agentes IA procesen las 
 
 **Contiene**:
 - Pasos atómicos con validaciones programáticas
-- Protocolo de trazabilidad formal (7 reglas obligatorias)
+- Protocolo de trazabilidad formal (8 reglas obligatorias)
 - Comandos de validación con exit codes esperados
 - Detección de personalizaciones obligatorias
 - Prevención de errores comunes
@@ -188,7 +188,7 @@ El agente:
 - Ejemplos de código completos
 - Explicaciones del "por qué" de cada paso
 - Troubleshooting integrado
-- Las 7 reglas de trazabilidad para agentes IA
+- Las 8 reglas de trazabilidad para agentes IA
 
 **Cuándo usarlo**:
 - ✅ Primera vez implementando el toolkit
@@ -254,9 +254,9 @@ Este script DEBE ejecutarse antes de generar el registro de auditoría final (RE
 
 ## 🔒 SISTEMA DE TRAZABILIDAD Y VALIDACIÓN
 
-### ⚠️ 7 REGLAS OBLIGATORIAS PARA AGENTES IA
+### ⚠️ 8 REGLAS OBLIGATORIAS PARA AGENTES IA
 
-Si eres un agente IA ejecutando estos prompts, DEBES cumplir estas 7 reglas:
+Si eres un agente IA ejecutando estos prompts, DEBES cumplir estas 8 reglas:
 
 ---
 
