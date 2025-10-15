@@ -12,17 +12,17 @@
 
 ### Android + iOS
 ```
-Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md, ten en cuenta las reglas de trazabilidad definidas en MIGRATION_GUIDE
 ```
 
 ### Solo Android
 ```
-Implementa ofuscación y optimización de tamaño para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android)
+Implementa ofuscación y optimización de tamaño para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android), ten en cuenta las reglas de trazabilidad definidas en MIGRATION_GUIDE
 ```
 
 ### Solo iOS
 ```
-Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS)
+Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS), ten en cuenta las reglas de trazabilidad definidas en MIGRATION_GUIDE
 ```
 
 ### Verificar Implementación
@@ -68,9 +68,9 @@ Si necesitas más control, usa estos prompts más específicos:
 
 ## 🔒 SISTEMA DE TRAZABILIDAD Y VALIDACIÓN
 
-### ⚠️ REGLAS OBLIGATORIAS PARA AGENTES IA
+### ⚠️ 7 REGLAS OBLIGATORIAS PARA AGENTES IA
 
-Si eres un agente IA ejecutando estos prompts, DEBES cumplir estas reglas:
+Si eres un agente IA ejecutando estos prompts, DEBES cumplir estas 7 reglas:
 
 ---
 
@@ -418,6 +418,65 @@ Certifico que:
 Implementación conforme al toolkit: ✅ CERTIFICADA
 
 ═══════════════════════════════════════════
+```
+
+---
+
+### 🔒 REGLA 7: Validación Automática de TODAS las Plataformas Configuradas
+
+**AL FINALIZAR la implementación completa**, ANTES de generar el registro de auditoría:
+
+```
+🔒 VALIDACIÓN AUTOMÁTICA - REGLA 7
+
+Paso 1: Detectar plataformas configuradas
+  grep -q "isMinifyEnabled" android/app/build.gradle* → Android: [SÍ/NO]
+  grep -q "STRIP_INSTALLED_PRODUCT" ios/Flutter/Release.xcconfig → iOS: [SÍ/NO]
+
+Paso 2: Ejecutar script de validación automática
+  curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+  Exit code: [0 = éxito / 1+ = error]
+
+Paso 3: Validar CADA plataforma configurada con su build
+
+Si configuraste Android:
+  [✅/❌] flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
+  [✅/❌] test -f build/app/outputs/mapping/release/mapping.txt
+  [✅/❌] test -d build/symbols/android
+
+Si configuraste iOS:
+  [✅/❌] flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios
+  [✅/❌] test -d build/symbols/ios
+  [✅/❌] file build/ios/Release-iphoneos/Runner.app/Runner | grep -q stripped
+
+Resultado: [✅ TODAS LAS PLATAFORMAS VALIDADAS / ❌ VALIDACIÓN FALLÓ]
+```
+
+**CRÍTICO**:
+- Si configuraste 2 plataformas → DEBES validar AMBAS con sus builds
+- NO asumas que funciona sin ejecutar los builds de validación
+- NO marques como completo si el script falla
+- SOLO genera la auditoría final si TODAS las validaciones pasaron
+
+**❌ Si falla**:
+```
+❌ VALIDACIÓN AUTOMÁTICA FALLÓ
+
+Plataformas configuradas: [Android, iOS]
+Plataformas validadas: [Android]
+Plataformas NO validadas: [iOS] ❌
+
+🛑 IMPLEMENTACIÓN INCOMPLETA
+
+Problema: Configuraste iOS pero NO ejecutaste su build de validación.
+
+Acción requerida:
+1. Ejecutar: flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios
+2. Verificar artifacts generados
+3. Re-ejecutar script de validación
+4. Solo entonces generar auditoría final
+
+NO puedo marcar como completo hasta que TODAS las plataformas configuradas pasen validación.
 ```
 
 ---

@@ -1,0 +1,231 @@
+{
+  "version": "1.0.0",
+  "toolkit_name": "Flutter Obfuscation Toolkit",
+  "description": "Instrucciones procesables por agentes de IA para implementar ofuscación en proyectos Flutter",
+
+  "traceability_protocol": {
+    "pre_change_declaration": {
+      "required": true,
+      "format": "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md\nSección: {section}\nLíneas: {lines}\nAcción: {action}\nEstado: INICIANDO"
+    },
+    "post_change_checkpoint": {
+      "required": true,
+      "must_validate": true,
+      "rollback_on_failure": true
+    },
+    "phase_reports": {
+      "required": true,
+      "format": "compliance_percentage"
+    },
+    "final_audit": {
+      "required": true,
+      "include": ["modified_files", "validation_commands", "compliance_certificate"]
+    },
+    "mandatory_validation": {
+      "required": true,
+      "description": "REGLA 7: Ejecutar validación automática de TODAS las plataformas configuradas",
+      "script_url": "https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh",
+      "failure_action": "STOP and report errors. DO NOT mark implementation as complete."
+    }
+  },
+
+  "implementation_phases": [
+    {
+      "phase_id": "android_config",
+      "name": "Configuración Android",
+      "steps": [
+        {
+          "step_id": "android_01",
+          "file": "android/app/build.gradle.kts",
+          "description": "Habilitar multiDex en defaultConfig",
+          "search_pattern": "defaultConfig {",
+          "action": "add_after_pattern",
+          "content": "        multiDexEnabled = true",
+          "validation": {
+            "command": "grep -q 'multiDexEnabled = true' android/app/build.gradle.kts",
+            "expected_exit_code": 0
+          }
+        },
+        {
+          "step_id": "android_02",
+          "file": "android/app/build.gradle.kts",
+          "description": "Configurar buildTypes release con minificación",
+          "search_pattern": "release {",
+          "action": "add_inside_block",
+          "content": "            isMinifyEnabled = true\n            isShrinkResources = true\n            proguardFiles(\n                getDefaultProguardFile(\"proguard-android-optimize.txt\"),\n                \"proguard-rules.pro\"\n            )",
+          "validation": {
+            "commands": [
+              "grep -q 'isMinifyEnabled = true' android/app/build.gradle.kts",
+              "grep -q 'isShrinkResources = true' android/app/build.gradle.kts"
+            ],
+            "expected_exit_code": 0
+          }
+        },
+        {
+          "step_id": "android_03",
+          "file": "android/app/proguard-rules.pro",
+          "description": "Crear archivo ProGuard rules personalizado",
+          "action": "create_file",
+          "must_personalize": true,
+          "personalization_check": {
+            "detect_applicationId": "grep 'applicationId' android/app/build.gradle.kts | sed 's/.*\"\\(.*\\)\".*/\\1/'",
+            "replace_in_template": "com.example.app",
+            "error_if_generic": true
+          },
+          "template_content": "# Flutter Core\n-keep class io.flutter.app.** { *; }\n-keep class io.flutter.plugin.** { *; }\n-keep class io.flutter.** { *; }\n-keep class io.flutter.plugins.** { *; }\n\n# MainActivity personalizada\n-keep class {{APPLICATION_ID}}.MainActivity { *; }\n\n# JNI\n-keepclasseswithmembernames class * {\n    native <methods>;\n}\n\n# Reflection attributes\n-keepattributes *Annotation*\n-keepattributes Signature\n-keepattributes SourceFile,LineNumberTable\n\n# AndroidX\n-keep class ** extends androidx.lifecycle.ViewModel { *; }\n-keep class ** extends androidx.lifecycle.AndroidViewModel { *; }\n\n# Google Play Core\n-dontwarn com.google.android.play.core.**\n-keep class com.google.android.play.core.** { *; }",
+          "validation": {
+            "commands": [
+              "test -f android/app/proguard-rules.pro",
+              "grep -v 'com.example.app' android/app/proguard-rules.pro | grep -q 'MainActivity'"
+            ],
+            "expected_exit_code": 0
+          }
+        }
+      ]
+    },
+    {
+      "phase_id": "ios_config",
+      "name": "Configuración iOS",
+      "steps": [
+        {
+          "step_id": "ios_01",
+          "file": "ios/Flutter/Release.xcconfig",
+          "description": "Agregar configuraciones de optimización y stripping",
+          "search_pattern": "#include \"Generated.xcconfig\"",
+          "action": "append_after",
+          "content": "\nDEPLOYMENT_POSTPROCESSING = YES\nSTRIP_INSTALLED_PRODUCT = YES\nSTRIP_STYLE = all\nCOPY_PHASE_STRIP = YES\nSEPARATE_STRIP = YES\n\nSWIFT_OPTIMIZATION_LEVEL = -O\nGCC_OPTIMIZATION_LEVEL = fast\nSWIFT_COMPILATION_MODE = wholemodule\n\nDEAD_CODE_STRIPPING = YES\n\nDEBUG_INFORMATION_FORMAT = dwarf-with-dsym\nONLY_ACTIVE_ARCH = NO",
+          "validation": {
+            "commands": [
+              "grep -q 'STRIP_INSTALLED_PRODUCT = YES' ios/Flutter/Release.xcconfig",
+              "grep -q 'DEAD_CODE_STRIPPING = YES' ios/Flutter/Release.xcconfig"
+            ],
+            "expected_exit_code": 0
+          }
+        }
+      ]
+    },
+    {
+      "phase_id": "gitignore_update",
+      "name": "Actualizar .gitignore",
+      "steps": [
+        {
+          "step_id": "gitignore_01",
+          "file": ".gitignore",
+          "description": "Agregar artifacts de ofuscación",
+          "search_pattern": "# Obfuscation related",
+          "action": "append_after",
+          "content": "\n# Obfuscation artifacts\nbuild/app/outputs/mapping/\nbuild/app/outputs/symbols/\nbuild/symbols/\n*.backup\ntemp/",
+          "validation": {
+            "commands": [
+              "grep -q 'build/symbols/' .gitignore",
+              "grep -q 'build/app/outputs/mapping/' .gitignore"
+            ],
+            "expected_exit_code": 0
+          }
+        }
+      ]
+    },
+    {
+      "phase_id": "scripts_download",
+      "name": "Descargar Scripts de Automatización",
+      "steps": [
+        {
+          "step_id": "scripts_01",
+          "description": "Crear directorio scripts y descargar scripts",
+          "commands": [
+            "mkdir -p scripts",
+            "curl -s -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh && chmod +x scripts/build_release_obfuscated.sh",
+            "curl -s -o scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh && chmod +x scripts/deobfuscate.sh",
+            "curl -s -o scripts/fix_xcode_modulecache.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh && chmod +x scripts/fix_xcode_modulecache.sh"
+          ],
+          "validation": {
+            "commands": [
+              "test -f scripts/build_release_obfuscated.sh",
+              "test -x scripts/build_release_obfuscated.sh",
+              "test -f scripts/deobfuscate.sh",
+              "test -f scripts/fix_xcode_modulecache.sh"
+            ],
+            "expected_exit_code": 0
+          }
+        }
+      ]
+    }
+  ],
+
+  "validation_phases": {
+    "description": "CRÍTICO: Estas validaciones DEBEN ejecutarse al finalizar la implementación",
+    "detect_platforms": {
+      "android": "grep -q 'isMinifyEnabled' android/app/build.gradle* 2>/dev/null",
+      "ios": "grep -q 'STRIP_INSTALLED_PRODUCT' ios/Flutter/Release.xcconfig 2>/dev/null"
+    },
+    "mandatory_builds": [
+      {
+        "platform": "android",
+        "condition": "android_configured == true",
+        "command": "flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi",
+        "timeout_seconds": 180,
+        "validations": [
+          {
+            "check": "test -f build/app/outputs/mapping/release/mapping.txt",
+            "error": "mapping.txt no fue generado"
+          },
+          {
+            "check": "test -d build/symbols/android",
+            "error": "Símbolos Android no fueron generados"
+          },
+          {
+            "check": "ls build/app/outputs/flutter-apk/*.apk 2>/dev/null | wc -l | grep -q '[1-9]'",
+            "error": "APKs no fueron generados"
+          }
+        ]
+      },
+      {
+        "platform": "ios",
+        "condition": "ios_configured == true",
+        "command": "flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios",
+        "timeout_seconds": 300,
+        "validations": [
+          {
+            "check": "test -d build/symbols/ios",
+            "error": "Símbolos iOS no fueron generados"
+          },
+          {
+            "check": "test -d build/ios/Release-iphoneos/Runner.app",
+            "error": "Runner.app no fue generado"
+          }
+        ]
+      }
+    ]
+  },
+
+  "final_validation_script": {
+    "name": "validate-implementation.sh",
+    "url": "https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh",
+    "description": "Script que detecta plataformas configuradas y valida cada una",
+    "execution": "curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash",
+    "must_pass": true,
+    "error_action": "Si falla, identificar el error, corregir y re-ejecutar. NO marcar implementación como completa."
+  },
+
+  "agent_rules": {
+    "rule_1": "Declarar fuente ANTES de cada cambio",
+    "rule_2": "Ejecutar checkpoint DESPUÉS de cada cambio",
+    "rule_3": "Verificar personalización (no valores genéricos)",
+    "rule_4": "Generar reporte de conformidad por fase",
+    "rule_5": "Alertar desviaciones inmediatamente",
+    "rule_6": "Generar registro de auditoría final",
+    "rule_7": "EJECUTAR validación automática de TODAS las plataformas configuradas ANTES de marcar como completo"
+  },
+
+  "error_prevention": {
+    "common_mistake": "Configurar múltiples plataformas pero solo validar una",
+    "prevention": "El agente DEBE detectar qué plataformas configuró y validar CADA UNA con su build correspondiente",
+    "checklist_before_completion": [
+      "Detecté que configuré las siguientes plataformas: [lista]",
+      "Para cada plataforma, ejecuté su build de validación",
+      "Todas las validaciones pasaron exitosamente",
+      "El script validate-implementation.sh retornó exit code 0",
+      "Solo ahora puedo generar la auditoría final"
+    ]
+  }
+}
