@@ -12,7 +12,7 @@
 
 ### Android + iOS
 ```
-ERES UN AGENTE IA implementando ofuscación Flutter. RESPONDE SIEMPRE EN ESPAÑOL.
+ERES UN AGENTE IA implementando ofuscación y optimización de tamaño Flutter. RESPONDE SIEMPRE EN ESPAÑOL.
 
 PASO 0 - LEER PRIMERO (OBLIGATORIO):
 Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
@@ -42,7 +42,7 @@ Al finalizar ejecuta el script de validación automática.
 
 ### Solo Android
 ```
-ERES UN AGENTE IA implementando ofuscación Flutter para Android. RESPONDE SIEMPRE EN ESPAÑOL.
+ERES UN AGENTE IA implementando ofuscación y optimización de tamaño Flutter para Android. RESPONDE SIEMPRE EN ESPAÑOL.
 
 PASO 0 - LEER PRIMERO (OBLIGATORIO):
 Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
@@ -66,7 +66,7 @@ Al finalizar ejecuta el script de validación automática.
 
 ### Solo iOS
 ```
-ERES UN AGENTE IA implementando ofuscación Flutter para iOS. RESPONDE SIEMPRE EN ESPAÑOL.
+ERES UN AGENTE IA implementando ofuscación y optimización de tamaño Flutter para iOS. RESPONDE SIEMPRE EN ESPAÑOL.
 
 PASO 0 - LEER PRIMERO (OBLIGATORIO):
 Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
@@ -96,9 +96,8 @@ Al finalizar ejecuta el script de validación automática.
 
 ### Verificar Implementación
 ```
-Verifica mi implementación de ofuscación y optimización usando el checklist: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
+Verifica mi implementación de ofuscación y optimización de tamaño usando el checklist: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
 ```
-m
 ### Solucionar Errores
 ```
 Tengo este error: [pega el error]. Busca la solución en: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
@@ -673,7 +672,7 @@ NO puedo marcar como completo hasta que TODAS las plataformas configuradas pasen
 **Cuándo usar**: Cuando necesitas instrucciones paso a paso para implementar ofuscación completa
 
 ```
-Implementa ofuscación y minificación completa en mi proyecto Flutter para Android e iOS.
+Implementa ofuscación y optimización de tamaño completa en mi proyecto Flutter para Android e iOS.
 
 REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
@@ -1153,7 +1152,7 @@ Procede paso a paso y muestra el progreso.
 **Cuándo usar**: Después de implementar, para validar que todo esté correcto
 
 ```
-Verifica que la implementación de ofuscación y optimización esté completa y correcta.
+Verifica que la implementación de ofuscación y optimización de tamaño esté completa y correcta.
 
 REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
