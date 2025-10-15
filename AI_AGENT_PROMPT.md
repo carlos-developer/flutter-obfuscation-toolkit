@@ -12,7 +12,24 @@
 
 ### Android + iOS
 ```
-Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md. Usa la especificación estructurada en https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones paso a paso.
+ERES UN AGENTE IA implementando ofuscación Flutter. RESPONDE SIEMPRE EN ESPAÑOL.
+
+PASO 0 - LEER PRIMERO (OBLIGATORIO):
+Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
+1. MIGRATION_GUIDE.md: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+2. agent-instructions.json: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json
+
+Usa agent-instructions.json como fuente de pasos atómicos y validaciones programáticas.
+Usa MIGRATION_GUIDE.md como contexto y explicaciones.
+
+REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
+- REGLA 1: ANTES de cada cambio declara: "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md - Sección: [nombre] - Acción: [descripción]"
+- REGLA 2: DESPUÉS de cada cambio ejecuta checkpoint con validaciones bash
+- REGLA 3: Verifica que NO quedan valores genéricos (com.example.app)
+- REGLA 4: Al finalizar cada fase genera reporte de conformidad
+- REGLA 5: Si algo NO está documentado, DETENTE y alerta
+- REGLA 6: Al completar TODO genera auditoría final
+- REGLA 7: Ejecuta validación automática de TODAS las plataformas configuradas
 
 IMPORTANTE para iOS:
 - Si el build de iOS falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
@@ -20,25 +37,61 @@ IMPORTANTE para iOS:
 - PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
 - Espera confirmación del usuario antes de continuar con el build
 
-Al finalizar todas las configuraciones ejecuta el script de validación automática.
+Al finalizar ejecuta el script de validación automática.
 ```
 
 ### Solo Android
 ```
-Implementa ofuscación y optimización de tamaño para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android). Usa https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones estructuradas. Al finalizar ejecuta el script de validación.
+ERES UN AGENTE IA implementando ofuscación Flutter para Android. RESPONDE SIEMPRE EN ESPAÑOL.
+
+PASO 0 - LEER PRIMERO (OBLIGATORIO):
+Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
+1. MIGRATION_GUIDE.md (solo sección Android): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+2. agent-instructions.json (solo phase_id: android_config): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json
+
+Usa agent-instructions.json como fuente de pasos atómicos y validaciones programáticas.
+Usa MIGRATION_GUIDE.md como contexto y explicaciones.
+
+REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
+- REGLA 1: ANTES de cada cambio declara: "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md - Sección: [nombre] - Acción: [descripción]"
+- REGLA 2: DESPUÉS de cada cambio ejecuta checkpoint con validaciones bash
+- REGLA 3: Verifica que NO quedan valores genéricos (com.example.app)
+- REGLA 4: Al finalizar cada fase genera reporte de conformidad
+- REGLA 5: Si algo NO está documentado, DETENTE y alerta
+- REGLA 6: Al completar TODO genera auditoría final
+- REGLA 7: Ejecuta validación automática de Android
+
+Al finalizar ejecuta el script de validación automática.
 ```
 
 ### Solo iOS
 ```
-Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS). Usa https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones estructuradas.
+ERES UN AGENTE IA implementando ofuscación Flutter para iOS. RESPONDE SIEMPRE EN ESPAÑOL.
 
-IMPORTANTE:
-- Si el build falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
+PASO 0 - LEER PRIMERO (OBLIGATORIO):
+Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
+1. MIGRATION_GUIDE.md (solo sección iOS): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+2. agent-instructions.json (solo phase_id: ios_config): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json
+
+Usa agent-instructions.json como fuente de pasos atómicos y validaciones programáticas.
+Usa MIGRATION_GUIDE.md como contexto y explicaciones.
+
+REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
+- REGLA 1: ANTES de cada cambio declara: "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md - Sección: [nombre] - Acción: [descripción]"
+- REGLA 2: DESPUÉS de cada cambio ejecuta checkpoint con validaciones bash
+- REGLA 3: Verifica que NO quedan valores genéricos (com.example.app)
+- REGLA 4: Al finalizar cada fase genera reporte de conformidad
+- REGLA 5: Si algo NO está documentado, DETENTE y alerta
+- REGLA 6: Al completar TODO genera auditoría final
+- REGLA 7: Ejecuta validación automática de iOS
+
+IMPORTANTE para iOS:
+- Si el build de iOS falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
 - Consulta: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md
-- PAUSA y solicita al usuario configurar manualmente Xcode Workspace Settings
-- Espera confirmación antes de continuar
+- PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
+- Espera confirmación del usuario antes de continuar con el build
 
-Al finalizar ejecuta el script de validación.
+Al finalizar ejecuta el script de validación automática.
 ```
 
 ### Verificar Implementación
