@@ -12,17 +12,17 @@
 
 ### Android + iOS
 ```
-Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md, ten en cuenta las reglas de trazabilidad definidas en MIGRATION_GUIDE
+Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md. Usa la especificación estructurada en https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones paso a paso. Al finalizar ejecuta el script de validación automática.
 ```
 
 ### Solo Android
 ```
-Implementa ofuscación y optimización de tamaño para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android), ten en cuenta las reglas de trazabilidad definidas en MIGRATION_GUIDE
+Implementa ofuscación y optimización de tamaño para Android siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección Android). Usa https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones estructuradas. Al finalizar ejecuta el script de validación.
 ```
 
 ### Solo iOS
 ```
-Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS), ten en cuenta las reglas de trazabilidad definidas en MIGRATION_GUIDE
+Implementa ofuscación y optimización de tamaño para iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md (solo sección iOS). Usa https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones estructuradas. Al finalizar ejecuta el script de validación.
 ```
 
 ### Verificar Implementación
@@ -63,6 +63,124 @@ Si necesitas más control, usa estos prompts más específicos:
 3. Pégalo en tu agente IA
 4. El agente sigue las instrucciones paso a paso
 5. **Validación estricta en cada fase** (ver reglas abajo)
+
+---
+
+## 🤖 Archivos para Agentes IA
+
+Este toolkit incluye archivos específicos para que los agentes IA procesen las instrucciones de forma estructurada:
+
+### 📄 agent-instructions.json
+**URL**: `https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json`
+
+**Propósito**: Especificación procesable por máquina (JSON) del toolkit completo.
+
+**Contiene**:
+- Pasos atómicos con validaciones programáticas
+- Protocolo de trazabilidad formal (7 reglas obligatorias)
+- Comandos de validación con exit codes esperados
+- Detección de personalizaciones obligatorias
+- Prevención de errores comunes
+- Checklist de validación final
+
+**Cuándo usarlo**:
+- ✅ Agentes IA avanzados que pueden parsear JSON (Claude, GPT-4, Gemini)
+- ✅ Validaciones automáticas paso a paso
+- ✅ Implementaciones que requieren máxima precisión
+- ✅ Auditorías y certificación de conformidad
+
+**Ejemplo de uso por el agente**:
+```json
+{
+  "step_id": "android_01",
+  "file": "android/app/build.gradle.kts",
+  "search_pattern": "defaultConfig {",
+  "action": "add_after_pattern",
+  "content": "        multiDexEnabled = true",
+  "validation": {
+    "command": "grep -q 'multiDexEnabled = true' android/app/build.gradle.kts",
+    "expected_exit_code": 0
+  }
+}
+```
+
+El agente:
+1. Lee el JSON completo
+2. Ejecuta cada paso en orden
+3. Valida automáticamente con los comandos especificados
+4. Reporta conformidad con el protocolo de trazabilidad
+
+### 📜 MIGRATION_GUIDE.md
+**URL**: `https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md`
+
+**Propósito**: Guía paso a paso en lenguaje natural (para humanos y agentes).
+
+**Contiene**:
+- Instrucciones detalladas por plataforma
+- Ejemplos de código completos
+- Explicaciones del "por qué" de cada paso
+- Troubleshooting integrado
+- Las 7 reglas de trazabilidad para agentes IA
+
+**Cuándo usarlo**:
+- ✅ Primera vez implementando el toolkit
+- ✅ Necesitas entender el contexto de cada paso
+- ✅ Lectura humana + ejecución por agente IA
+- ✅ Referencia rápida
+
+### 🔍 validate-implementation.sh
+**URL**: `https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh`
+
+**Propósito**: Script de validación automática que detecta plataformas configuradas y valida cada una.
+
+**Ejecución**:
+```bash
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+```
+
+**Qué valida**:
+- Detecta qué plataformas (Android/iOS) fueron configuradas
+- Valida archivos de configuración
+- Ejecuta builds de todas las plataformas detectadas
+- Verifica artifacts generados
+- Retorna exit code 0 solo si TODO pasó
+
+**CRÍTICO para agentes IA**:
+Este script DEBE ejecutarse antes de generar el registro de auditoría final (REGLA 7).
+
+---
+
+## 🔗 Relación entre los archivos
+
+```
+┌─────────────────────────────────────┐
+│  Usuario copia prompt               │
+└────────────┬────────────────────────┘
+             ↓
+┌─────────────────────────────────────┐
+│  Agente IA lee:                     │
+│  1. MIGRATION_GUIDE.md (contexto)   │
+│  2. agent-instructions.json (pasos) │
+└────────────┬────────────────────────┘
+             ↓
+┌─────────────────────────────────────┐
+│  Agente ejecuta implementación      │
+│  siguiendo protocolo de validación  │
+└────────────┬────────────────────────┘
+             ↓
+┌─────────────────────────────────────┐
+│  Agente ejecuta:                    │
+│  validate-implementation.sh         │
+└────────────┬────────────────────────┘
+             ↓
+        ┌────┴────┐
+        │ ¿Pasa?  │
+        └────┬────┘
+   ✅ Sí │    │ ❌ No
+         ↓    ↓
+   Auditoría  Corregir y re-ejecutar
+   final      (no marcar como completo)
+```
 
 ---
 
