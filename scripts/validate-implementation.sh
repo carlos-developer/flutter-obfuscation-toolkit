@@ -294,6 +294,120 @@ if [ "$IOS_CONFIGURED" = true ]; then
 fi
 
 ################################################################################
+# FASE 4: Validación Técnica de Ofuscación
+################################################################################
+
+echo "📋 FASE 4: Validando ofuscación real en binarios..."
+echo ""
+
+if [ "$ANDROID_CONFIGURED" = true ] && [ $ERRORS -eq 0 ]; then
+    echo "🔍 Validando ofuscación Android:"
+    echo ""
+
+    # Validar R8 activo en mapping.txt
+    if test -f build/app/outputs/mapping/release/mapping.txt; then
+        if grep -q "# compiler: R8" build/app/outputs/mapping/release/mapping.txt; then
+            print_success "  R8 Compiler activo"
+
+            # Contar líneas en mapping.txt (indicador de ofuscación)
+            MAPPING_LINES=$(wc -l < build/app/outputs/mapping/release/mapping.txt | tr -d ' ')
+            if [ "$MAPPING_LINES" -gt 10000 ]; then
+                print_success "  mapping.txt contiene $MAPPING_LINES líneas (ofuscación activa)"
+            else
+                print_warning "  mapping.txt tiene solo $MAPPING_LINES líneas (posible ofuscación mínima)"
+            fi
+
+            # Verificar clases removidas por R8
+            R8_REMOVED=$(grep -c "R8\$\$REMOVED" build/app/outputs/mapping/release/mapping.txt 2>/dev/null || echo "0")
+            if [ "$R8_REMOVED" -gt 0 ]; then
+                print_success "  R8 removió $R8_REMOVED clases no utilizadas"
+            else
+                print_info "  No se encontraron clases removidas explícitamente"
+            fi
+        else
+            print_error "  mapping.txt no contiene header de R8"
+        fi
+    else
+        print_warning "  No se puede validar R8 (mapping.txt no existe)"
+    fi
+
+    # Validar ofuscación Dart en APK
+    echo ""
+    print_info "Validando ofuscación de código Dart..."
+
+    # Extraer APK para inspección
+    APK_FILE=$(ls build/app/outputs/flutter-apk/app-arm64-v8a-release.apk 2>/dev/null | head -1)
+    if [ -n "$APK_FILE" ]; then
+        TEMP_DIR=$(mktemp -d)
+        unzip -q "$APK_FILE" -d "$TEMP_DIR" 2>/dev/null
+
+        if test -f "$TEMP_DIR/lib/arm64-v8a/libapp.so"; then
+            # Buscar nombres de clases comunes que NO deberían estar visibles
+            FOUND_CLASSES=0
+
+            # Lista de nombres comunes a buscar (personaliza según tu app)
+            for CLASS_NAME in "MyApp" "MyHomePage" "_State" "HomePage" "MainPage"; do
+                if strings "$TEMP_DIR/lib/arm64-v8a/libapp.so" 2>/dev/null | grep -qi "$CLASS_NAME"; then
+                    ((FOUND_CLASSES++))
+                fi
+            done
+
+            if [ "$FOUND_CLASSES" -eq 0 ]; then
+                print_success "  Nombres de clases NO encontrados en binario (ofuscación Dart activa)"
+            else
+                print_warning "  Se encontraron $FOUND_CLASSES nombres de clases comunes (revisar si son de tu app)"
+            fi
+        else
+            print_warning "  No se pudo extraer libapp.so para validar"
+        fi
+
+        # Limpiar
+        rm -rf "$TEMP_DIR"
+    else
+        print_warning "  APK no encontrado para validación de ofuscación Dart"
+    fi
+
+    echo ""
+fi
+
+if [ "$IOS_CONFIGURED" = true ] && [ $ERRORS -eq 0 ]; then
+    if [[ "$OSTYPE" == "darwin"* ]]; then
+        echo "🔍 Validando ofuscación iOS:"
+        echo ""
+
+        # Validar que el binario está stripped
+        if test -f build/ios/Release-iphoneos/Runner.app/Runner; then
+            if file build/ios/Release-iphoneos/Runner.app/Runner 2>/dev/null | grep -q "stripped"; then
+                print_success "  Binario iOS correctamente stripped"
+            else
+                print_warning "  Binario iOS no muestra 'stripped' en metadata"
+            fi
+
+            # Verificar tamaño del binario (indicador de stripping)
+            BINARY_SIZE=$(stat -f%z build/ios/Release-iphoneos/Runner.app/Runner 2>/dev/null || echo "0")
+            BINARY_SIZE_MB=$((BINARY_SIZE / 1024 / 1024))
+            if [ "$BINARY_SIZE_MB" -lt 20 ]; then
+                print_success "  Tamaño del binario: ${BINARY_SIZE_MB}MB (optimizado)"
+            else
+                print_info "  Tamaño del binario: ${BINARY_SIZE_MB}MB"
+            fi
+        else
+            print_warning "  No se puede validar binario iOS (no encontrado)"
+        fi
+
+        # Validar símbolos separados
+        if test -d build/symbols/ios; then
+            SYMBOL_SIZE=$(du -sh build/symbols/ios 2>/dev/null | awk '{print $1}')
+            print_success "  Símbolos separados generados: $SYMBOL_SIZE"
+        fi
+
+        echo ""
+    fi
+fi
+
+echo ""
+
+################################################################################
 # REPORTE FINAL
 ################################################################################
 

@@ -37,15 +37,21 @@ Al finalizar ejecuta validate-implementation.sh.
 ### Scripts de Automatización
 - `setup_obfuscation.sh` - Configura todo automáticamente
 - `build_release_obfuscated.sh` - Build con validaciones
+- `validate-implementation.sh` - **Valida que la ofuscación funciona correctamente**
 - `deobfuscate.sh` - Des-ofuscar crashes de producción
+- `fix_xcode_modulecache.sh` - Soluciona problemas de Xcode 16.2
 
 ### Templates
 - `proguard-rules.template.pro` - Reglas ProGuard listas para usar
+- `Release.xcconfig.template` - Configuración iOS optimizada
 - `README_OBFUSCATION.md` - Referencia rápida de comandos
 
-### Especificación para Agentes IA
-- `agent-instructions.json` - Especificación procesable (JSON) para validaciones automáticas y protocolo de trazabilidad
-- `validate-implementation.sh` - Script de validación automática de plataformas configuradas
+### Validación Técnica
+- **NUEVO**: `VALIDATION_GUIDE.md` - Guía completa para verificar ofuscación real
+- `validate-implementation.sh` - Detecta plataformas configuradas y valida automáticamente
+- Validación de R8/ProGuard activo
+- Verificación de ofuscación Dart en binarios
+- Comprobación de Symbol Stripping en iOS
 
 ### Guías de Uso
 - **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** - Guía paso a paso (EMPIEZA AQUÍ)
@@ -93,6 +99,8 @@ Ver [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
 ## 📚 Documentación
 
 **Para implementar**: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Proceso paso a paso
+
+**Para validar**: [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) - Verificar que funciona correctamente
 
 **Si hay problemas**: [TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md) - 30+ casos resueltos
 

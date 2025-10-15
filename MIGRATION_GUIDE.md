@@ -29,22 +29,26 @@ Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guí
 **ANTES** de realizar cualquier modificación, declara:
 
 ```
-📖 EJECUTANDO DESDE MIGRATION_GUIDE.md
+🎯 PASO INICIADO - MIGRATION_GUIDE.md
 
-Sección: [nombre de la sección]
-Líneas: [número de líneas]
-Acción: [descripción breve]
-Estado: INICIANDO
+📖 Sección: [nombre de la sección]
+📄 Líneas: [número de líneas]
+⚙️  Acción: [descripción breve]
+🔄 Estado: INICIANDO
+
+════════════════════════════════════════
 ```
 
 **Ejemplo**:
 ```
-📖 EJECUTANDO DESDE MIGRATION_GUIDE.md
+🎯 PASO INICIADO - MIGRATION_GUIDE.md
 
-Sección: "Paso 1.1 - Modificar build.gradle.kts"
-Líneas: 112-137
-Acción: Agregar configuraciones R8 (multiDexEnabled, isMinifyEnabled, isShrinkResources)
-Estado: INICIANDO
+📖 Sección: "Paso 1.1 - Modificar build.gradle.kts"
+📄 Líneas: 373-402
+⚙️  Acción: Agregar configuraciones R8 (multiDexEnabled, isMinifyEnabled, isShrinkResources)
+🔄 Estado: INICIANDO
+
+════════════════════════════════════════
 ```
 
 ---
@@ -559,6 +563,37 @@ temp/
 
 ## ✅ Validación
 
+**⚠️ IMPORTANTE**: La validación es **CRÍTICA** para confirmar que la ofuscación está realmente funcionando, no solo configurada.
+
+### 🤖 Validación Automática (Recomendado)
+
+El método más rápido y completo. Ejecuta el script de validación:
+
+```bash
+# Opción 1: Si tienes el toolkit descargado
+./scripts/validate-implementation.sh
+
+# Opción 2: Desde URL (sin descargar nada)
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+```
+
+**Este script automáticamente:**
+1. ✅ Detecta qué plataformas configuraste (Android, iOS, o ambas)
+2. ✅ Valida archivos de configuración
+3. ✅ Ejecuta builds de prueba para CADA plataforma configurada
+4. ✅ **Valida técnicamente que la ofuscación está funcionando**
+5. ✅ Genera reporte completo con exit code 0 si todo está OK
+
+**Resultado esperado**: Exit code 0 y mensaje "IMPLEMENTACIÓN CERTIFICADA"
+
+**Ver documentación completa**: [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)
+
+---
+
+### 🔧 Validación Manual (Opcional)
+
+Si prefieres validar manualmente paso a paso:
+
 ### Phase 1: Verificar Configuración
 
 Verifica solo las plataformas que configuraste:
@@ -568,7 +603,7 @@ Verifica solo las plataformas que configuraste:
 grep "minifyEnabled" android/app/build.gradle*
 
 # Si configuraste iOS: Verificar symbol stripping
-grep "STRIP_INSTALLED_PRODUCT" ios/Runner.xcodeproj/project.pbxproj
+grep "STRIP_INSTALLED_PRODUCT" ios/Flutter/Release.xcconfig
 ```
 
 ---
@@ -647,51 +682,122 @@ file build/ios/Release-iphoneos/Runner.app/Runner
 
 ---
 
-### Phase 3: Verificar Ofuscación
+### Phase 3: Validación Técnica de Ofuscación
 
-#### 3.1 Verificar Ofuscación Android (Si construiste Android)
+**⚠️ CRÍTICO**: Estos pasos confirman que la ofuscación está **realmente funcionando**, no solo configurada.
+
+#### 3.1 Validación Técnica Android (Si construiste Android)
 
 **Solo ejecuta esto si construiste Android en el paso anterior.**
+
+**a) Verificar R8 Activo:**
+
+```bash
+# Verificar header de R8 en mapping.txt
+head -5 build/app/outputs/mapping/release/mapping.txt
+
+# Expected output:
+# # compiler: R8
+# # compiler_version: 8.x.x
+# # min_api: XX
+```
+
+**b) Verificar Nivel de Ofuscación:**
+
+```bash
+# Contar líneas en mapping.txt (más líneas = más ofuscación)
+wc -l build/app/outputs/mapping/release/mapping.txt
+
+# Expected: >10,000 líneas para apps medianas
+# Expected: >30,000 líneas para apps grandes
+```
+
+**c) Verificar Dead Code Elimination:**
+
+```bash
+# Buscar clases removidas por R8
+grep "R8\$\$REMOVED" build/app/outputs/mapping/release/mapping.txt | wc -l
+
+# Expected: >5 clases removidas (indica R8 activo)
+```
+
+**d) Verificar Ofuscación Dart:**
 
 ```bash
 # Descomprimir APK
 unzip -q build/app/outputs/flutter-apk/app-arm64-v8a-release.apk -d /tmp/apk_check
 
 # Buscar nombres de clases (NO deberían aparecer)
-strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep "TuClasePrincipal"
+strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep -i "MyApp"
+strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep -i "MyHomePage"
 # Expected: Sin resultados
-
-# Verificar símbolos ofuscados (SÍ deberían aparecer)
-strings /tmp/apk_check/lib/arm64-v8a/libapp.so | head -50
-# Expected: Nombres cortos como "a", "b", "aa", "ab"
 
 # Limpiar
 rm -rf /tmp/apk_check
 ```
 
-**Resultado esperado Android**: No debería encontrar nombres de tus clases originales.
+**✅ Resultado esperado Android**:
+- R8 header encontrado
+- mapping.txt >10,000 líneas
+- Clases R8$$REMOVED encontradas
+- Nombres de clases originales NO encontrados en libapp.so
 
-#### 3.2 Verificar Ofuscación iOS (Si construiste iOS)
+**❌ Si falla**: La ofuscación NO está funcionando correctamente. Revisa la configuración.
+
+---
+
+#### 3.2 Validación Técnica iOS (Si construiste iOS)
 
 **Solo ejecuta esto si construiste iOS en el paso anterior.**
+
+**a) Verificar Symbol Stripping:**
 
 ```bash
 # Verificar que símbolos están stripped
 file build/ios/Release-iphoneos/Runner.app/Runner
 
-# Expected output:
+# Expected output (debe contener "stripped"):
 # build/ios/Release-iphoneos/Runner.app/Runner: Mach-O 64-bit arm64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|PIE>, stripped
-
-# Verificar símbolos iOS generados
-ls -lh build/symbols/ios/
-# Expected: app.ios-arm64.symbols
-
-# Verificar tamaño del binario (debe ser menor)
-du -h build/ios/Release-iphoneos/Runner.app/Runner
-# Expected: ~8-15 MB (varía según app)
 ```
 
-**Resultado esperado iOS**: El binario debe tener "stripped" en el output de `file`.
+**b) Verificar Tamaño Optimizado:**
+
+```bash
+# Verificar tamaño del binario
+du -h build/ios/Release-iphoneos/Runner.app/Runner
+
+# Expected: ~8-15 MB (menor que sin stripping)
+```
+
+**c) Verificar Símbolos Separados:**
+
+```bash
+# Verificar símbolos iOS generados
+ls -lh build/symbols/ios/
+
+# Expected: app.ios-arm64.symbols (~1-2 MB)
+```
+
+**d) Intentar Leer Símbolos (debe fallar):**
+
+```bash
+# Intentar leer tabla de símbolos
+nm build/ios/Release-iphoneos/Runner.app/Runner 2>&1
+
+# Expected: Error o "no symbols" (confirma stripping)
+```
+
+**✅ Resultado esperado iOS**:
+- Output de `file` contiene "stripped"
+- Binario <20 MB
+- Símbolos .symbols generados
+- `nm` no puede leer símbolos
+
+**❌ Si falla**: El stripping NO está funcionando. Revisa Release.xcconfig.
+
+---
+
+**📚 Documentación Completa de Validación**: Ver [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) para validaciones técnicas profundas adicionales.
 
 ---
 
