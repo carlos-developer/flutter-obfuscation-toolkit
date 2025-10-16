@@ -284,6 +284,6 @@ Sigue las instrucciones de https://raw.githubusercontent.com/carlos-developer/fl
 
 ---
 
-**Última actualización**: 2025-10-14
+**Última actualización**: 2025-10-16
 **Versión**: 1.0.0
 **Aplica a**: Xcode 16.2+ con bug de ModuleCache

@@ -128,7 +128,7 @@ NO modifiques nada relacionado con iOS.
 
 EJECUCIÓN:
 - Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Paso 1 (Android) únicamente
-- Cumple las 8 reglas de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md en cada paso
+- Cumple las 9 reglas de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md en cada paso
 - Omite pasos iOS completamente
 
 ═══════════════════════════════════════════════════════════
@@ -194,7 +194,7 @@ NO modifiques nada relacionado con Android.
 
 EJECUCIÓN:
 - Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Paso 2 (iOS) únicamente
-- Cumple las 8 reglas de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md en cada paso
+- Cumple las 9 reglas de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md en cada paso
 - Omite pasos Android completamente
 
 ═══════════════════════════════════════════════════════════
@@ -419,12 +419,12 @@ Si tienes problemas con los prompts:
 
 ---
 
-**Última actualización**: 2025-10-15
+**Última actualización**: 2025-10-16
 **Versión**: 3.0.0
 **Cambios**:
 - Eliminados prompts cortos - Solo prompts detallados
 - Incorporada validación técnica de VALIDATION_GUIDE.md
 - Énfasis en FASE 4 del script validate-implementation.sh
-- Referencias a las 8 reglas de trazabilidad de IMPLEMENTATION.md
+- Referencias a las 9 reglas de trazabilidad de IMPLEMENTATION.md
 - Validación técnica profunda: R8, mapping.txt, ofuscación Dart, symbol stripping
 **Compatible con**: Claude Code, Gemini, Cursor AI, Windsurf

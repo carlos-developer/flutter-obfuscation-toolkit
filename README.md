@@ -35,7 +35,7 @@ Sigue **[IMPLEMENTATION.md](IMPLEMENTATION.md)** paso a paso.
 | Documento | Propósito |
 |-----------|-----------|
 | **[IMPLEMENTATION.md](IMPLEMENTATION.md)** | Guía paso a paso de implementación (EMPIEZA AQUÍ) |
-| **[RULES.md](RULES.md)** | 8 reglas obligatorias de trazabilidad para agentes IA |
+| **[RULES.md](RULES.md)** | 9 reglas obligatorias de trazabilidad para agentes IA |
 | **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)** | Validación técnica profunda de ofuscación |
 | **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** | Prompts detallados para agentes IA |
 | **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** | Solución de 30+ problemas comunes |
@@ -176,6 +176,6 @@ Pull requests bienvenidos. Para cambios grandes, abre un issue primero.
 
 ---
 
-**Última actualización**: 2025-10-15 | **Versión**: 3.0.0
+**Última actualización**: 2025-10-16 | **Versión**: 3.0.0
 
 **⭐ Si te ayudó, dale una estrella en GitHub!**

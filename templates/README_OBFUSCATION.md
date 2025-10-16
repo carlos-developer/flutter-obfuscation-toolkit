@@ -222,5 +222,5 @@ grep "minifyEnabled" android/app/build.gradle*
 
 ---
 
-Última actualización: 2025-10-11
+Última actualización: 2025-10-16
 Versión: 1.0.0

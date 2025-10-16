@@ -6,7 +6,7 @@
 
 ## ⚠️ INSTRUCCIONES OBLIGATORIAS SI ERES UN AGENTE IA
 
-Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando este toolkit, **DEBES cumplir estas 8 reglas obligatorias** para garantizar trazabilidad completa y validación de cada paso.
+Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando este toolkit, **DEBES cumplir estas 9 reglas obligatorias** para garantizar trazabilidad completa y validación de cada paso.
 
 ---
 
@@ -418,6 +418,6 @@ Acción: Descargando a scripts/build_release_obfuscated.sh
 
 ---
 
-**Última actualización**: 2025-10-15
+**Última actualización**: 2025-10-16
 **Versión**: 4.0.0
 **Aplicable a**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md, AI_AGENT_PROMPT.md, todos los prompts del toolkit

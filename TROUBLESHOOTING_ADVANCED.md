@@ -945,7 +945,7 @@ buildTypes {
 
 ---
 
-**Última actualización**: 2025-10-15
+**Última actualización**: 2025-10-16
 **Versión**: 1.0.1
 
 **Changelog 1.0.1**:

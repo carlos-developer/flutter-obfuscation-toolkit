@@ -20,7 +20,7 @@
 
 ### ⚠️ INSTRUCCIONES OBLIGATORIAS SI ERES UN AGENTE IA
 
-Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guía, **DEBES cumplir las 8 reglas obligatorias de trazabilidad**.
+Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guía, **DEBES cumplir las 9 reglas obligatorias de trazabilidad**.
 
 📖 **LEE PRIMERO**: [RULES.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md)
 
@@ -812,6 +812,6 @@ Después de migrar:
 
 ---
 
-**Última actualización**: 2025-10-14
+**Última actualización**: 2025-10-16
 **Versión**: 1.0.0
 **Filosofía**: Agentes IA leen desde repositorio y crean archivos en TU proyecto - NO copiar
