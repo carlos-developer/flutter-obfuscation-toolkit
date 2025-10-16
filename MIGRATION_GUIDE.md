@@ -26,7 +26,7 @@ Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guí
 
 **Documentación completa**: Ver https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md para ejemplos detallados de cada regla.
 
-**Resumen de las 8 reglas obligatorias**:
+**Resumen de las 9 reglas obligatorias**:
 
 1. **REGLA 1**: Declarar fuente ANTES de cada cambio
 2. **REGLA 2**: Ejecutar checkpoint DESPUÉS de cada cambio
@@ -34,10 +34,11 @@ Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guí
 4. **REGLA 4**: Generar reporte de conformidad por fase
 5. **REGLA 5**: Alertar desviaciones inmediatamente
 6. **REGLA 6**: Generar registro de auditoría final
-7. **REGLA 7**: Validar TODAS las plataformas configuradas
+7. **REGLA 7**: Validación manual ANTES de scripts automáticos
 8. **REGLA 8**: Verificar recursos externos antes de usarlos
+9. **REGLA 9**: Usar curl directo o implementar tú mismo (NO descargar scripts)
 
-**CRÍTICO**: Estas 8 reglas son OBLIGATORIAS. Ver [RULES.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md) para ejemplos detallados y formatos de cada regla.
+**CRÍTICO**: Estas 9 reglas son OBLIGATORIAS. Ver [RULES.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md) para ejemplos detallados y formatos de cada regla.
 
 ---
 
@@ -636,10 +637,45 @@ La ofuscación NO es reversible sin los archivos de mapping. Por eso es crítico
 
 **⚠️ IMPORTANTE**: Los scripts en `scripts/` del repositorio toolkit son **SOLO para referencia opcional de usuarios humanos**.
 
-### Para Agentes IA:
-- ❌ **NO descargues** scripts del repositorio
-- ❌ **NO ejecutes** scripts automáticos
-- ✅ **HAZ TODO manualmente** usando los comandos documentados en esta guía
+### Para Agentes IA (REGLA 9):
+
+**❌ NO HAGAS ESTO:**
+```bash
+# ❌ NO descargues scripts al proyecto del usuario
+curl -o scripts/build_release_obfuscated.sh https://...
+chmod +x scripts/build_release_obfuscated.sh
+
+# ❌ NO crees directorios scripts/ en el proyecto
+mkdir -p scripts/
+```
+
+**✅ OPCIÓN 1: Ejecuta con curl directo (SI el usuario lo solicita)**
+```bash
+# ✅ Ejecuta remotamente sin descargar
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh | bash
+```
+
+**✅ OPCIÓN 2: Implementa tú mismo la funcionalidad (MEJOR)**
+```bash
+# ✅ Lee el script para ver qué hace
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+
+# ✅ Ejecuta los comandos TÚ MISMO
+flutter clean
+flutter pub get
+flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
+# ...continúa con iOS si es necesario
+```
+
+**✅ OPCIÓN 3: Informa al usuario (RECOMENDADO)**
+```markdown
+El usuario puede ejecutar el script de build remotamente con:
+curl -s https://raw.githubusercontent.com/.../build_release_obfuscated.sh | bash
+
+O puedo ejecutar los comandos manualmente paso a paso.
+```
+
+**📋 Ver REGLA 9 completa**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md#-regla-9-usar-curl-directo-en-lugar-de-descargar-scripts
 
 ### Para Usuarios Humanos:
 Los siguientes scripts están disponibles como **ayuda opcional**:
@@ -652,7 +688,17 @@ Los siguientes scripts están disponibles como **ayuda opcional**:
 
 **Ubicación**: https://github.com/carlos-developer/flutter-obfuscation-toolkit/tree/main/scripts
 
-**Si eres agente IA**: Ignora completamente esta sección. Sigue las instrucciones manuales.
+**Ejecución remota sin descargar**:
+```bash
+# Build con ofuscación
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh | bash
+
+# Fix Xcode
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh | bash
+
+# Validación
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+```
 
 ---
 

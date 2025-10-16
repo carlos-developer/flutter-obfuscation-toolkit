@@ -1,6 +1,6 @@
 # 🔒 Reglas de Trazabilidad para Agentes IA
 
-> **8 Reglas Obligatorias para garantizar conformidad completa con el toolkit**
+> **9 Reglas Obligatorias para garantizar conformidad completa con el toolkit**
 
 ---
 
@@ -317,6 +317,82 @@ curl -o scripts/build_release_obfuscated.sh \
 
 ---
 
+## 🌐 REGLA 9: Usar curl Directo en lugar de Descargar Scripts
+
+**⚠️ NUEVA REGLA CRÍTICA**: Los agentes IA NO deben descargar scripts al proyecto del usuario
+
+### ✅ Lo que DEBES hacer:
+
+**OPCIÓN 1: Ejecutar scripts directamente con curl (RECOMENDADO)**
+```bash
+# En lugar de descargar, ejecuta directamente desde el repositorio
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh | bash
+```
+
+**OPCIÓN 2: Implementar la funcionalidad TÚ MISMO (MEJOR)**
+```bash
+# Lee el contenido del script
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
+
+# Analiza qué hace el script
+# Ejecuta los comandos TÚ MISMO paso a paso, adaptándolos al proyecto
+flutter clean
+flutter pub get
+flutter build apk --release --obfuscate --split-debug-info=build/symbols/android --split-per-abi
+# ... etc
+```
+
+**OPCIÓN 3: Leer y mostrar instrucciones al usuario**
+```
+📋 El script build_release_obfuscated.sh realiza:
+1. flutter clean
+2. flutter pub get
+3. flutter build apk --release --obfuscate --split-debug-info=build/symbols/android
+4. flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios
+
+El usuario puede ejecutarlo con:
+curl -s https://raw.githubusercontent.com/.../build_release_obfuscated.sh | bash
+```
+
+### ❌ Lo que NO debes hacer:
+
+```bash
+# ❌ NO hagas esto:
+curl -o scripts/build_release_obfuscated.sh https://...
+chmod +x scripts/build_release_obfuscated.sh
+
+# ❌ NO descargues archivos al proyecto del usuario
+# ❌ NO crees directorios scripts/ en el proyecto del usuario
+# ❌ NO copies scripts innecesarios
+```
+
+### 🎯 Razones para esta regla:
+
+1. **Evita contaminación del proyecto**: El usuario no necesita scripts que puede ejecutar remotamente
+2. **Reduce archivos innecesarios**: Los scripts del toolkit son para referencia, no para distribución
+3. **Maximiza control del agente**: Tú ejecutas los comandos directamente, no delegas a scripts
+4. **Facilita mantenimiento**: Si el toolkit actualiza sus scripts, el usuario usa la última versión automáticamente
+
+### ✅ Excepciones permitidas:
+
+**SOLO descarga scripts SI**:
+- El usuario explícitamente solicita tener una copia local
+- El script necesita personalización específica del proyecto
+- No hay conectividad para ejecutar remotamente
+
+**Formato de descarga autorizada**:
+```
+⚠️  DESCARGA AUTORIZADA - Usuario solicitó copia local
+
+Script: build_release_obfuscated.sh
+Razón: Usuario quiere modificar configuraciones específicas
+Acción: Descargando a scripts/build_release_obfuscated.sh
+
+✅ Descargado - Usuario debe mantener este archivo actualizado manualmente
+```
+
+---
+
 ## 📌 RESUMEN DE EJECUCIÓN
 
 **Secuencia obligatoria**:
@@ -329,17 +405,19 @@ curl -o scripts/build_release_obfuscated.sh \
 6. **Antes de usar recursos externos** → Verifica que existen primero (REGLA 8)
 7. **Antes de auditoría final** → Ejecuta TODAS las validaciones MANUALMENTE (REGLA 7)
 8. **Al completar TODO y validar** → Genera auditoría final (REGLA 6)
+9. **Scripts del toolkit** → Ejecuta con curl directo o implementa tú mismo (REGLA 9)
 
-**Estas 8 reglas son OBLIGATORIAS para garantizar conformidad completa con el toolkit.**
+**Estas 9 reglas son OBLIGATORIAS para garantizar conformidad completa con el toolkit.**
 
 **⚠️ IMPORTANTE PARA AGENTES IA**:
-- **NO descargues scripts** del repositorio toolkit
-- **NO ejecutes scripts** de validación o automatización
-- **TODO debe ser hecho MANUALMENTE** por ti como agente IA
-- Los scripts en el repositorio son **solo para usuarios humanos como referencia opcional**
+- **NO descargues scripts** al proyecto del usuario (ver REGLA 9)
+- **USA curl directo** o implementa la funcionalidad tú mismo
+- **Validaciones MANUALES** obligatorias antes de declarar éxito (REGLA 7)
+- **Inspecciona binarios** directamente con file, nm, strings, otool
+- Los scripts son **referencia** - tú ejecutas los comandos reales
 
 ---
 
 **Última actualización**: 2025-10-15
-**Versión**: 3.0.0
+**Versión**: 4.0.0
 **Aplicable a**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md, AI_AGENT_PROMPT.md, todos los prompts del toolkit

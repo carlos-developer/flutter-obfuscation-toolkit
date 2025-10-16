@@ -39,7 +39,7 @@ INSTRUCCIONES OBLIGATORIAS:
 1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md completo paso a paso
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
 
-2. CUMPLE: Las 8 reglas de RULES.md
+2. CUMPLE: Las 9 reglas de RULES.md (incluyendo REGLA 7: validación manual y REGLA 9: NO descargar scripts)
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md
 
 3. VALIDA: Usando VALIDATION_GUIDE.md al finalizar
@@ -74,17 +74,25 @@ Fases a ejecutar:
 IMPORTANTE:
 - Sigue cada sección en orden
 - Personaliza todos los templates (NO usar valores genéricos)
-- Cumple las 8 reglas en cada paso
-- Ejecuta validate-implementation.sh al finalizar
+- Cumple las 9 reglas en cada paso (especialmente REGLA 7: validación manual y REGLA 9: NO descargar scripts)
+- Valida MANUALMENTE con comandos directos (file, nm, strings, grep, etc.) ANTES de cualquier script
 
 ═══════════════════════════════════════════════════════════
 
-VALIDACIÓN FINAL:
+VALIDACIÓN FINAL (REGLA 7 - MANUAL OBLIGATORIA):
 
-Al completar, ejecuta:
-curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+1. PRIMERO - Validación MANUAL (OBLIGATORIO):
+   - Ejecuta builds manualmente: flutter build apk/ios --release --obfuscate
+   - Inspecciona binarios: file, nm, strings, otool, grep
+   - Verifica mapping.txt: wc -l, head, grep "compiler: R8"
+   - Confirma símbolos generados: find build/symbols -name "*.symbols"
+   - Genera reporte con resultados OBSERVADOS
 
-Expected: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+2. DESPUÉS - Validación Automatizada (OPCIONAL):
+   curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+   Expected: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+
+⚠️  CRÍTICO: NO declares éxito sin completar PRIMERO la validación manual del paso 1.
 
 TROUBLESHOOTING:
 Si encuentras errores: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
@@ -108,7 +116,7 @@ INSTRUCCIONES OBLIGATORIAS:
 1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Solo sección Android
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
 
-2. CUMPLE: Las 8 reglas de RULES.md
+2. CUMPLE: Las 9 reglas de RULES.md (incluyendo REGLA 7: validación manual y REGLA 9: NO descargar scripts)
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md
 
 3. VALIDA: Usando VALIDATION_GUIDE.md al finalizar
@@ -132,17 +140,25 @@ Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-too
 IMPORTANTE:
 - Detecta applicationId automáticamente
 - Personaliza proguard-rules.pro (NO usar valores genéricos)
-- Cumple las 8 reglas en cada paso
-- Ejecuta validate-implementation.sh al finalizar
+- Cumple las 9 reglas en cada paso (especialmente REGLA 7: validación manual y REGLA 9: NO descargar scripts)
+- Valida MANUALMENTE con comandos directos (file, nm, strings, grep, etc.) ANTES de cualquier script
 
 ═══════════════════════════════════════════════════════════
 
-VALIDACIÓN FINAL:
+VALIDACIÓN FINAL (REGLA 7 - MANUAL OBLIGATORIA):
 
-Al completar, ejecuta:
-curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+1. PRIMERO - Validación MANUAL (OBLIGATORIO):
+   - Ejecuta builds manualmente: flutter build apk/ios --release --obfuscate
+   - Inspecciona binarios: file, nm, strings, otool, grep
+   - Verifica mapping.txt: wc -l, head, grep "compiler: R8"
+   - Confirma símbolos generados: find build/symbols -name "*.symbols"
+   - Genera reporte con resultados OBSERVADOS
 
-Expected: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+2. DESPUÉS - Validación Automatizada (OPCIONAL):
+   curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+   Expected: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+
+⚠️  CRÍTICO: NO declares éxito sin completar PRIMERO la validación manual del paso 1.
 
 TROUBLESHOOTING:
 Si encuentras errores: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
@@ -166,7 +182,7 @@ INSTRUCCIONES OBLIGATORIAS:
 1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Solo sección iOS
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
 
-2. CUMPLE: Las 8 reglas de RULES.md
+2. CUMPLE: Las 9 reglas de RULES.md (incluyendo REGLA 7: validación manual y REGLA 9: NO descargar scripts)
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md
 
 3. VALIDA: Usando VALIDATION_GUIDE.md al finalizar
@@ -190,17 +206,25 @@ Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-too
 IMPORTANTE:
 - Aplica Release.xcconfig SIN comentarios
 - Si detectas Xcode 16.2, usa fix_xcode_modulecache.sh
-- Cumple las 8 reglas en cada paso
-- Ejecuta validate-implementation.sh al finalizar
+- Cumple las 9 reglas en cada paso (especialmente REGLA 7: validación manual y REGLA 9: NO descargar scripts)
+- Valida MANUALMENTE con comandos directos (file, nm, strings, grep, etc.) ANTES de cualquier script
 
 ═══════════════════════════════════════════════════════════
 
-VALIDACIÓN FINAL:
+VALIDACIÓN FINAL (REGLA 7 - MANUAL OBLIGATORIA):
 
-Al completar, ejecuta:
-curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+1. PRIMERO - Validación MANUAL (OBLIGATORIO):
+   - Ejecuta builds manualmente: flutter build apk/ios --release --obfuscate
+   - Inspecciona binarios: file, nm, strings, otool, grep
+   - Verifica mapping.txt: wc -l, head, grep "compiler: R8"
+   - Confirma símbolos generados: find build/symbols -name "*.symbols"
+   - Genera reporte con resultados OBSERVADOS
 
-Expected: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+2. DESPUÉS - Validación Automatizada (OPCIONAL):
+   curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+   Expected: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+
+⚠️  CRÍTICO: NO declares éxito sin completar PRIMERO la validación manual del paso 1.
 
 TROUBLESHOOTING:
 Si encuentras errores: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
