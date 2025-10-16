@@ -24,7 +24,7 @@ Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guí
 
 📖 **LEE PRIMERO**: [RULES.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md)
 
-**Documentación completa**: Ver RULES.md para ejemplos detallados de cada regla.
+**Documentación completa**: Ver https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md para ejemplos detallados de cada regla.
 
 **Resumen de las 8 reglas obligatorias**:
 

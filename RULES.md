@@ -254,4 +254,4 @@ Estado: ✅ VERIFICADO - Procedo a descargar con nombre exacto
 
 **Última actualización**: 2025-10-15
 **Versión**: 3.0.0
-**Aplicable a**: MIGRATION_GUIDE.md, AI_AGENT_PROMPT.md, todos los prompts del toolkit
+**Aplicable a**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md, AI_AGENT_PROMPT.md, todos los prompts del toolkit

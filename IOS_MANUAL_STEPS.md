@@ -271,7 +271,7 @@ IMPORTANTE para iOS:
 - PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
 - Espera confirmación del usuario antes de continuar
 
-Usa la especificación estructurada en https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json para validaciones paso a paso. Al finalizar ejecuta el script de validación automática.
+Sigue las instrucciones de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md paso a paso. Al finalizar ejecuta https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh para validación automática.
 ```
 
 ---

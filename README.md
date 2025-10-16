@@ -39,7 +39,6 @@ Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
 | **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)** | Validación técnica profunda de ofuscación |
 | **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** | Prompts detallados para agentes IA |
 | **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** | Solución de 30+ problemas comunes |
-| **[CHECKLIST_OBFUSCATION.md](CHECKLIST_OBFUSCATION.md)** | Checklist de validación |
 | **[IOS_MANUAL_STEPS.md](IOS_MANUAL_STEPS.md)** | Pasos manuales iOS (Xcode 16.2) |
 
 ### 🛠️ Scripts
@@ -61,9 +60,6 @@ Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
 ### 📄 Especificaciones Técnicas
 | Archivo | Descripción |
 |---------|-------------|
-| `agent-instructions.json` | Especificación procesable (JSON) con validaciones programáticas |
-| `TOOLKIT_OVERVIEW.md` | Visión general completa del toolkit |
-| `ANALISIS_DIFICULTADES_TOOLKIT.md` | Análisis de dificultades y criterios de calidad |
 | `docs/` | Documentación SDD completa (SRS, SAD, TIG, TVP, OPM, RTM) |
 
 ---
@@ -121,7 +117,6 @@ Ver documentación completa: **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)**
 | Usar con agente IA | [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md) |
 | Validar implementación | [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) |
 | Resolver errores | [TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md) |
-| Entender el toolkit | [TOOLKIT_OVERVIEW.md](TOOLKIT_OVERVIEW.md) |
 | Pasos manuales iOS | [IOS_MANUAL_STEPS.md](IOS_MANUAL_STEPS.md) |
 
 ---
