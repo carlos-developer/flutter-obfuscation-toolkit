@@ -137,7 +137,13 @@ Si prefieres configurar todo manualmente o entender cada paso:
 
 #### 1.1 Modificar `android/app/build.gradle.kts` (o `.gradle`)
 
-**Para Kotlin DSL** (`build.gradle.kts`):
+**⚠️ ADVERTENCIA CRÍTICA PARA AGENTES IA**:
+- **Este paso REQUIERE edición manual** del usuario
+- **NO intentes editar automáticamente** build.gradle
+- **SOLO muestra al usuario** las líneas que debe agregar
+- Cada proyecto tiene estructura diferente
+
+**Para Kotlin DSL** (`build.gradle.kts`), el usuario debe agregar:
 
 ```kotlin
 android {
@@ -186,38 +192,33 @@ android {
 
 #### 1.2 Crear `android/app/proguard-rules.pro`
 
-Crea el archivo `android/app/proguard-rules.pro` con el siguiente contenido mínimo (o consulta el template completo en: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/android/app/proguard-rules.pro):
+**Descarga el template y personaliza automáticamente**:
 
-```proguard
-# Flutter Core
--keep class io.flutter.app.** { *; }
--keep class io.flutter.plugin.** { *; }
--keep class io.flutter.** { *; }
--keep class io.flutter.plugins.** { *; }
+```bash
+# 1. Descargar template desde repositorio
+curl -o android/app/proguard-rules.pro \
+  https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/proguard-rules.template.pro
 
-# Tu MainActivity (REEMPLAZA com.example.app)
--keep class com.TU_PACKAGE.MainActivity { *; }
+# 2. Detectar tu applicationId automáticamente
+APP_ID=$(grep "applicationId" android/app/build.gradle* | head -1 | sed 's/.*applicationId.*"\(.*\)".*/\1/')
 
-# JNI
--keepclasseswithmembernames class * {
-    native <methods>;
-}
+# 3. Personalizar el archivo con tu applicationId
+sed -i.backup "s/com\.example\.app/${APP_ID}/g" android/app/proguard-rules.pro
+rm android/app/proguard-rules.pro.backup
 
-# Reflection attributes
--keepattributes *Annotation*
--keepattributes Signature
--keepattributes SourceFile,LineNumberTable
-
-# AndroidX
--keep class ** extends androidx.lifecycle.ViewModel { *; }
--keep class ** extends androidx.lifecycle.AndroidViewModel { *; }
-
-# Google Play Core (si Flutter lo usa)
--dontwarn com.google.android.play.core.**
--keep class com.google.android.play.core.** { *; }
+echo "✅ proguard-rules.pro creado y personalizado con: $APP_ID"
 ```
 
-**⚠️ IMPORTANTE**: Reemplaza `com.example.app` con tu `applicationId` real.
+**⚠️ IMPORTANTE**:
+- **NO edites manualmente** el template descargado
+- El comando `sed` reemplaza automáticamente `com.example.app` con tu applicationId real
+- Si usas plugins específicos (sqflite, hive, etc.), agrega reglas al FINAL del archivo
+
+**Agregar reglas personalizadas** (solo si es necesario):
+```bash
+# Ejemplo: Si usas sqflite
+echo "-keep class com.tekartik.sqflite.** { *; }" >> android/app/proguard-rules.pro
+```
 
 ---
 
@@ -318,16 +319,25 @@ chmod +x scripts/fix_xcode_modulecache.sh
 
 ### Paso 4: Actualizar .gitignore
 
-Agrega al `.gitignore` de tu proyecto:
+**Agrega automáticamente las exclusiones**:
 
-```gitignore
+```bash
+cat >> .gitignore << 'EOF'
+
 # Obfuscation artifacts
 build/app/outputs/mapping/
 build/app/outputs/symbols/
 build/symbols/
 *.backup
 temp/
+EOF
+
+echo "✅ .gitignore actualizado"
 ```
+
+**⚠️ IMPORTANTE**:
+- Usa `>>` para AGREGAR al final del archivo existente
+- NO uses `>` (sobrescribirá todo el .gitignore)
 
 ---
 
