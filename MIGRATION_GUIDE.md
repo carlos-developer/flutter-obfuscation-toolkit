@@ -443,213 +443,42 @@ file build/ios/Release-iphoneos/Runner.app/Runner
 
 ---
 
-### Phase 3: Validación Técnica de Ofuscación
+### Phase 3: Validación Técnica
 
-**⚠️ CRÍTICO**: Estos pasos confirman que la ofuscación está **realmente funcionando**, no solo configurada.
+**⚠️ CRÍTICO**: La validación confirma que la ofuscación está **realmente funcionando**, no solo configurada.
 
-#### 3.1 Validación Técnica Android (Si construiste Android)
-
-**Solo ejecuta esto si construiste Android en el paso anterior.**
-
-**a) Verificar R8 Activo:**
-
+**Validación Automática (Recomendada)**:
 ```bash
-# Verificar header de R8 en mapping.txt
-head -5 build/app/outputs/mapping/release/mapping.txt
-
-# Expected output:
-# # compiler: R8
-# # compiler_version: 8.x.x
-# # min_api: XX
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
 ```
 
-**b) Verificar Nivel de Ofuscación:**
+**Expected**: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
 
-```bash
-# Contar líneas en mapping.txt (más líneas = más ofuscación)
-wc -l build/app/outputs/mapping/release/mapping.txt
+**¿Qué valida este script?**
+- ✅ **Android**: R8 activo, mapping.txt >10k líneas, dead code elimination, ofuscación Dart en binario
+- ✅ **iOS**: Binario stripped, tamaño optimizado, símbolos separados, nm falla al leer símbolos
 
-# Expected: >10,000 líneas para apps medianas
-# Expected: >30,000 líneas para apps grandes
-```
+**Validación Manual y Técnica Profunda**:
 
-**c) Verificar Dead Code Elimination:**
-
-```bash
-# Buscar clases removidas por R8
-grep "R8\$\$REMOVED" build/app/outputs/mapping/release/mapping.txt | wc -l
-
-# Expected: >5 clases removidas (indica R8 activo)
-```
-
-**d) Verificar Ofuscación Dart:**
-
-```bash
-# Descomprimir APK
-unzip -q build/app/outputs/flutter-apk/app-arm64-v8a-release.apk -d /tmp/apk_check
-
-# Buscar nombres de clases (NO deberían aparecer)
-strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep -i "MyApp"
-strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep -i "MyHomePage"
-# Expected: Sin resultados
-
-# Limpiar
-rm -rf /tmp/apk_check
-```
-
-**✅ Resultado esperado Android**:
-- R8 header encontrado
-- mapping.txt >10,000 líneas
-- Clases R8$$REMOVED encontradas
-- Nombres de clases originales NO encontrados en libapp.so
-
-**❌ Si falla**: La ofuscación NO está funcionando correctamente. Revisa la configuración.
-
----
-
-#### 3.2 Validación Técnica iOS (Si construiste iOS)
-
-**Solo ejecuta esto si construiste iOS en el paso anterior.**
-
-**a) Verificar Symbol Stripping:**
-
-```bash
-# Verificar que símbolos están stripped
-file build/ios/Release-iphoneos/Runner.app/Runner
-
-# Expected output (debe contener "stripped"):
-# build/ios/Release-iphoneos/Runner.app/Runner: Mach-O 64-bit arm64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|PIE>, stripped
-```
-
-**b) Verificar Tamaño Optimizado:**
-
-```bash
-# Verificar tamaño del binario
-du -h build/ios/Release-iphoneos/Runner.app/Runner
-
-# Expected: ~8-15 MB (menor que sin stripping)
-```
-
-**c) Verificar Símbolos Separados:**
-
-```bash
-# Verificar símbolos iOS generados
-ls -lh build/symbols/ios/
-
-# Expected: app.ios-arm64.symbols (~1-2 MB)
-```
-
-**d) Intentar Leer Símbolos (debe fallar):**
-
-```bash
-# Intentar leer tabla de símbolos
-nm build/ios/Release-iphoneos/Runner.app/Runner 2>&1
-
-# Expected: Error o "no symbols" (confirma stripping)
-```
-
-**✅ Resultado esperado iOS**:
-- Output de `file` contiene "stripped"
-- Binario <20 MB
-- Símbolos .symbols generados
-- `nm` no puede leer símbolos
-
-**❌ Si falla**: El stripping NO está funcionando. Revisa Release.xcconfig.
-
----
-
-**📚 Documentación Completa de Validación**: Ver [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) para validaciones técnicas profundas adicionales.
+Para validación paso a paso o inspección técnica de binarios, ver documentación completa:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/VALIDATION_GUIDE.md
 
 ---
 
 ## 🔍 Troubleshooting
 
-### Problema 1: Build falla con R8
+**Problemas comunes y soluciones rápidas**:
 
-**Error**: `Missing class X`, `Warning: can't find referenced class`
+| Problema | Solución Rápida | Documentación Completa |
+|----------|-----------------|------------------------|
+| **Build falla con R8** | Agregar `-keep class` y `-dontwarn` en `proguard-rules.pro` | [TROUBLESHOOTING_ADVANCED.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md) |
+| **App crashea después** | Des-ofuscar stack trace: `./scripts/deobfuscate.sh -p android -s crash.txt` | [TROUBLESHOOTING_ADVANCED.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md) |
+| **APK sigue grande** | Verificar R8 habilitado + usar `--split-per-abi` | [TROUBLESHOOTING_ADVANCED.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md) |
+| **Xcode 16.2 ModuleCache Error** | Ver guía específica iOS → | [IOS_MANUAL_STEPS.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md) |
+| **unsupported preprocessor** | Eliminar comentarios `#` de Release.xcconfig | [TROUBLESHOOTING_ADVANCED.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md) |
 
-**Solución**:
-1. Agrega reglas en `proguard-rules.pro`:
-   ```proguard
-   -dontwarn nombre.del.paquete.**
-   -keep class nombre.del.paquete.** { *; }
-   ```
-
-2. Identifica la clase faltante en el error
-3. Agrega regla específica o preserva el paquete completo
-
-### Problema 2: App crashea después de ofuscación
-
-**Causa**: R8 eliminó código que se usa via reflection (JSON, etc.)
-
-**Solución**:
-1. Identifica las clases del crash en Firebase/logs
-2. Des-ofusca el stack trace:
-   ```bash
-   ./scripts/deobfuscate.sh -p android -s crash.txt
-   ```
-3. Agrega reglas ProGuard para esas clases:
-   ```proguard
-   -keep class com.tuapp.models.** { *; }
-   ```
-
-### Problema 3: APK sigue siendo grande
-
-**Verificación**:
-```bash
-# ¿R8 está realmente habilitado?
-./gradlew :app:assembleRelease --info | grep "minification"
-```
-
-**Posibles causas**:
-- R8 no habilitado correctamente
-- No estás usando `--split-per-abi`
-- Assets grandes en `assets/`
-
-**Solución**:
-- Verifica `isMinifyEnabled = true` en release
-- Usa `flutter build apk --split-per-abi`
-- Revisa y comprime assets
-
-### Problema 4: Xcode 16.2 ModuleCache Error (iOS)
-
-**Error**: ModuleCache compilation error, Session.modulevalidation
-
-**Causa**: Xcode 16.2 tiene un bug conocido de ModuleCache corrupto
-
-**Solución oficial validada**:
-```bash
-# Ejecuta el script de fix incluido
-./scripts/fix_xcode_modulecache.sh
-```
-
-**⚠️ ACCIÓN MANUAL REQUERIDA DESPUÉS DEL SCRIPT**:
-
-Si el build de iOS sigue fallando después de ejecutar el script, necesitas configurar manualmente el Xcode Workspace Settings:
-
-1. Abre `ios/Runner.xcworkspace` en Xcode
-2. Ve a `File` → `Workspace Settings`
-3. Cambia `Derived Data` de "Default" a "Workspace-relative Location"
-4. En el campo escribe: `DerivedData`
-5. Haz clic en "Done" y cierra Xcode
-6. Ejecuta nuevamente: `flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios`
-
-**Guía completa para Agentes IA y usuarios**: Ver [IOS_MANUAL_STEPS.md](IOS_MANUAL_STEPS.md) para instrucciones detalladas paso a paso.
-
-**Referencias**: [Flutter Issue #157461](https://github.com/flutter/flutter/issues/157461)
-
-### Problema 5: "unsupported preprocessor directive" en Release.xcconfig
-
-**Error**: `Error (Xcode): unsupported preprocessor directive '============'`
-
-**Causa**: Los archivos `.xcconfig` NO soportan comentarios con `#` (excepto `#include`)
-
-**Solución**:
-1. Abre `ios/Flutter/Release.xcconfig`
-2. Elimina TODOS los comentarios que empiecen con `#`
-3. Solo deja configuraciones key=value y el `#include "Generated.xcconfig"`
-
-Ver ejemplo correcto en `templates/Release.xcconfig.template`
+**30+ problemas categorizados por framework** (Riverpod, GetX, Bloc, Hive, Dio, Firebase):
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
 
 ---
 
