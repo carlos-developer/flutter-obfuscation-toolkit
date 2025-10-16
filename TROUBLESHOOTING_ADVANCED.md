@@ -635,6 +635,104 @@ cd android && ./gradlew wrapper --gradle-version=8.0
 
 ---
 
+### Usar missing_rules.txt generado automáticamente por R8
+
+**Contexto**: Cuando R8 detecta clases faltantes, genera automáticamente un archivo con sugerencias de reglas en:
+```
+build/app/outputs/mapping/release/missing_rules.txt
+```
+
+**Cómo usarlo**:
+1. **Después de un error de build**, revisa el archivo:
+   ```bash
+   cat build/app/outputs/mapping/release/missing_rules.txt
+   ```
+
+2. **Copia las reglas sugeridas** a tu `android/app/proguard-rules.pro`
+
+3. **Rebuild**:
+   ```bash
+   flutter build apk --release --obfuscate --split-debug-info=build/symbols/android
+   ```
+
+**Ejemplo de contenido**:
+```proguard
+# Please add these rules to your existing keep rules in order to suppress warnings.
+# This is generated automatically by the Android Gradle plugin.
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.tasks.Task
+```
+
+**Importante**:
+- ✅ Usa `-dontwarn` para clases **opcionales** que NO usas
+- ❌ NO uses `-dontwarn` para clases **críticas** que tu app necesita (usa `-keep` en su lugar)
+
+---
+
+### Error: "R8: Missing class com.google.android.play.core" (Flutter Play Store Split)
+
+**Síntoma**: Build de Android con R8 falla con errores como:
+```
+ERROR: Missing classes detected while running R8.
+ERROR: R8: Missing class com.google.android.play.core.splitcompat.SplitCompatApplication
+Missing class com.google.android.play.core.splitinstall.SplitInstallManager
+Missing class com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+Missing class com.google.android.play.core.tasks.Task
+```
+
+**Causa**: Flutter incluye referencias a Play Core Library para soporte de deferred components (componentes diferidos), pero las clases no están en el classpath. R8 intenta eliminarlas y falla.
+
+**Contexto**: Estas clases son opcionales y se usan solo si tu app implementa deferred components/dynamic feature modules. La mayoría de apps Flutter NO las usa.
+
+**Solución 1 - Suprimir warnings** (Recomendado para apps sin deferred components):
+
+Agrega en `android/app/proguard-rules.pro`:
+```proguard
+####################
+# FLUTTER PLAY CORE (Deferred Components)
+####################
+
+# Estas clases son opcionales - solo se usan con deferred components
+# Si tu app NO usa deferred components, es seguro suprimir estos warnings
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallException
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallManager
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallManagerFactory
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallRequest$Builder
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallRequest
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallSessionState
+-dontwarn com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
+-dontwarn com.google.android.play.core.tasks.OnFailureListener
+-dontwarn com.google.android.play.core.tasks.OnSuccessListener
+-dontwarn com.google.android.play.core.tasks.Task
+```
+
+**Solución 2 - Agregar la dependencia** (Solo si USAS deferred components):
+
+En `android/app/build.gradle.kts`:
+```kotlin
+dependencies {
+    implementation("com.google.android.play:core:1.10.3")
+}
+```
+
+**Verificación**:
+```bash
+# Rebuild
+flutter clean
+flutter build apk --release --obfuscate --split-debug-info=build/symbols/android
+
+# Debe completar exitosamente sin errores de Play Core
+```
+
+**Referencias**:
+- Flutter Issue: https://github.com/flutter/flutter/issues/112828
+- Play Core Library: https://developer.android.com/guide/playcore
+
+**Estado**: ✅ Problema documentado y resuelto (2025-10-15)
+
+---
+
 ### MultiDex build falla
 
 **Síntoma**: Build falla con "Cannot fit requested classes in a single dex file".
@@ -847,5 +945,9 @@ buildTypes {
 
 ---
 
-**Última actualización**: 2025-10-11
-**Versión**: 1.0.0
+**Última actualización**: 2025-10-15
+**Versión**: 1.0.1
+
+**Changelog 1.0.1**:
+- Agregado: Error "R8: Missing class com.google.android.play.core" con solución completa
+- Contexto: Flutter incluye referencias opcionales a Play Core para deferred components

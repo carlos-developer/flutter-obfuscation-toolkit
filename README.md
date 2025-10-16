@@ -133,6 +133,35 @@ Ver documentación completa: **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)**
 
 ---
 
+## ⚠️ Problemas Comunes
+
+### Error: "R8: Missing class com.google.android.play.core"
+
+**Síntoma**: Build falla con errores de Play Core Library
+
+**Solución rápida**: Agrega en `android/app/proguard-rules.pro`:
+```proguard
+-dontwarn com.google.android.play.core.splitcompat.SplitCompatApplication
+-dontwarn com.google.android.play.core.splitinstall.**
+-dontwarn com.google.android.play.core.tasks.**
+```
+
+**Documentación completa**: [TROUBLESHOOTING_ADVANCED.md - Play Core Error](TROUBLESHOOTING_ADVANCED.md#error-r8-missing-class-comgoogleandroidplaycore-flutter-play-store-split)
+
+### Error: Xcode "unsupported preprocessor directive"
+
+**Síntoma**: Build iOS falla con errores de `.xcconfig`
+
+**Solución**: Los archivos `.xcconfig` NO soportan comentarios con `#`
+
+**Documentación completa**: [TROUBLESHOOTING_ADVANCED.md - iOS Preprocessor](TROUBLESHOOTING_ADVANCED.md#error-unsupported-preprocessor-directive-en-releasexcconfig)
+
+### Más problemas
+
+Ver **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** para 30+ problemas documentados con soluciones.
+
+---
+
 ## 📄 Licencia
 
 MIT License - Ver [LICENSE](LICENSE)
