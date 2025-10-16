@@ -35,6 +35,7 @@ Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
 | Documento | Propósito |
 |-----------|-----------|
 | **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** | Guía paso a paso de implementación (EMPIEZA AQUÍ) |
+| **[RULES.md](RULES.md)** | 8 reglas obligatorias de trazabilidad para agentes IA |
 | **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)** | Validación técnica profunda de ofuscación |
 | **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** | Prompts detallados para agentes IA |
 | **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** | Solución de 30+ problemas comunes |
