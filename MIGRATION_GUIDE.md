@@ -225,9 +225,20 @@ Crea el archivo `android/app/proguard-rules.pro` con el siguiente contenido mín
 
 #### 2.1 Opción A: Usando Release.xcconfig (Recomendado)
 
-1. Abre `ios/Flutter/Release.xcconfig`
-2. Lee el template desde el repositorio (https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template) o agrega directamente:
+**Descarga el template directamente** (sin edición manual):
 
+```bash
+curl -o ios/Flutter/Release.xcconfig \
+  https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template
+```
+
+**⚠️ CRÍTICO**:
+- **NO edites manualmente** este archivo
+- **NO agregues comentarios** (ni con `#` ni con `//`)
+- Los archivos `.xcconfig` **SOLO soportan** directivas `#include` y pares `KEY = VALUE`
+- Si agregas comentarios, el build fallará con: `unsupported preprocessor directive`
+
+**Contenido del archivo** (solo para referencia, usa `curl` arriba):
 ```xcconfig
 #include "Generated.xcconfig"
 
@@ -246,8 +257,6 @@ DEAD_CODE_STRIPPING = YES
 DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
 ONLY_ACTIVE_ARCH = NO
 ```
-
-**⚠️ IMPORTANTE**: Los archivos `.xcconfig` **NO soportan comentarios** con `#` (excepto `#include`). Si agregas comentarios, el build fallará con error "unsupported preprocessor directive".
 
 #### 2.2 Opción B: Usando Xcode
 
