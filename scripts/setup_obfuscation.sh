@@ -48,7 +48,7 @@ echo "║   Configura tu proyecto Flutter con:                     ║"
 echo "║   • Ofuscación de código Dart                            ║"
 echo "║   • Minificación R8 (Android)                            ║"
 echo "║   • Symbol stripping (iOS)                               ║"
-echo "║   • Scripts de automatización                            ║"
+echo "║   • Configuración automática remote-first                ║"
 echo "║                                                           ║"
 echo "╚═══════════════════════════════════════════════════════════╝"
 echo ""
@@ -393,69 +393,32 @@ if [ "$SETUP_IOS" = true ]; then
     fi
 
     if [ "$SETUP_IOS" = true ]; then
-        # Determinar ruta del script actual
-        SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-        TEMPLATE_DIR="$(dirname "$SCRIPT_DIR")/templates"
-        XCCONFIG_TEMPLATE="$TEMPLATE_DIR/Release.xcconfig.template"
+        # Generar Release.xcconfig directamente (remote-first: no usa templates locales)
+        log_info "Generando Release.xcconfig..."
 
-        # Verificar si existe el template
-        if [ -f "$XCCONFIG_TEMPLATE" ]; then
-            log_info "Copiando Release.xcconfig.template..."
-            cp "$XCCONFIG_TEMPLATE" "$RELEASE_XCCONFIG"
-            log_success "Release.xcconfig actualizado con configuraciones de symbol stripping"
-            log_warning "IMPORTANTE: Los archivos .xcconfig NO soportan comentarios con #"
-            log_warning "Si agregas comentarios, el build fallará"
-        else
-            log_warning "Template Release.xcconfig.template no encontrado"
-            log_info "Debes configurar manualmente Release.xcconfig con:"
-            echo ""
-            echo "#include \"Generated.xcconfig\""
-            echo ""
-            echo "DEPLOYMENT_POSTPROCESSING = YES"
-            echo "STRIP_INSTALLED_PRODUCT = YES"
-            echo "STRIP_STYLE = all"
-            echo "COPY_PHASE_STRIP = YES"
-            echo "SEPARATE_STRIP = YES"
-            echo ""
-            echo "SWIFT_OPTIMIZATION_LEVEL = -O"
-            echo "GCC_OPTIMIZATION_LEVEL = fast"
-            echo "SWIFT_COMPILATION_MODE = wholemodule"
-            echo ""
-            echo "DEAD_CODE_STRIPPING = YES"
-            echo ""
-            echo "DEBUG_INFORMATION_FORMAT = dwarf-with-dsym"
-            echo "ONLY_ACTIVE_ARCH = NO"
-            echo ""
-        fi
+        cat > "$RELEASE_XCCONFIG" << 'XCCONFIG_EOF'
+#include "Generated.xcconfig"
+
+DEPLOYMENT_POSTPROCESSING = YES
+STRIP_INSTALLED_PRODUCT = YES
+STRIP_STYLE = all
+COPY_PHASE_STRIP = YES
+SEPARATE_STRIP = YES
+
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = fast
+SWIFT_COMPILATION_MODE = wholemodule
+
+DEAD_CODE_STRIPPING = YES
+
+DEBUG_INFORMATION_FORMAT = dwarf-with-dsym
+ONLY_ACTIVE_ARCH = NO
+XCCONFIG_EOF
+
+        log_success "Release.xcconfig actualizado con configuraciones de symbol stripping"
+        log_warning "IMPORTANTE: La línea #include es una directiva válida, NO un comentario"
+        log_warning "NO agregues comentarios adicionales con # - solo directivas #include son permitidas"
     fi
-fi
-
-# ============================================
-# COPIAR SCRIPTS DE AUTOMATIZACIÓN
-# ============================================
-
-log_step "Copiando scripts de automatización..."
-
-mkdir -p scripts
-
-# Determinar ruta del script actual
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-
-# Copiar scripts si existen en el proyecto template
-if [ -f "$SCRIPT_DIR/build_release_obfuscated.sh" ]; then
-    cp "$SCRIPT_DIR/build_release_obfuscated.sh" scripts/
-    chmod +x scripts/build_release_obfuscated.sh
-    log_success "build_release_obfuscated.sh copiado"
-else
-    log_warning "build_release_obfuscated.sh no encontrado en template"
-fi
-
-if [ -f "$SCRIPT_DIR/deobfuscate.sh" ]; then
-    cp "$SCRIPT_DIR/deobfuscate.sh" scripts/
-    chmod +x scripts/deobfuscate.sh
-    log_success "deobfuscate.sh copiado"
-else
-    log_warning "deobfuscate.sh no encontrado en template"
 fi
 
 # ============================================
@@ -510,22 +473,25 @@ fi
 if [ "$SETUP_IOS" = true ]; then
     echo "🍎 iOS:"
     echo "  1. Release.xcconfig ya está configurado"
-    echo "  2. Si usas Xcode 16.2, ejecuta: ./scripts/fix_xcode_modulecache.sh"
-    echo "  3. NO agregues comentarios con # en Release.xcconfig"
+    echo "  2. NO agregues comentarios con # en Release.xcconfig (solo directivas #include)"
+    echo "  3. Si usas Xcode 16.2 y encuentras errores, descarga fix_xcode_modulecache.sh"
     echo ""
 fi
 
 echo "🔧 TESTING:"
-echo "  1. Ejecuta: ./scripts/build_release_obfuscated.sh"
-echo "  2. Si encuentras errores de Xcode 16.2: ./scripts/fix_xcode_modulecache.sh"
-echo "  3. Verifica los tamaños de los binarios"
-echo "  4. Prueba la app en dispositivos físicos"
+echo "  1. Construye tu app con flags de ofuscación:"
+echo "     flutter build apk --release --obfuscate --split-debug-info=build/symbols/android"
+echo "     flutter build ios --release --obfuscate --split-debug-info=build/symbols/ios"
+echo ""
+echo "  2. Verifica los tamaños de los binarios"
+echo "  3. Prueba la app en dispositivos físicos"
 echo ""
 
 echo "💾 IMPORTANTE:"
 echo "  • Respalda los archivos .backup creados"
 echo "  • Archiva mapping.txt y símbolos para cada release"
-echo "  • Prueba la des-ofuscación con ./scripts/deobfuscate.sh"
+echo "  • Para scripts de build/validación, descárgalos con:"
+echo "    curl -O https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh"
 echo ""
 
 log_success "¡Setup completado! 🎉"
