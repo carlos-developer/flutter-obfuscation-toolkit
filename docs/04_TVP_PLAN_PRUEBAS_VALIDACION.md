@@ -168,26 +168,26 @@ test('toJson y fromJson funcionan con ofuscación', () async {
 
 **Test**:
 ```dart
-test('NoteListViewModel carga notas correctamente', () async {
+test('ItemListViewModel carga items correctamente', () async {
   // Arrange
-  final mockRepository = MockNoteRepository();
-  when(mockRepository.getAllNotes()).thenAnswer(
+  final mockRepository = MockItemRepository();
+  when(mockRepository.getAllItems()).thenAnswer(
     (_) async => Right([
-      Note(id: 1, title: 'Note 1', content: 'Content 1',
+      Item(id: 1, title: 'Item 1', description: 'Description 1',
            createdAt: DateTime.now(), updatedAt: DateTime.now()),
-      Note(id: 2, title: 'Note 2', content: 'Content 2',
+      Item(id: 2, title: 'Item 2', description: 'Description 2',
            createdAt: DateTime.now(), updatedAt: DateTime.now()),
     ]),
   );
 
-  final viewModel = NoteListViewModel(repository: mockRepository);
+  final viewModel = ItemListViewModel(repository: mockRepository);
 
   // Act
-  await viewModel.loadNotes();
+  await viewModel.loadItems();
 
   // Assert
-  expect(viewModel.notes.length, 2);
-  expect(viewModel.notes[0].title, 'Note 1');
+  expect(viewModel.items.length, 2);
+  expect(viewModel.items[0].title, 'Item 1');
   expect(viewModel.isLoading, false);
   expect(viewModel.error, null);
 });
@@ -205,20 +205,20 @@ test('NoteListViewModel carga notas correctamente', () async {
 
 **Test**:
 ```dart
-test('NoteListViewModel maneja errores correctamente', () async {
+test('ItemListViewModel maneja errores correctamente', () async {
   // Arrange
-  final mockRepository = MockNoteRepository();
-  when(mockRepository.getAllNotes()).thenAnswer(
+  final mockRepository = MockItemRepository();
+  when(mockRepository.getAllItems()).thenAnswer(
     (_) async => Left(DatabaseFailure('Connection failed')),
   );
 
-  final viewModel = NoteListViewModel(repository: mockRepository);
+  final viewModel = ItemListViewModel(repository: mockRepository);
 
   // Act
-  await viewModel.loadNotes();
+  await viewModel.loadItems();
 
   // Assert
-  expect(viewModel.notes.length, 0);
+  expect(viewModel.items.length, 0);
   expect(viewModel.error, isNotNull);
   expect(viewModel.error, contains('failed'));
 });
@@ -309,10 +309,10 @@ testWidgets('Búsqueda de notas funciona', (tester) async {
   await tester.enterText(find.byKey(Key('search_field')), 'Flutter');
   await tester.pumpAndSettle();
 
-  // Assert: Solo notas con "Flutter" aparecen
-  expect(find.text('Flutter Note 1'), findsOneWidget);
-  expect(find.text('Flutter Note 2'), findsOneWidget);
-  expect(find.text('Dart Note'), findsNothing);
+  // Assert: Solo items con "Flutter" aparecen
+  expect(find.text('Flutter Item 1'), findsOneWidget);
+  expect(find.text('Flutter Item 2'), findsOneWidget);
+  expect(find.text('Dart Item'), findsNothing);
 });
 ```
 
@@ -408,7 +408,7 @@ testWidgets('Búsqueda de notas funciona', (tester) async {
 unzip app-release.apk -d extracted/
 
 # 2. Buscar nombres de clases originales
-strings extracted/lib/arm64-v8a/libapp.so | grep -i "NoteRepository"
+strings extracted/lib/arm64-v8a/libapp.so | grep -i "UserRepository\|DataService\|MyViewModel"
 
 # Expected: Sin resultados
 
@@ -419,7 +419,7 @@ strings extracted/lib/arm64-v8a/libapp.so | head -50
 ```
 
 **Criterio de Éxito**:
-- 0 matches de "NoteRepository"
+- 0 matches de clases originales ("UserRepository", "DataService", etc.)
 - ≥95% de símbolos son nombres cortos
 
 **Prioridad**: Crítica
@@ -499,7 +499,7 @@ adb logcat > crash.txt
 flutter symbolize -i crash.txt -d releases/v0.1.0/symbols/
 
 # 4. Verificar legibilidad
-grep "NoteRepository" crash_deobfuscated.txt
+grep "UserRepository\|DataService" crash_deobfuscated.txt
 ```
 
 **Criterio de Éxito**:
