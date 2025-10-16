@@ -223,16 +223,13 @@ echo "-keep class com.tekartik.sqflite.** { *; }" >> android/app/proguard-rules.
 
 ---
 
-### Paso 2: Configuración iOS (Symbol Stripping)
+## Paso 2: Configuración iOS (Symbol Stripping)
+Para iOS, la optimización se centra en el "stripping" de símbolos del binario final.
 
-#### 2.1 Opción A: Usando Release.xcconfig (Recomendado)
+### 2.1 Modificar `Release.xcconfig`
+Añade las siguientes directivas al final de tu archivo `ios/Flutter/Release.xcconfig`.
 
-**Descarga el template directamente** (sin edición manual):
-
-```bash
-curl -o ios/Flutter/Release.xcconfig \
-  https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/templates/Release.xcconfig.template
-```
+> **⚠️ Advertencia de Prioridad:** Xcode utiliza una jerarquía de configuraciones. Los ajustes definidos directamente en el `project.pbxproj` pueden sobreescribir las directivas de este archivo `.xcconfig`. Aunque este método es el recomendado por Flutter, es **crítico** que completes la **Guía de Validación** para confirmar que el "stripping" de símbolos realmente funcionó. Si falla, la guía de validación te mostrará cómo usar `flutter build ipa`, que es un método más robusto.
 
 **⚠️ CRÍTICO**:
 - **NO edites manualmente** este archivo

@@ -135,25 +135,10 @@ Resultados:
 ---
 
 ## 🔧 Validación Manual por Plataforma
-
 ### Android - Validación Manual
-
-#### 1. Verificar Configuración
-
-```bash
-# Verificar build.gradle.kts
-grep "isMinifyEnabled" android/app/build.gradle.kts
-grep "isShrinkResources" android/app/build.gradle.kts
-grep "multiDexEnabled" android/app/build.gradle.kts
-
-# Verificar proguard-rules.pro existe y está personalizado
-test -f android/app/proguard-rules.pro && echo "✅ Existe"
-grep "com.example.app" android/app/proguard-rules.pro && echo "❌ NO PERSONALIZADO" || echo "✅ Personalizado"
-```
-
-#### 2. Build de Prueba
-
-```bash
+#### 1. Build de Prueba
+El primer paso es ejecutar el comando de compilación correcto. Este incluye la bandera `--split-debug-info`, que es obligatoria al ofuscar.
+```shell
 flutter clean
 flutter build apk \
   --release \
@@ -161,101 +146,75 @@ flutter build apk \
   --split-debug-info=build/symbols/android \
   --split-per-abi
 ```
-
-#### 3. Verificar Artifacts
-
-```bash
-# APKs generados
+#### 2. Verificar Artifacts
+Asegúrate de que se hayan generado los archivos correctos.
+1. APKs generados (deberías ver varios archivos, uno por ABI)
+```shell
 ls -lh build/app/outputs/flutter-apk/*.apk
-
-# mapping.txt (debe ser >2MB)
+```
+2. mapping.txt (debe existir y tener un tamaño considerable, >1MB)
+```shell
 ls -lh build/app/outputs/mapping/release/mapping.txt
-
-# Símbolos Dart (3 archivos .symbols)
+```
+3. Símbolos Dart (deben existir para des-ofuscar errores)
+```shell
 ls -lh build/symbols/android/
 ```
-
-#### 4. Validar R8 Activo
-
-```bash
+#### 3. Validar Activación de R8
+El `mapping.txt` debe confirmar que R8 fue el compilador.
+```shell
 # Verificar header de R8 en mapping.txt
 head -5 build/app/outputs/mapping/release/mapping.txt
-
-# Debe mostrar:
-# # compiler: R8
-# # compiler_version: 8.x.x
-# # min_api: XX
 ```
-
-#### 5. Verificar Ofuscación Dart
-
-```bash
-# Extraer APK
+La salida debe incluir la línea: `# compiler: R8`
+#### 4. Validar Ofuscación de Dart
+El paso final es verificar que los nombres de tus clases no están en el binario compilado.
+```shell
+# Extraer el APK
 unzip -q build/app/outputs/flutter-apk/app-arm64-v8a-release.apk -d /tmp/apk_check
 
 # Buscar nombres de clases (NO deberían aparecer)
 strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep -i "MyApp"
-strings /tmp/apk_check/lib/arm64-v8a/libapp.so | grep -i "MyHomePage"
-
+```
+Este comando no debería devolver ningún resultado.
+```shell
 # Limpiar
 rm -rf /tmp/apk_check
 ```
-
-**Resultado esperado**: No debería encontrar nombres de tus clases originales.
-
 ---
-
 ### iOS - Validación Manual
-
-#### 1. Verificar Configuración
-
-```bash
-# Verificar Release.xcconfig
-grep "STRIP_INSTALLED_PRODUCT" ios/Flutter/Release.xcconfig
-grep "DEAD_CODE_STRIPPING" ios/Flutter/Release.xcconfig
-grep "SWIFT_OPTIMIZATION_LEVEL" ios/Flutter/Release.xcconfig
-```
-
-#### 2. Build de Prueba
-
-```bash
+#### 1. Build de Prueba (Método Correcto)
+Para iOS, es crucial usar `flutter build ipa`, ya que este comando invoca el proceso de archivado de Xcode, que es donde ocurre el "stripping" de símbolos de manera efectiva.
+```shell
 flutter clean
-flutter build ios \
+flutter build ipa \
   --release \
   --obfuscate \
-  --split-debug-info=build/symbols/ios \
-  --no-codesign
+  --split-debug-info=build/symbols/ios
 ```
-
-#### 3. Verificar Artifacts
-
-```bash
-# Runner.app generado
-ls -lh build/ios/iphoneos/Runner.app/Runner
-
-# Símbolos iOS
+> Nota: Este comando puede fallar al final si no hay configuración de firma de código.
+> ¡No importa! El artefacto que necesitamos (.xcarchive) se crea antes del fallo.
+#### 2. Verificar Artifacts
+Comprueba que se generó el archivo `.xcarchive` y los símbolos de Dart.
+1. Archivo .xcarchive (debe existir)
+```shell
+ls -d build/ios/archive/Runner.xcarchive
+```
+2. Símbolos de Dart para iOS
+```shell
 ls -lh build/symbols/ios/
 ```
+#### 3. Validar "Symbol Stripping" (Método Definitivo)
+La forma más fiable de verificar el "stripping" es intentar leer la tabla de símbolos con `nm`. Si los símbolos se han eliminado, este comando producirá una lista muy corta (principalmente símbolos externos) en lugar de una lista enorme de los símbolos internos de tu aplicación.
+```shell
+# Definir la ruta al binario dentro del archivo de archivado
+RUNNER_BINARY="build/ios/archive/Runner.xcarchive/Products/Applications/Runner.app/Runner"
 
-#### 4. Validar Symbol Stripping
-
-```bash
-# Verificar que el binario está stripped
-file build/ios/iphoneos/Runner.app/Runner
-
-# Debe contener "stripped" en el output:
-# build/ios/iphoneos/Runner.app/Runner: Mach-O 64-bit arm64 executable, flags:<NOUNDEFS|DYLDLINK|TWOLEVEL|PIE>, stripped
+# Intentar leer la tabla de símbolos
+nm "$RUNNER_BINARY"
 ```
-
-#### 5. Verificar Tamaño
-
-```bash
-# Tamaño del binario (debe ser menor)
-du -h build/ios/iphoneos/Runner.app/Runner
-
-# Tamaño de símbolos separados
-du -h build/symbols/ios/
-```
+Resultado esperado: Una lista corta de símbolos, en su mayoría marcados con "U" (undefined).
+Si ves una lista enorme con los nombres de tus funciones y clases de Swift/Objective-C, el stripping ha fallado.
 
 ---
 
