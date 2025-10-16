@@ -5,119 +5,135 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Flutter](https://img.shields.io/badge/Flutter-%E2%89%A53.9.2-blue)](https://flutter.dev)
 
-📖 **[Ver Visión General del Toolkit](TOOLKIT_OVERVIEW.md)** - Guía completa de estructura y uso de documentos
+**Repositorio**: https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
 ---
 
-## ⚡ Instalación Rápida (2 minutos)
+## ⚡ Inicio Rápido
 
-### Con Agente IA (Recomendado)
-```
-Abre Claude Code / Gemini / Cursor y pega:
+### Con Agente IA (Claude Code, Gemini, Cursor)
 
-Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Copia un prompt de **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** según tu plataforma:
+- Android + iOS (completo)
+- Solo Android
+- Solo iOS
+- Verificación
 
-Usa la especificación estructurada en agent-instructions.json para validaciones paso a paso.
-Al finalizar ejecuta validate-implementation.sh.
-```
+El agente leerá este repositorio y configurará tu proyecto automáticamente.
 
 ### Manual
-```bash
-# Ver guía completa en MIGRATION_GUIDE.md
-# El agente lee templates del repositorio y crea archivos en TU proyecto
-# NO se copian archivos del toolkit
-```
 
-**Resultado**: APK reducido ~65%, símbolos 100% ofuscados, seguridad 8/10
+Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
+
+**Resultado**: APK reducido ~65%, símbolos 100% ofuscados, validación técnica incluida.
 
 ---
 
-## 📦 ¿Qué Incluye?
+## 📦 Contenido del Toolkit
 
-### Scripts de Automatización
-- `setup_obfuscation.sh` - Configura todo automáticamente
-- `build_release_obfuscated.sh` - Build con validaciones
-- `validate-implementation.sh` - **Valida que la ofuscación funciona correctamente**
-- `deobfuscate.sh` - Des-ofuscar crashes de producción
-- `fix_xcode_modulecache.sh` - Soluciona problemas de Xcode 16.2
+### 📜 Guías Principales
+| Documento | Propósito |
+|-----------|-----------|
+| **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** | Guía paso a paso de implementación (EMPIEZA AQUÍ) |
+| **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)** | Validación técnica profunda de ofuscación |
+| **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** | Prompts detallados para agentes IA |
+| **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** | Solución de 30+ problemas comunes |
+| **[CHECKLIST_OBFUSCATION.md](CHECKLIST_OBFUSCATION.md)** | Checklist de validación |
+| **[IOS_MANUAL_STEPS.md](IOS_MANUAL_STEPS.md)** | Pasos manuales iOS (Xcode 16.2) |
 
-### Templates
-- `proguard-rules.template.pro` - Reglas ProGuard listas para usar
-- `Release.xcconfig.template` - Configuración iOS optimizada
-- `README_OBFUSCATION.md` - Referencia rápida de comandos
+### 🛠️ Scripts
+| Script | Función |
+|--------|---------|
+| `validate-implementation.sh` | **Validación automática** (4 fases: config, build, artifacts, ofuscación técnica) |
+| `build_release_obfuscated.sh` | Build automatizado con validaciones |
+| `deobfuscate.sh` | Des-ofuscar crashes de producción |
+| `fix_xcode_modulecache.sh` | Fix para Xcode 16.2 ModuleCache |
+| `setup_obfuscation.sh` | Setup automático completo |
 
-### Validación Técnica
-- **NUEVO**: `VALIDATION_GUIDE.md` - Guía completa para verificar ofuscación real
-- `validate-implementation.sh` - Detecta plataformas configuradas y valida automáticamente
-- Validación de R8/ProGuard activo
-- Verificación de ofuscación Dart en binarios
-- Comprobación de Symbol Stripping en iOS
+### 📋 Templates
+| Template | Uso |
+|----------|-----|
+| `proguard-rules.template.pro` | Reglas ProGuard/R8 para Android |
+| `Release.xcconfig.template` | Configuración iOS (symbol stripping) |
+| `README_OBFUSCATION.md` | Referencia rápida de comandos |
 
-### Guías de Uso
-- **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** - Guía paso a paso (EMPIEZA AQUÍ)
-- **[CHECKLIST_OBFUSCATION.md](CHECKLIST_OBFUSCATION.md)** - Checklist de validación
-- **[TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md)** - Solución de problemas comunes
-- **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** - Prompts para agentes CLI (Claude/Gemini)
-
-### Especificación Técnica (SDD)
-Documentación detallada del proceso de desarrollo guiado por especificaciones en `docs/`:
-- `01_SRS` - Requisitos del sistema
-- `02_SAD` - Diseño de arquitectura
-- `03_TIG` - Guía de implementación
-- `04_TVP` - Plan de pruebas
-- `05_OPM` - Procedimientos operacionales
-- `06_RTM` - Matriz de trazabilidad
-
----
-
-## 🚀 Uso
-
-### Opción 1: Con Agente IA (⚡ Más Rápido)
-```
-Copia el prompt de AI_AGENT_PROMPT.md y pégalo en:
-- Claude Code
-- Gemini
-- Cursor AI
-- Windsurf
-
-El agente lee este repositorio y configura TU proyecto automáticamente.
-```
-Ver [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)
-
-### Opción 2: Manual
-```bash
-# Sigue la guía paso a paso
-# Lee templates desde el repositorio
-# Crea archivos personalizados en tu proyecto
-```
-Ver [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)
-
-**Filosofía**: Este toolkit es una **guía de referencia**. No copies archivos del toolkit a tu proyecto. Los agentes IA o tú deben **leer** desde aquí y **crear** archivos personalizados en tu proyecto.
+### 📄 Especificaciones Técnicas
+| Archivo | Descripción |
+|---------|-------------|
+| `agent-instructions.json` | Especificación procesable (JSON) con validaciones programáticas |
+| `TOOLKIT_OVERVIEW.md` | Visión general completa del toolkit |
+| `ANALISIS_DIFICULTADES_TOOLKIT.md` | Análisis de dificultades y criterios de calidad |
+| `docs/` | Documentación SDD completa (SRS, SAD, TIG, TVP, OPM, RTM) |
 
 ---
 
-## 📚 Documentación
+## 🎯 Flujo de Trabajo
 
-**Para implementar**: [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) - Proceso paso a paso
+```
+1. Lee AI_AGENT_PROMPT.md o MIGRATION_GUIDE.md
+2. Implementa configuración (Android/iOS/Ambos)
+3. Ejecuta validate-implementation.sh
+4. Verifica FASE 4 (validación técnica de ofuscación)
+5. Si exit code 0 → ✅ Listo para producción
+```
 
-**Para validar**: [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) - Verificar que funciona correctamente
-
-**Si hay problemas**: [TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md) - 30+ casos resueltos
-
-**Con agente CLI**: [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md) - Prompts listos para copiar
-
-**Especificación técnica**: Carpeta `docs/` con documentación SDD completa
+**Filosofía**: Este toolkit es una **referencia**. No copies archivos del toolkit a tu proyecto. Lee desde aquí y crea archivos personalizados en tu proyecto.
 
 ---
 
 ## 📊 Resultados Esperados
 
-| Métrica | Antes | Después |
-|---------|-------|---------|
-| Tamaño APK | ~40 MB | ~15 MB (-63%) |
-| Símbolos Dart | 100% visible | 0% visible |
-| Seguridad | 3/10 | 8/10 |
-| Tiempo setup | 2-3 horas | 5 minutos |
+| Plataforma | Antes | Después | Reducción |
+|------------|-------|---------|-----------|
+| Android arm64 | ~40 MB | ~15 MB | **-63%** |
+| Android armv7 | ~35 MB | ~11 MB | **-69%** |
+| iOS arm64 | ~25 MB | ~13 MB | **-48%** |
+
+**Validación Técnica Incluida**:
+- ✅ R8/ProGuard activo (Android)
+- ✅ mapping.txt >10,000 líneas
+- ✅ Nombres Dart NO visibles en binarios
+- ✅ Symbol stripping aplicado (iOS)
+
+---
+
+## 🔧 Validación Automática
+
+```bash
+# Ejecutar script de validación (4 fases)
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+```
+
+**FASE 4** valida técnicamente que la ofuscación funciona:
+- Android: R8 activo, ofuscación Dart, dead code elimination
+- iOS: Binario stripped, tamaño optimizado, símbolos separados
+
+Ver documentación completa: **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)**
+
+---
+
+## 📚 Documentación por Caso de Uso
+
+| Necesitas | Documento |
+|-----------|-----------|
+| Implementar desde cero | [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) |
+| Usar con agente IA | [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md) |
+| Validar implementación | [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) |
+| Resolver errores | [TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md) |
+| Entender el toolkit | [TOOLKIT_OVERVIEW.md](TOOLKIT_OVERVIEW.md) |
+| Pasos manuales iOS | [IOS_MANUAL_STEPS.md](IOS_MANUAL_STEPS.md) |
+
+---
+
+## 🤖 Compatibilidad con Agentes IA
+
+| Agente | Estado | Características |
+|--------|--------|-----------------|
+| Claude Code | ✅ Compatible | WebFetch, Write, Bash |
+| Gemini | ✅ Compatible | Fetch, Write, Shell |
+| Cursor AI | ✅ Compatible | Fetch, Write, Terminal |
+| Windsurf | ✅ Compatible | Fetch, Write, Shell |
+| GitHub Copilot | ⚠️ Parcial | Limitado (solo Edit) |
 
 ---
 
@@ -131,6 +147,10 @@ MIT License - Ver [LICENSE](LICENSE)
 
 Pull requests bienvenidos. Para cambios grandes, abre un issue primero.
 
+**Issues**: https://github.com/carlos-developer/flutter-obfuscation-toolkit/issues
+
 ---
+
+**Última actualización**: 2025-10-15 | **Versión**: 3.0.0
 
 **⭐ Si te ayudó, dale una estrella en GitHub!**
