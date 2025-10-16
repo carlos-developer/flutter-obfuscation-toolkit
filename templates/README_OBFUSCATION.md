@@ -194,7 +194,7 @@ grep "minifyEnabled" android/app/build.gradle*
 
 ## Recursos
 
-- **Documentación completa**: `MIGRATION_GUIDE.md`
+- **Documentación completa**: `IMPLEMENTATION.md`
 - **Guía técnica detallada**: `docs/03_TIG_GUIA_IMPLEMENTACION_TECNICA.md`
 - **Procedimientos operacionales**: `docs/05_OPM_PROCEDIMIENTOS_OPERACIONALES.md`
 - **Métricas del proyecto**: `METRICAS_IMPLEMENTACION.md`

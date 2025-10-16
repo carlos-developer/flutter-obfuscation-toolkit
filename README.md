@@ -23,7 +23,7 @@ El agente leerá este repositorio y configurará tu proyecto automáticamente.
 
 ### Manual
 
-Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
+Sigue **[IMPLEMENTATION.md](IMPLEMENTATION.md)** paso a paso.
 
 **Resultado**: APK reducido ~65%, símbolos 100% ofuscados, validación técnica incluida.
 
@@ -34,7 +34,7 @@ Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
 ### 📜 Guías Principales
 | Documento | Propósito |
 |-----------|-----------|
-| **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** | Guía paso a paso de implementación (EMPIEZA AQUÍ) |
+| **[IMPLEMENTATION.md](IMPLEMENTATION.md)** | Guía paso a paso de implementación (EMPIEZA AQUÍ) |
 | **[RULES.md](RULES.md)** | 8 reglas obligatorias de trazabilidad para agentes IA |
 | **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)** | Validación técnica profunda de ofuscación |
 | **[AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md)** | Prompts detallados para agentes IA |
@@ -67,7 +67,7 @@ Sigue **[MIGRATION_GUIDE.md](MIGRATION_GUIDE.md)** paso a paso.
 ## 🎯 Flujo de Trabajo
 
 ```
-1. Lee AI_AGENT_PROMPT.md o MIGRATION_GUIDE.md
+1. Lee AI_AGENT_PROMPT.md o IMPLEMENTATION.md
 2. Implementa configuración (Android/iOS/Ambos)
 3. Ejecuta validate-implementation.sh
 4. Verifica FASE 4 (validación técnica de ofuscación)
@@ -113,7 +113,7 @@ Ver documentación completa: **[VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)**
 
 | Necesitas | Documento |
 |-----------|-----------|
-| Implementar desde cero | [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) |
+| Implementar desde cero | [IMPLEMENTATION.md](IMPLEMENTATION.md) |
 | Usar con agente IA | [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md) |
 | Validar implementación | [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md) |
 | Resolver errores | [TROUBLESHOOTING_ADVANCED.md](TROUBLESHOOTING_ADVANCED.md) |

@@ -263,7 +263,7 @@ Antes de marcar iOS como completado, verifica:
 Para incluir este ajuste manual en el prompt:
 
 ```
-Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md
 
 IMPORTANTE para iOS:
 - Si el build de iOS falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
@@ -271,7 +271,7 @@ IMPORTANTE para iOS:
 - PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
 - Espera confirmación del usuario antes de continuar
 
-Sigue las instrucciones de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md paso a paso. Al finalizar ejecuta https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh para validación automática.
+Sigue las instrucciones de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md paso a paso. Al finalizar ejecuta https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh para validación automática.
 ```
 
 ---
@@ -280,7 +280,7 @@ Sigue las instrucciones de https://raw.githubusercontent.com/carlos-developer/fl
 
 - **Flutter Issue #157461**: https://github.com/flutter/flutter/issues/157461
 - **Xcode 16.2 Release Notes**: https://developer.apple.com/documentation/xcode-release-notes
-- **MIGRATION_GUIDE.md**: Para el proceso completo de ofuscación
+- **IMPLEMENTATION.md**: Para el proceso completo de ofuscación
 
 ---
 

@@ -36,8 +36,8 @@ REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
 INSTRUCCIONES OBLIGATORIAS:
-1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md completo paso a paso
-   URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md completo paso a paso
+   URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md
 
 2. CUMPLE: Las 9 reglas de RULES.md (incluyendo REGLA 7: validación manual y REGLA 9: NO descargar scripts)
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md
@@ -52,7 +52,7 @@ Estoy en la raíz de mi proyecto Flutter. Necesito:
 - Optimización de tamaño y ofuscación para iOS (Symbol Stripping)
 
 EJECUCIÓN:
-- Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md sección por sección
+- Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md sección por sección
 - Declara fuente antes de cada paso (REGLA 1 de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md)
 - Ejecuta checkpoint después de cada paso (REGLA 2)
 - Genera reportes por fase (REGLA 4)
@@ -62,7 +62,7 @@ EJECUCIÓN:
 
 IMPLEMENTACIÓN:
 
-Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md completo.
+Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md completo.
 
 Fases a ejecutar:
 1. Paso 1: Configuración Android (R8 + ProGuard)
@@ -97,7 +97,7 @@ VALIDACIÓN FINAL (REGLA 7 - MANUAL OBLIGATORIA):
 TROUBLESHOOTING:
 Si encuentras errores: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
 
-Procede paso a paso según MIGRATION_GUIDE.md, mostrando el progreso de cada fase.
+Procede paso a paso según IMPLEMENTATION.md, mostrando el progreso de cada fase.
 ```
 
 ---
@@ -113,8 +113,8 @@ REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
 INSTRUCCIONES OBLIGATORIAS:
-1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Solo sección Android
-   URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Solo sección Android
+   URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md
 
 2. CUMPLE: Las 9 reglas de RULES.md (incluyendo REGLA 7: validación manual y REGLA 9: NO descargar scripts)
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md
@@ -127,7 +127,7 @@ Solo necesito configurar Android con optimización y ofuscación (R8 + ProGuard)
 NO modifiques nada relacionado con iOS.
 
 EJECUCIÓN:
-- Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Paso 1 (Android) únicamente
+- Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Paso 1 (Android) únicamente
 - Cumple las 8 reglas de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md en cada paso
 - Omite pasos iOS completamente
 
@@ -135,7 +135,7 @@ EJECUCIÓN:
 
 IMPLEMENTACIÓN:
 
-Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Solo Paso 1 (Android).
+Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Solo Paso 1 (Android).
 
 IMPORTANTE:
 - Detecta applicationId automáticamente
@@ -179,8 +179,8 @@ REPOSITORIO DE REFERENCIA:
 https://github.com/carlos-developer/flutter-obfuscation-toolkit
 
 INSTRUCCIONES OBLIGATORIAS:
-1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Solo sección iOS
-   URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+1. LEE Y SIGUE: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Solo sección iOS
+   URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md
 
 2. CUMPLE: Las 9 reglas de RULES.md (incluyendo REGLA 7: validación manual y REGLA 9: NO descargar scripts)
    URL: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md
@@ -193,7 +193,7 @@ Solo necesito configurar iOS con optimización y ofuscación (Symbol Stripping).
 NO modifiques nada relacionado con Android.
 
 EJECUCIÓN:
-- Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Paso 2 (iOS) únicamente
+- Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Paso 2 (iOS) únicamente
 - Cumple las 8 reglas de https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/RULES.md en cada paso
 - Omite pasos Android completamente
 
@@ -201,7 +201,7 @@ EJECUCIÓN:
 
 IMPLEMENTACIÓN:
 
-Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md - Solo Paso 2 (iOS).
+Sigue https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md - Solo Paso 2 (iOS).
 
 IMPORTANTE:
 - Aplica Release.xcconfig SIN comentarios
@@ -288,8 +288,8 @@ Presenta el reporte en markdown con formato claro.
 
 ### Guías Principales
 ```
-Guía de Migración:
-https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+Guía de Implementación:
+https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md
 
 Troubleshooting Avanzado:
 https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
@@ -412,7 +412,7 @@ Y dame la solución específica para este error.
 
 Si tienes problemas con los prompts:
 
-1. **Revisa la documentación completa**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
+1. **Revisa la documentación completa**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md
 2. **Consulta troubleshooting**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
 3. **Valida con**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/VALIDATION_GUIDE.md
 4. **Issues en GitHub**: https://github.com/carlos-developer/flutter-obfuscation-toolkit/issues
@@ -425,6 +425,6 @@ Si tienes problemas con los prompts:
 - Eliminados prompts cortos - Solo prompts detallados
 - Incorporada validación técnica de VALIDATION_GUIDE.md
 - Énfasis en FASE 4 del script validate-implementation.sh
-- Referencias a las 8 reglas de trazabilidad de MIGRATION_GUIDE.md
+- Referencias a las 8 reglas de trazabilidad de IMPLEMENTATION.md
 - Validación técnica profunda: R8, mapping.txt, ofuscación Dart, symbol stripping
 **Compatible con**: Claude Code, Gemini, Cursor AI, Windsurf

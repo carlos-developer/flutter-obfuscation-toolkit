@@ -27,7 +27,7 @@ Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando este tool
 
 **Ejemplo**:
 ```
-🎯 PASO INICIADO - MIGRATION_GUIDE.md
+🎯 PASO INICIADO - IMPLEMENTATION.md
 
 📖 Sección: "Paso 1.1 - Modificar build.gradle.kts"
 📄 Líneas: 373-402
@@ -104,7 +104,7 @@ Próxima fase: [nombre de la siguiente fase]
 🚨 ALERTA: ACCIÓN NO DOCUMENTADA
 
 Acción intentada: [descripción]
-Búsqueda en MIGRATION_GUIDE.md: NO ENCONTRADO
+Búsqueda en IMPLEMENTATION.md: NO ENCONTRADO
 
 🛑 DETENIENDO - Solicitando confirmación del usuario
 ```
@@ -280,7 +280,7 @@ Estado: ✅ VERIFICADO - Procedo a descargar con nombre exacto
 
 ### ❌ CASO REAL DE ERROR (Violación REGLA 8)
 
-**Contexto**: Un agente IA leyó en MIGRATION_GUIDE.md la sección "Paso 3: Crear Scripts de Automatización" que decía:
+**Contexto**: Un agente IA leyó en IMPLEMENTATION.md la sección "Paso 3: Crear Scripts de Automatización" que decía:
 
 > "Crea los scripts en tu proyecto leyendo el contenido desde el repositorio"
 
@@ -420,4 +420,4 @@ Acción: Descargando a scripts/build_release_obfuscated.sh
 
 **Última actualización**: 2025-10-15
 **Versión**: 4.0.0
-**Aplicable a**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md, AI_AGENT_PROMPT.md, todos los prompts del toolkit
+**Aplicable a**: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IMPLEMENTATION.md, AI_AGENT_PROMPT.md, todos los prompts del toolkit
