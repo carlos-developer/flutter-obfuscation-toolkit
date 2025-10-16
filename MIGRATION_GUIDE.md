@@ -68,7 +68,7 @@ Si eres un agente IA (Claude Code, Gemini, Cursor, etc.) implementando esta guí
 
 1. **Abre tu proyecto Flutter en tu IDE**
 
-2. **Copia el prompt desde** [AI_AGENT_PROMPT.md](AI_AGENT_PROMPT.md):
+2. **Copia el prompt desde** [AI_AGENT_PROMPT.md](https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/AI_AGENT_PROMPT.md):
    ```
    Implementa ofuscación y optimización de tamaño Flutter para Android e iOS siguiendo: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
    ```
@@ -292,32 +292,7 @@ SYMBOLS_HIDDEN_BY_DEFAULT = YES;
 
 ---
 
-### Paso 3: Crear Scripts de Automatización
-
-Crea los scripts en tu proyecto leyendo el contenido desde el repositorio:
-
-```bash
-# Crear directorio scripts
-mkdir -p scripts
-
-# Descargar y crear build_release_obfuscated.sh
-curl -o scripts/build_release_obfuscated.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/build_release_obfuscated.sh
-chmod +x scripts/build_release_obfuscated.sh
-
-# Descargar y crear deobfuscate.sh
-curl -o scripts/deobfuscate.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/deobfuscate.sh
-chmod +x scripts/deobfuscate.sh
-
-# Descargar y crear fix_xcode_modulecache.sh
-curl -o scripts/fix_xcode_modulecache.sh https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/fix_xcode_modulecache.sh
-chmod +x scripts/fix_xcode_modulecache.sh
-```
-
-**Nota**: Estos scripts son independientes y no contaminan tu proyecto con archivos del toolkit. Solo agregan funcionalidad de build y troubleshooting.
-
----
-
-### Paso 4: Actualizar .gitignore
+### Paso 3: Actualizar .gitignore
 
 **Agrega automáticamente las exclusiones**:
 
@@ -343,36 +318,44 @@ echo "✅ .gitignore actualizado"
 
 ## ✅ Validación
 
-**⚠️ IMPORTANTE**: La validación es **CRÍTICA** para confirmar que la ofuscación está realmente funcionando, no solo configurada.
+**⚠️ CRÍTICO**: La validación confirma que la ofuscación está **REALMENTE FUNCIONANDO**, no solo configurada.
 
-### 🤖 Validación Automática (Recomendado)
+### 🤖 Para Agentes IA: Validación Manual Obligatoria
 
-El método más rápido y completo. Ejecuta el script de validación:
+**⚠️ IMPORTANTE PARA AGENTES IA**:
+- **NO delegues toda la validación al script** validate-implementation.sh
+- **DEBES ejecutar tú mismo** los builds y verificaciones manualmente
+- **El script de validación** es solo un complemento final, NO el método principal
+- **Maximiza las verificaciones manuales** que puedas hacer directamente
 
-```bash
-# Opción 1: Si tienes el toolkit descargado
-./scripts/validate-implementation.sh
+**Proceso obligatorio para agentes IA**:
 
-# Opción 2: Desde URL (sin descargar nada)
-curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
-```
+1. **Ejecutar builds manualmente** (NO delegar al script)
+2. **Verificar archivos generados** (mapping.txt, símbolos, etc.)
+3. **Inspeccionar binarios** (nm, strings, otool, file)
+4. **Analizar ofuscación real** (no solo configuración)
+5. **Usar script de validación** solo como checkpoint final
 
-**Este script automáticamente:**
-1. ✅ Detecta qué plataformas configuraste (Android, iOS, o ambas)
-2. ✅ Valida archivos de configuración
-3. ✅ Ejecuta builds de prueba para CADA plataforma configurada
-4. ✅ **Valida técnicamente que la ofuscación está funcionando**
-5. ✅ Genera reporte completo con exit code 0 si todo está OK
-
-**Resultado esperado**: Exit code 0 y mensaje "IMPLEMENTACIÓN CERTIFICADA"
-
-**Ver documentación completa**: [VALIDATION_GUIDE.md](VALIDATION_GUIDE.md)
+Ver sección "Validación Manual Detallada para Agentes IA" más abajo.
 
 ---
 
-### 🔧 Validación Manual (Opcional)
+### 👤 Para Usuarios Humanos: Validación con Scripts (Opcional)
 
-Si prefieres validar manualmente paso a paso:
+**Nota**: Los scripts de validación están disponibles en el repositorio toolkit como **referencia opcional** para usuarios humanos que prefieran automatización. Los agentes IA NO deben usarlos.
+
+Si eres un usuario humano y prefieres usar el script:
+```bash
+curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+```
+
+**Para agentes IA**: Ignora completamente los scripts. Sigue la "Validación Manual Detallada para Agentes IA" más abajo.
+
+---
+
+### 🔧 Validación Manual Detallada para Agentes IA
+
+**⚠️ AGENTES IA: Esta es la sección que DEBES seguir, NO la automática.**
 
 ### Phase 1: Verificar Configuración
 
@@ -462,25 +445,123 @@ file build/ios/Release-iphoneos/Runner.app/Runner
 
 ---
 
-### Phase 3: Validación Técnica
+### Phase 3: Validación Técnica Manual (AGENTES IA)
 
-**⚠️ CRÍTICO**: La validación confirma que la ofuscación está **realmente funcionando**, no solo configurada.
+**⚠️ CRÍTICO PARA AGENTES IA**: NO ejecutes solo el script. Realiza estas validaciones TÚ MISMO.
 
-**Validación Automática (Recomendada)**:
+#### 3.1 Validación Android - Inspección Manual
+
+**Ejecuta estos comandos directamente (NO delegues al script)**:
+
 ```bash
-curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash
+# 1. Verificar tamaño del mapping.txt (debe ser >2MB)
+ls -lh build/app/outputs/mapping/release/mapping.txt
+
+# 2. Contar líneas del mapping (debe ser >10,000)
+wc -l build/app/outputs/mapping/release/mapping.txt
+
+# 3. Ver encabezado del mapping (verifica compiler R8)
+head -10 build/app/outputs/mapping/release/mapping.txt
+
+# 4. Verificar clases ofuscadas (debe mostrar "a.a", "a.b", etc.)
+grep -E "-> [a-z]\.[a-z]" build/app/outputs/mapping/release/mapping.txt | head -5
+
+# 5. Listar símbolos Dart Android generados
+ls -lh build/symbols/app.android-*.symbols
+
+# 6. Verificar que libapp.so está stripped
+unzip -q build/app/outputs/flutter-apk/app-release.apk lib/arm64-v8a/libapp.so -d /tmp/
+file /tmp/lib/arm64-v8a/libapp.so | grep "stripped"
+
+# 7. Extraer y analizar classes.dex
+unzip -q build/app/outputs/flutter-apk/app-release.apk classes.dex -d /tmp/
+strings /tmp/classes.dex | grep -E "^La/[a-z];" | head -10
 ```
 
-**Expected**: Exit code 0 con "IMPLEMENTACIÓN CERTIFICADA"
+**Criterios de éxito Android**:
+- ✅ mapping.txt > 2MB y > 10,000 líneas
+- ✅ Header muestra "compiler: R8"
+- ✅ Clases ofuscadas visibles (ej: `-> a.a`)
+- ✅ libapp.so indica "stripped" al ejecutar `file`
+- ✅ classes.dex contiene nombres cortos como `La/a;`
+- ✅ 3 archivos .symbols generados (android-arm, android-arm64, android-x64)
 
-**¿Qué valida este script?**
-- ✅ **Android**: R8 activo, mapping.txt >10k líneas, dead code elimination, ofuscación Dart en binario
-- ✅ **iOS**: Binario stripped, tamaño optimizado, símbolos separados, nm falla al leer símbolos
+#### 3.2 Validación iOS - Inspección Manual
 
-**Validación Manual y Técnica Profunda**:
+**Ejecuta estos comandos directamente (NO delegues al script)**:
 
-Para validación paso a paso o inspección técnica de binarios, ver documentación completa:
-https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/VALIDATION_GUIDE.md
+```bash
+# 1. Verificar binario Runner
+file build/ios/iphoneos/Runner.app/Runner
+
+# 2. Ver tamaño del binario Runner (debe ser pequeño, ~100-200KB)
+ls -lh build/ios/iphoneos/Runner.app/Runner
+
+# 3. Listar símbolos con nm (debe mostrar funciones redactadas)
+nm build/ios/iphoneos/Runner.app/Runner | head -20
+
+# 4. Verificar App.framework
+file build/ios/iphoneos/Runner.app/Frameworks/App.framework/App
+
+# 5. Ver símbolos externos de App.framework (solo debe mostrar 4)
+nm -U build/ios/iphoneos/Runner.app/Frameworks/App.framework/App
+
+# 6. Verificar tamaños de frameworks
+du -sh build/ios/iphoneos/Runner.app/Frameworks/*.framework
+
+# 7. Verificar símbolos Dart iOS generados
+ls -lh build/symbols/app.ios-arm64.symbols
+```
+
+**Criterios de éxito iOS**:
+- ✅ Runner binario muestra funciones `<redacted function N>`
+- ✅ Runner tamaño ~100-200KB (muy pequeño)
+- ✅ App.framework solo expone 4 símbolos Dart (_kDartVmSnapshotInstructions, etc.)
+- ✅ Archivo app.ios-arm64.symbols generado (~1-2MB)
+- ✅ App.framework ~2-3MB, Flutter.framework ~8-10MB
+
+#### 3.3 Reporte Final de Validación (Agente IA)
+
+**Después de ejecutar TODAS las validaciones manuales**, genera un reporte completo:
+
+```
+═══════════════════════════════════════════════════════════
+📊 REPORTE DE VALIDACIÓN MANUAL - OFUSCACIÓN Y MINIFICACIÓN
+═══════════════════════════════════════════════════════════
+
+ANDROID (si configurado):
+✅ Build ejecutado: flutter build apk --release --obfuscate
+✅ APK generado: [tamaño MB]
+✅ mapping.txt: [líneas] líneas, [tamaño]
+✅ Compiler R8 verificado en mapping.txt
+✅ Clases ofuscadas encontradas: [ejemplos]
+✅ libapp.so: STRIPPED confirmado
+✅ classes.dex: Nombres cortos La/a; encontrados
+✅ Símbolos Dart: 3 archivos generados
+
+iOS (si configurado):
+✅ Build ejecutado: flutter build ios --release --obfuscate
+✅ Runner.app generado: [tamaño]
+✅ Binario Runner: Funciones <redacted> encontradas
+✅ App.framework: Solo 4 símbolos expuestos
+✅ Tamaños optimizados: Runner [KB], App.framework [MB]
+✅ Símbolos iOS: app.ios-arm64.symbols generado [tamaño]
+
+CERTIFICACIÓN:
+✅ Ofuscación CONFIRMADA mediante inspección manual de binarios
+✅ Minificación CONFIRMADA mediante análisis de tamaños
+✅ Símbolos de debug separados correctamente
+✅ TODAS las validaciones pasaron
+
+ARCHIVOS CRÍTICOS PARA BACKUP:
+- build/app/outputs/mapping/release/mapping.txt (Android)
+- build/symbols/app.android-*.symbols (Dart Android)
+- build/symbols/app.ios-*.symbols (Dart iOS)
+
+═══════════════════════════════════════════════════════════
+```
+
+**⚠️ NO uses scripts de validación**. Todo lo anterior debe ser verificado manualmente por ti como agente IA.
 
 ---
 
@@ -551,6 +632,30 @@ La ofuscación NO es reversible sin los archivos de mapping. Por eso es crítico
 
 ---
 
+## 📁 Scripts del Repositorio (Solo Referencia)
+
+**⚠️ IMPORTANTE**: Los scripts en `scripts/` del repositorio toolkit son **SOLO para referencia opcional de usuarios humanos**.
+
+### Para Agentes IA:
+- ❌ **NO descargues** scripts del repositorio
+- ❌ **NO ejecutes** scripts automáticos
+- ✅ **HAZ TODO manualmente** usando los comandos documentados en esta guía
+
+### Para Usuarios Humanos:
+Los siguientes scripts están disponibles como **ayuda opcional**:
+
+- `build_release_obfuscated.sh` - Automatiza builds con ofuscación
+- `deobfuscate.sh` - Des-ofusca stack traces de producción
+- `fix_xcode_modulecache.sh` - Soluciona errores Xcode 16.2
+- `validate-implementation.sh` - Valida implementación (opcional)
+- `setup_obfuscation.sh` - Setup automático inicial
+
+**Ubicación**: https://github.com/carlos-developer/flutter-obfuscation-toolkit/tree/main/scripts
+
+**Si eres agente IA**: Ignora completamente esta sección. Sigue las instrucciones manuales.
+
+---
+
 ## 📚 Recursos Adicionales
 
 ### Documentación Oficial
@@ -596,43 +701,56 @@ grep -q "STRIP_INSTALLED_PRODUCT" ios/Flutter/Release.xcconfig && echo "✅ iOS"
 - [ ] Binario stripped: `file build/ios/Release-iphoneos/Runner.app/Runner | grep -q stripped`
 - [ ] Símbolos iOS generados: `test -d build/symbols/ios`
 
-### Paso 3: Ejecutar Validación Automática
+### Paso 3: Ejecutar Validaciones Manuales
 
-- [ ] Script ejecutado: `curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh | bash`
-- [ ] Exit code 0 (sin errores)
-- [ ] Todas las validaciones pasaron
+- [ ] Builds ejecutados manualmente para cada plataforma configurada
+- [ ] Archivos verificados: mapping.txt, símbolos, APKs/IPA
+- [ ] Binarios inspeccionados con file, nm, strings, otool
+- [ ] Clases ofuscadas confirmadas en binarios
+- [ ] Reporte de validación manual generado
 
 ### ❌ NO Marques como Completo Si:
 
 - Configuraste 2 plataformas pero solo validaste 1
-- El script de validación falló
+- NO inspeccionaste binarios manualmente
 - Hay builds que no ejecutaste
 - Asumiste que funciona sin verificar
+- Delegaste validaciones a scripts
 
 ### ✅ SOLO Marca como Completo Cuando:
 
 1. Detectaste qué plataformas configuraste
-2. Validaste CADA una con su build correspondiente
-3. El script validate-implementation.sh retornó exit code 0
-4. Generaste la auditoría final incluyendo TODAS las plataformas
+2. Validaste CADA una con su build correspondiente MANUALMENTE
+3. Inspeccionaste TODOS los binarios con herramientas (file, nm, strings, etc.)
+4. Generaste reporte de validación manual con resultados observados
+5. Generaste la auditoría final incluyendo TODAS las plataformas
 
 ---
 
-## ✅ Checklist de Migración
+## ✅ Checklist de Migración (Para Agentes IA)
 
 Usa este checklist para asegurarte de que todo está configurado:
 
-- [ ] R8 habilitado en `build.gradle.kts`
-- [ ] `proguard-rules.pro` creado y personalizado
-- [ ] Symbol stripping configurado en iOS
-- [ ] Scripts copiados y ejecutables
-- [ ] `.gitignore` actualizado
-- [ ] Build de prueba exitoso
-- [ ] Ofuscación verificada en binario
-- [ ] `mapping.txt` generado correctamente
-- [ ] Símbolos Flutter generados
-- [ ] Script de des-ofuscación probado
-- [ ] Documentación leída
+**Configuración:**
+- [ ] R8 habilitado en `build.gradle.kts` (Android)
+- [ ] `proguard-rules.pro` creado y personalizado (Android)
+- [ ] Symbol stripping configurado en iOS Release.xcconfig
+- [ ] `.gitignore` actualizado con artifacts de ofuscación
+
+**Builds Manuales:**
+- [ ] `flutter build apk --release --obfuscate` ejecutado (Android)
+- [ ] `flutter build ios --release --obfuscate` ejecutado (iOS)
+
+**Validaciones Manuales:**
+- [ ] mapping.txt verificado manualmente (>10K líneas, >2MB)
+- [ ] Símbolos Dart generados verificados
+- [ ] Binarios inspeccionados con file/nm/strings
+- [ ] Clases ofuscadas confirmadas en binarios
+- [ ] Reporte de validación manual generado
+
+**NO Requerido:**
+- [ ] ~~Scripts descargados~~ (NO necesario para agentes IA)
+- [ ] ~~Script de validación ejecutado~~ (TODO manual)
 
 ---
 
