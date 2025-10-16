@@ -1,136 +1,27 @@
 # 🤖 Prompts para Agentes IA - Flutter Obfuscation Toolkit
 
-> Prompts ultra-cortos que referencian este repositorio para que los agentes lean toda la información necesaria
+> Prompts detallados para implementar ofuscación y optimización de tamaño en proyectos Flutter con validación técnica completa
 
 **Repositorio oficial**: `https://github.com/carlos-developer/flutter-obfuscation-toolkit`
 
 ---
 
-## ⚡ Prompts Cortos (Recomendado)
+## 📋 Índice de Prompts
 
-**Copia solo UNA línea según tu necesidad:**
-
-### Android + iOS (Flutter completo)
-```
-ERES UN AGENTE IA implementando ofuscación y optimización de tamaño para proyectos FLUTTER con plataformas ANDROID e iOS. RESPONDE SIEMPRE EN ESPAÑOL.
-
-PASO 0 - LEER PRIMERO (OBLIGATORIO):
-Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
-1. MIGRATION_GUIDE.md: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
-2. agent-instructions.json: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json
-
-Usa agent-instructions.json como fuente de pasos atómicos y validaciones programáticas.
-Usa MIGRATION_GUIDE.md como contexto y explicaciones.
-
-REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
-- REGLA 1: ANTES de cada cambio declara: "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md - Sección: [nombre] - Acción: [descripción]"
-- REGLA 2: DESPUÉS de cada cambio ejecuta checkpoint con validaciones bash
-- REGLA 3: Verifica que NO quedan valores genéricos (com.example.app)
-- REGLA 4: Al finalizar cada fase genera reporte de conformidad
-- REGLA 5: Si algo NO está documentado, DETENTE y alerta
-- REGLA 6: Al completar TODO genera auditoría final
-- REGLA 7: Ejecuta validación automática de TODAS las plataformas configuradas
-
-IMPORTANTE para iOS:
-- Si el build de iOS falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
-- Consulta: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md
-- PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
-- Espera confirmación del usuario antes de continuar con el build
-
-Al finalizar ejecuta el script de validación automática.
-```
-
-### Solo Android (Flutter - Solo plataforma Android)
-```
-ERES UN AGENTE IA implementando ofuscación y optimización de tamaño para proyectos FLUTTER únicamente en la plataforma ANDROID. RESPONDE SIEMPRE EN ESPAÑOL.
-
-PASO 0 - LEER PRIMERO (OBLIGATORIO):
-Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
-1. MIGRATION_GUIDE.md (solo sección Android): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
-2. agent-instructions.json (solo phase_id: android_config): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json
-
-Usa agent-instructions.json como fuente de pasos atómicos y validaciones programáticas.
-Usa MIGRATION_GUIDE.md como contexto y explicaciones.
-
-REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
-- REGLA 1: ANTES de cada cambio declara: "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md - Sección: [nombre] - Acción: [descripción]"
-- REGLA 2: DESPUÉS de cada cambio ejecuta checkpoint con validaciones bash
-- REGLA 3: Verifica que NO quedan valores genéricos (com.example.app)
-- REGLA 4: Al finalizar cada fase genera reporte de conformidad
-- REGLA 5: Si algo NO está documentado, DETENTE y alerta
-- REGLA 6: Al completar TODO genera auditoría final
-- REGLA 7: Ejecuta validación automática de Android
-
-Al finalizar ejecuta el script de validación automática.
-```
-
-### Solo iOS (Flutter - Solo plataforma iOS)
-```
-ERES UN AGENTE IA implementando ofuscación y optimización de tamaño para proyectos FLUTTER únicamente en la plataforma iOS. RESPONDE SIEMPRE EN ESPAÑOL.
-
-PASO 0 - LEER PRIMERO (OBLIGATORIO):
-Antes de hacer CUALQUIER cambio, lee completamente estos dos archivos:
-1. MIGRATION_GUIDE.md (solo sección iOS): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/MIGRATION_GUIDE.md
-2. agent-instructions.json (solo phase_id: ios_config): https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/agent-instructions.json
-
-Usa agent-instructions.json como fuente de pasos atómicos y validaciones programáticas.
-Usa MIGRATION_GUIDE.md como contexto y explicaciones.
-
-REGLAS OBLIGATORIAS DE TRAZABILIDAD (del MIGRATION_GUIDE.md):
-- REGLA 1: ANTES de cada cambio declara: "📖 EJECUTANDO DESDE MIGRATION_GUIDE.md - Sección: [nombre] - Acción: [descripción]"
-- REGLA 2: DESPUÉS de cada cambio ejecuta checkpoint con validaciones bash
-- REGLA 3: Verifica que NO quedan valores genéricos (com.example.app)
-- REGLA 4: Al finalizar cada fase genera reporte de conformidad
-- REGLA 5: Si algo NO está documentado, DETENTE y alerta
-- REGLA 6: Al completar TODO genera auditoría final
-- REGLA 7: Ejecuta validación automática de iOS
-
-IMPORTANTE para iOS:
-- Si el build de iOS falla con errores de ModuleCache después de ejecutar fix_xcode_modulecache.sh
-- Consulta: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/IOS_MANUAL_STEPS.md
-- PAUSA la implementación y solicita al usuario que configure manualmente Xcode Workspace Settings
-- Espera confirmación del usuario antes de continuar con el build
-
-Al finalizar ejecuta el script de validación automática.
-```
-
-### Verificar Implementación
-```
-Verifica mi implementación de ofuscación y optimización de tamaño usando el checklist: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/CHECKLIST_OBFUSCATION.md
-```
-### Solucionar Errores
-```
-Tengo este error: [pega el error]. Busca la solución en: https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/TROUBLESHOOTING_ADVANCED.md
-```
-
----
-
-## 📋 Índice de Prompts Detallados
-
-Si necesitas más control, usa estos prompts más específicos:
-
-1. [Prompt Detallado: Android + iOS](#1-prompt-detallado-android--ios) - Con instrucciones paso a paso
-2. [Prompt Detallado: Solo Android](#2-prompt-detallado-solo-android) - R8 + ProGuard
-3. [Prompt Detallado: Solo iOS](#3-prompt-detallado-solo-ios) - Symbol Stripping
-4. [Prompt Detallado: Verificación](#4-prompt-detallado-verificación) - Validación
+1. [Prompt Detallado: Android + iOS](#1-prompt-detallado-android--ios) - Implementación completa con validación técnica
+2. [Prompt Detallado: Solo Android](#2-prompt-detallado-solo-android) - R8 + ProGuard con validación
+3. [Prompt Detallado: Solo iOS](#3-prompt-detallado-solo-ios) - Symbol Stripping con validación
+4. [Prompt Detallado: Verificación](#4-prompt-detallado-verificación) - Validación técnica completa
 
 ---
 
 ## 🎯 Instrucciones de Uso
 
-### Opción 1: Prompts Ultra-Cortos (⚡ Más Rápido)
-1. Copia **UNA línea** de los prompts cortos arriba
-2. Pégala en tu agente IA
-3. El agente lee toda la información del archivo referenciado
-4. **El agente DEBE reportar cada checkpoint y validación** (ver reglas abajo)
-5. Listo! ✅
-
-### Opción 2: Prompts Detallados (📋 Más Control)
-1. Selecciona el prompt detallado según tu necesidad
+1. Selecciona el prompt según tu necesidad (Android, iOS, o ambas plataformas)
 2. Copia el prompt completo
-3. Pégalo en tu agente IA
-4. El agente sigue las instrucciones paso a paso
-5. **Validación estricta en cada fase** (ver reglas abajo)
+3. Pégalo en tu agente IA (Claude Code, Gemini, Cursor, etc.)
+4. El agente sigue las instrucciones paso a paso con validación técnica
+5. Validación automática al finalizar
 
 ---
 
@@ -196,6 +87,18 @@ El agente:
 - ✅ Lectura humana + ejecución por agente IA
 - ✅ Referencia rápida
 
+### 🔍 VALIDATION_GUIDE.md
+**URL**: `https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/VALIDATION_GUIDE.md`
+
+**Propósito**: Guía completa de validación técnica de ofuscación.
+
+**Contiene**:
+- Validación automática (validate-implementation.sh)
+- Validación manual por plataforma
+- **Validación técnica profunda** (inspección de binarios)
+- Interpretación de resultados
+- Checklist final antes de producción
+
 ### 🔍 validate-implementation.sh
 **URL**: `https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-toolkit/main/scripts/validate-implementation.sh`
 
@@ -207,14 +110,17 @@ curl -s https://raw.githubusercontent.com/carlos-developer/flutter-obfuscation-t
 ```
 
 **Qué valida**:
-- Detecta qué plataformas (Android/iOS) fueron configuradas
-- Valida archivos de configuración
-- Ejecuta builds de todas las plataformas detectadas
-- Verifica artifacts generados
+- **FASE 1**: Detecta qué plataformas (Android/iOS) fueron configuradas
+- **FASE 2**: Valida archivos de configuración
+- **FASE 3**: Ejecuta builds de todas las plataformas detectadas
+- **FASE 4**: **Valida técnicamente que la ofuscación funciona** (CRÍTICO):
+  - Android: R8 activo, mapping.txt >10k líneas, clases removidas, nombres Dart NO visibles en libapp.so
+  - iOS: Binario stripped, tamaño optimizado, símbolos separados, nm falla
 - Retorna exit code 0 solo si TODO pasó
 
 **CRÍTICO para agentes IA**:
 Este script DEBE ejecutarse antes de generar el registro de auditoría final (REGLA 7).
+Ver documentación completa en: VALIDATION_GUIDE.md
 
 ---
 
@@ -228,21 +134,23 @@ Este script DEBE ejecutarse antes de generar el registro de auditoría final (RE
 ┌─────────────────────────────────────┐
 │  Agente IA lee:                     │
 │  1. MIGRATION_GUIDE.md (contexto)   │
-│  2. agent-instructions.json (pasos) │
+│  2. VALIDATION_GUIDE.md (validación)│
+│  3. agent-instructions.json (pasos) │
 └────────────┬────────────────────────┘
              ↓
 ┌─────────────────────────────────────┐
 │  Agente ejecuta implementación      │
-│  siguiendo protocolo de validación  │
+│  siguiendo 8 reglas de trazabilidad │
 └────────────┬────────────────────────┘
              ↓
-┌─────────────────────────────────────┐
-│  Agente ejecuta:                    │
-│  validate-implementation.sh         │
-└────────────┬────────────────────────┘
+┌──────────────────────────────────────────────┐
+│  Agente ejecuta validate-implementation.sh   │
+│  (FASE 4: Validación técnica de ofuscación)  │
+└────────────┬─────────────────────────────────┘
              ↓
         ┌────┴────┐
         │ ¿Pasa?  │
+        │ (exit 0)│
         └────┬────┘
    ✅ Sí │    │ ❌ No
          ↓    ↓
@@ -1458,7 +1366,12 @@ Si tienes problemas con los prompts:
 
 ---
 
-**Última actualización**: 2025-10-14
-**Versión**: 2.0.0
-**Cambios**: Reescritura completa - Lectura directa desde GitHub, sin descargas, prompts separados por plataforma
+**Última actualización**: 2025-10-15
+**Versión**: 3.0.0
+**Cambios**:
+- Eliminados prompts cortos - Solo prompts detallados
+- Incorporada validación técnica de VALIDATION_GUIDE.md
+- Énfasis en FASE 4 del script validate-implementation.sh
+- Referencias a las 8 reglas de trazabilidad de MIGRATION_GUIDE.md
+- Validación técnica profunda: R8, mapping.txt, ofuscación Dart, symbol stripping
 **Compatible con**: Claude Code, Gemini, Cursor AI, Windsurf
